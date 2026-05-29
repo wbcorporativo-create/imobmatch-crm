@@ -15,6 +15,7 @@
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script>
 // ═══════════════ FIREBASE CONFIG ═══════════════
 const firebaseConfig = {
@@ -27,79 +28,159 @@ const firebaseConfig = {
   appId: "1:117150102129:web:b389d1ba9ef98d10c9e1d0"
 };
 firebase.initializeApp(firebaseConfig);
-const fbDB = firebase.database();
+const fbDB   = firebase.database();
+const fbAuth = firebase.auth();
 
-// ─── Sincronização: localStorage ↔ Firebase ───
 const FB_KEYS = {
-  imb_imoveis: 'imoveis',
-  imb_props:   'contatos',
-  imb_clientes:'clientes',
-  imb_pagamentos:'pagamentos',
-  imb_docs:    'docs'
+  imb_imoveis:    'imoveis',
+  imb_props:      'contatos',
+  imb_clientes:   'clientes',
+  imb_pagamentos: 'pagamentos',
+  imb_docs:       'docs'
 };
-const DEVICE_ID = localStorage.getItem('hmcrm_device_id') || (() => {
-  const id = 'dev_' + Math.random().toString(36).slice(2,10);
-  localStorage.setItem('hmcrm_device_id', id);
-  return id;
-})();
 
-// Push local → Firebase
+let _currentUser  = null;
+let _fbListener   = null;
+
+function _rerender() {
+  const active = document.querySelector('.screen.active')?.id?.replace('screen-','');
+  if (active === 'dashboard')     renderDash?.();
+  else if (active === 'imoveis')       renderImoveis?.();
+  else if (active === 'proprietarios') renderProps?.();
+  else if (active === 'clientes')      renderClientes?.();
+  else if (active === 'gestao')        renderGestao?.();
+  else if (active === 'documentos')    renderDocs?.();
+}
+
+// Push local → Firebase (user-scoped)
 function fbPush(lsKey, data) {
+  if (!_currentUser) return;
   const fbKey = FB_KEYS[lsKey];
   if (!fbKey) return;
-  fbDB.ref('crm/' + fbKey).set(data).catch(() => {});
+  fbDB.ref(`users/${_currentUser.uid}/${fbKey}`).set(data).catch(() => {});
 }
 
-// Pull Firebase → localStorage (ao iniciar)
+// Pull Firebase → localStorage
 function fbPull() {
-  fbDB.ref('crm').once('value', snap => {
+  if (!_currentUser) return;
+  fbDB.ref(`users/${_currentUser.uid}`).once('value', snap => {
     const remote = snap.val();
     if (!remote) return;
     Object.entries(FB_KEYS).forEach(([lsKey, fbKey]) => {
-      if (remote[fbKey] != null) {
+      if (remote[fbKey] != null)
         try { localStorage.setItem(lsKey, JSON.stringify(remote[fbKey])); } catch(e) {}
-      }
     });
-    // Re-render tela ativa
-    const active = document.querySelector('.screen.active')?.id?.replace('screen-','');
-    if (active === 'dashboard') renderDash?.();
-    else if (active === 'imoveis') renderImoveis?.();
-    else if (active === 'proprietarios') renderProps?.();
-    else if (active === 'clientes') renderClientes?.();
-    else if (active === 'gestao') renderGestao?.();
-    else if (active === 'documentos') renderDocs?.();
+    _rerender();
   });
 }
 
-// Escuta mudanças em tempo real
+// Escuta tempo real
 function fbListen() {
-  fbDB.ref('crm').on('value', snap => {
+  if (!_currentUser) return;
+  if (_fbListener) fbDB.ref(`users/${_fbListener}`).off();
+  _fbListener = _currentUser.uid;
+  fbDB.ref(`users/${_currentUser.uid}`).on('value', snap => {
     const remote = snap.val();
     if (!remote) return;
     Object.entries(FB_KEYS).forEach(([lsKey, fbKey]) => {
       if (remote[fbKey] != null) {
-        const remoteStr = JSON.stringify(remote[fbKey]);
-        const localStr  = localStorage.getItem(lsKey) || '[]';
-        if (remoteStr !== localStr) {
-          try { localStorage.setItem(lsKey, remoteStr); } catch(e) {}
-        }
+        const rs = JSON.stringify(remote[fbKey]);
+        if (rs !== (localStorage.getItem(lsKey) || '[]'))
+          try { localStorage.setItem(lsKey, rs); } catch(e) {}
       }
     });
-    // Re-render silencioso
-    const active = document.querySelector('.screen.active')?.id?.replace('screen-','');
-    if (active === 'dashboard') renderDash?.();
-    else if (active === 'imoveis') renderImoveis?.();
-    else if (active === 'proprietarios') renderProps?.();
-    else if (active === 'clientes') renderClientes?.();
-    else if (active === 'gestao') renderGestao?.();
-    else if (active === 'documentos') renderDocs?.();
+    _rerender();
   });
 }
 
-window.addEventListener('load', () => {
-  fbPull();
-  setTimeout(fbListen, 2000);
+// ─── AUTH STATE ──────────────────────────────────
+fbAuth.onAuthStateChanged(user => {
+  const ov = document.getElementById('login-overlay');
+  if (user) {
+    _currentUser = user;
+    // Salva nome para saudação
+    if (user.displayName)
+      localStorage.setItem('hmcrm_user_name', user.displayName.split(' ')[0]);
+    // Esconde tela de login
+    if (ov) { ov.style.opacity='0'; setTimeout(()=>ov.classList.add('hidden'),300); }
+    // Atualiza UI com nome/foto
+    _updateUserUI(user);
+    // Sincroniza dados
+    fbPull();
+    setTimeout(fbListen, 1500);
+    setTimeout(renderIcons, 200);
+  } else {
+    _currentUser = null;
+    // Limpa dados locais ao sair
+    Object.keys(FB_KEYS).forEach(k => { try { localStorage.removeItem(k); } catch {} });
+    localStorage.removeItem('hmcrm_user_name');
+    // Mostra tela de login
+    if (ov) { ov.style.opacity=''; ov.classList.remove('hidden'); }
+    setTimeout(renderIcons, 100);
+  }
 });
+
+function _updateUserUI(user) {
+  // Avatar/nome no sidebar
+  const nameEl   = document.getElementById('sb-user-name');
+  const emailEl  = document.getElementById('sb-user-email');
+  const avatarEl = document.getElementById('sb-user-avatar');
+  if (nameEl)  nameEl.textContent  = user.displayName || user.email?.split('@')[0] || 'Usuário';
+  if (emailEl) emailEl.textContent = user.email || '';
+  if (avatarEl && user.photoURL) {
+    avatarEl.style.backgroundImage = `url(${user.photoURL})`;
+    avatarEl.style.backgroundSize  = 'cover';
+    avatarEl.textContent = '';
+  } else if (avatarEl) {
+    avatarEl.textContent = (user.displayName || user.email || 'U')[0].toUpperCase();
+  }
+}
+
+// ─── AUTH ACTIONS ─────────────────────────────────
+function authGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  fbAuth.signInWithPopup(provider).catch(err => _authErr(err.code));
+}
+function authSubmit() {
+  const mode  = document.getElementById('auth-mode')?.dataset.mode || 'login';
+  const email = document.getElementById('auth-email')?.value.trim();
+  const pass  = document.getElementById('auth-pass')?.value;
+  const name  = document.getElementById('auth-name')?.value.trim();
+  if (!email || !pass) return _authErr('Preencha e-mail e senha.');
+  if (mode === 'register') {
+    if (!name) return _authErr('Informe seu nome.');
+    fbAuth.createUserWithEmailAndPassword(email, pass)
+      .then(r => r.user.updateProfile({ displayName: name }))
+      .then(() => fbAuth.currentUser.reload())
+      .catch(err => _authErr(err.code));
+  } else {
+    fbAuth.signInWithEmailAndPassword(email, pass)
+      .catch(err => _authErr(err.code));
+  }
+}
+function authToggleMode() {
+  const btn   = document.getElementById('auth-mode');
+  const isReg = btn.dataset.mode === 'register';
+  btn.dataset.mode = isReg ? 'login' : 'register';
+  document.getElementById('auth-name-wrap').style.display  = isReg ? 'none' : 'block';
+  document.getElementById('auth-submit-btn').textContent   = isReg ? 'Entrar' : 'Criar conta';
+  document.getElementById('auth-toggle-lbl').innerHTML     = isReg
+    ? 'Não tem conta? <a onclick="authToggleMode()">Cadastre-se</a>'
+    : 'Já tem conta? <a onclick="authToggleMode()">Entrar</a>';
+  _authErr('');
+}
+function authSignOut() {
+  if (confirm('Sair da sua conta?')) fbAuth.signOut();
+}
+function _authErr(code) {
+  const map = {
+    'auth/wrong-password':'Senha incorreta.','auth/user-not-found':'E-mail não encontrado.',
+    'auth/email-already-in-use':'E-mail já cadastrado.','auth/weak-password':'Senha muito curta (mín. 6 caracteres).',
+    'auth/invalid-email':'E-mail inválido.','auth/too-many-requests':'Muitas tentativas. Aguarde.'
+  };
+  const el = document.getElementById('auth-err');
+  if (el) { el.textContent = map[code] || code || ''; el.style.opacity = code ? '1' : '0'; }
+}
 </script>
 <style>
 /* ═══════════════════════════════ TOKENS ═══ */
@@ -239,16 +320,79 @@ window.addEventListener('load', () => {
 }
 #login-err.visible { opacity: 1; }
 
-#login-btn {
-  width: 100%; padding: 14px;
-  background: linear-gradient(135deg, #E74E00, #c93a00);
-  color: #fff; font-size: 14px; font-weight: 600;
+/* Google button */
+.auth-google-btn {
+  width: 100%; padding: 12px 16px; margin-bottom: 4px;
+  background: #fff; color: #1f1f1f;
+  font-size: 14px; font-weight: 600; font-family: inherit;
   border: none; border-radius: 10px; cursor: pointer;
-  box-shadow: 0 4px 20px rgba(231,78,0,.4);
-  transition: opacity .15s, transform .1s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+  transition: box-shadow .15s, transform .1s;
 }
-#login-btn:hover { opacity: .92; }
-#login-btn:active { transform: scale(.98); }
+.auth-google-btn:hover { box-shadow: 0 2px 8px rgba(0,0,0,.4); }
+.auth-google-btn:active { transform: scale(.98); }
+
+/* Divider */
+.auth-divider { display:flex; align-items:center; gap:10px; margin: 16px 0 12px; }
+.auth-divider::before, .auth-divider::after { content:''; flex:1; height:1px; background:rgba(255,255,255,.1); }
+.auth-divider span { font-size:12px; color:rgba(255,255,255,.3); white-space:nowrap; }
+
+/* Inputs */
+.auth-input {
+  width: 100%; padding: 12px 14px; margin-bottom: 10px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.1); border-radius: 10px;
+  color: #fff; font-size: 14px; font-family: inherit; outline: none;
+  transition: border-color .2s, box-shadow .2s; display: block;
+}
+.auth-input::placeholder { color: rgba(255,255,255,.3); }
+.auth-input:focus { border-color: rgba(231,78,0,.6); box-shadow: 0 0 0 3px rgba(231,78,0,.12); }
+
+/* Error */
+#auth-err {
+  font-size: 12px; color: #f87171; min-height: 16px;
+  margin: -4px 0 8px; opacity: 0; transition: opacity .2s;
+}
+
+/* Submit */
+.auth-submit {
+  width: 100%; padding: 13px;
+  background: linear-gradient(135deg, #E74E00, #c93a00);
+  color: #fff; font-size: 14px; font-weight: 600; font-family: inherit;
+  border: none; border-radius: 10px; cursor: pointer;
+  box-shadow: 0 4px 18px rgba(231,78,0,.4);
+  transition: opacity .15s, transform .1s; margin-bottom: 14px;
+}
+.auth-submit:hover { opacity: .92; }
+.auth-submit:active { transform: scale(.98); }
+
+/* Toggle */
+.auth-toggle-lbl { text-align:center; font-size:13px; color:rgba(255,255,255,.4); }
+.auth-toggle-lbl a { color: #E74E00; cursor:pointer; text-decoration:none; font-weight:600; }
+.auth-toggle-lbl a:hover { text-decoration:underline; }
+
+/* User info no sidebar */
+.sb-user {
+  padding: 12px 16px 10px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  display: flex; align-items: center; gap: 10px;
+}
+.sb-user-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #E74E00, #c93a00);
+  color: #fff; font-size: 13px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden;
+}
+.sb-user-info { flex: 1; min-width: 0; }
+.sb-user-name  { font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85); overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+.sb-user-email { font-size: 10px; color: rgba(255,255,255,.35); overflow:hidden;text-overflow:ellipsis;white-space:nowrap; margin-top:1px; }
+.sb-signout-btn {
+  background: none; border: none; cursor: pointer; padding: 4px; border-radius: 6px;
+  color: rgba(255,255,255,.3); transition: color .15s; display: flex; align-items:center;
+}
+.sb-signout-btn:hover { color: rgba(255,255,255,.7); }
 
 /* ─── ORANGE GLOW BLOBS (fixed, top-right) ─── */
 #glow-blobs {
@@ -1019,17 +1163,34 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
         <p>Inteligência Comercial</p>
       </div>
     </div>
-    <div class="login-label">Código de acesso</div>
-    <div class="login-input-wrap">
-      <input type="password" id="login-pin" placeholder="••••"
-        maxlength="30" autocomplete="off"
-        onkeydown="if(event.key==='Enter') checkPin()">
-      <button class="login-eye" onclick="toggleLoginEye(this)" tabindex="-1" title="Mostrar/ocultar">
-        <i data-lucide="eye" style="width:16px;height:16px"></i>
-      </button>
+
+    <!-- Google Sign-In -->
+    <button class="auth-google-btn" onclick="authGoogle()">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Continuar com Google
+    </button>
+
+    <div class="auth-divider"><span>ou</span></div>
+
+    <!-- Email/Password Form -->
+    <div id="auth-name-wrap" style="display:none">
+      <input class="auth-input" id="auth-name" type="text" placeholder="Seu nome" autocomplete="name">
     </div>
-    <div id="login-err"></div>
-    <button id="login-btn" onclick="checkPin()">Entrar</button>
+    <input class="auth-input" id="auth-email" type="email" placeholder="E-mail" autocomplete="email"
+      onkeydown="if(event.key==='Enter') authSubmit()">
+    <input class="auth-input" id="auth-pass" type="password" placeholder="Senha"
+      onkeydown="if(event.key==='Enter') authSubmit()">
+
+    <div id="auth-err"></div>
+
+    <button id="auth-submit-btn" class="auth-submit" onclick="authSubmit()">Entrar</button>
+
+    <div class="auth-toggle-lbl" id="auth-toggle-lbl">
+      Não tem conta? <a onclick="authToggleMode()">Cadastre-se</a>
+    </div>
+
+    <!-- hidden mode tracker -->
+    <span id="auth-mode" data-mode="login" style="display:none"></span>
   </div>
 </div>
 
@@ -1082,6 +1243,17 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
     <div class="sb-item" data-sc="documentos" onclick="nav('documentos')">
       <span class="ic"><i data-lucide="folder"></i></span><span class="label">Documentos</span>
     </div>
+  </div>
+  <!-- Perfil do usuário -->
+  <div class="sb-user">
+    <div class="sb-user-avatar" id="sb-user-avatar">U</div>
+    <div class="sb-user-info">
+      <div class="sb-user-name" id="sb-user-name">Carregando...</div>
+      <div class="sb-user-email" id="sb-user-email"></div>
+    </div>
+    <button class="sb-signout-btn" onclick="authSignOut()" title="Sair">
+      <i data-lucide="log-out" style="width:15px;height:15px"></i>
+    </button>
   </div>
   <div class="sb-footer">
     <button onclick="exportData()" title="Exportar backup"><span><i data-lucide="download"></i></span><span class="sb-btn-lbl"> Backup</span></button>
@@ -1616,9 +1788,9 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
       </div>
     </div>
     <div class="fg">
-      <label>Upload de fotos (comprimidas automaticamente, máx. 10)</label>
+      <label>Upload de fotos <span style="font-size:10px;color:var(--accent);font-weight:600">• Em breve</span></label>
       <div class="photo-drop" id="photo-drop"
-        onclick="document.getElementById('imf-foto-file').click()"
+        onclick="_mediaBloqueada()"
         ondragover="event.preventDefault();this.classList.add('over')"
         ondragleave="this.classList.remove('over')"
         ondrop="handleDrop(event)">
@@ -2436,48 +2608,8 @@ function diasParaVencer(dateStr) {
   return Math.round((venc - hoje) / 86400000);
 }
 
-// ═══════════════════ LOGIN ═══════════════════
-// ← Para trocar a senha, edite apenas esta linha:
-const APP_PIN = '1234';
-
-function checkPin() {
-  const input = document.getElementById('login-pin');
-  const errEl = document.getElementById('login-err');
-  if (input.value === APP_PIN) {
-    sessionStorage.setItem('hmcrm_auth', '1');
-    const ov = document.getElementById('login-overlay');
-    ov.style.opacity = '0';
-    ov.style.transition = 'opacity .3s';
-    setTimeout(() => ov.classList.add('hidden'), 300);
-  } else {
-    input.classList.add('pin-shake');
-    errEl.textContent = 'Código incorreto. Tente novamente.';
-    errEl.classList.add('visible');
-    input.value = '';
-    setTimeout(() => input.classList.remove('pin-shake'), 400);
-    setTimeout(() => { errEl.classList.remove('visible'); errEl.textContent=''; }, 2500);
-    input.focus();
-  }
-}
-function toggleLoginEye(btn) {
-  const input = document.getElementById('login-pin');
-  const isHidden = input.type === 'password';
-  input.type = isHidden ? 'text' : 'password';
-  btn.innerHTML = isHidden
-    ? '<i data-lucide="eye-off" style="width:16px;height:16px"></i>'
-    : '<i data-lucide="eye" style="width:16px;height:16px"></i>';
-  renderIcons();
-}
-// Boot: checa autenticação
-(function() {
-  if (sessionStorage.getItem('hmcrm_auth') === '1') {
-    const ov = document.getElementById('login-overlay');
-    if (ov) ov.classList.add('hidden');
-  } else {
-    // Espera o Lucide carregar para renderizar ícone da tela de login
-    window.addEventListener('load', () => { if (window.lucide) lucide.createIcons(); });
-  }
-})();
+// Auth é gerenciado pelo Firebase (fbAuth.onAuthStateChanged) — sem PIN local
+window.addEventListener('load', () => { if (window.lucide) lucide.createIcons(); });
 
 // ─── LUCIDE ICONS ──────────────────────────────
 function renderIcons() {
@@ -3206,24 +3338,21 @@ function runClienteMatch() {
 }
 
 // ─── FOTOS ──────────────────────────────────────
+function _mediaBloqueada() {
+  openModal(
+    'Em breve: Armazenamento de Mídias',
+    'Estamos em fase de testes. Em breve você poderá fazer upload de fotos diretamente no HomeMatch CRM.\n\nPor enquanto, adicione fotos via link (Google Fotos, Drive, Dropbox, etc.) usando o campo acima.',
+    null
+  );
+}
 async function handleFiles(e) {
-  for (const file of Array.from(e.target.files)) {
-    if (editFotos.length >= 10) { toast('<i data-lucide="alert-triangle"></i> Máximo 10 fotos'); break; }
-    try {
-      const b64 = await compressImg(file);
-      editFotos.push({ tipo: 'upload', v: b64, n: file.name });
-    } catch(err) { toast(`<i data-lucide="x-circle"></i> Erro ao processar "${file.name}"`); }
-  }
-  renderFotoPreview(); e.target.value = '';
+  e.target.value = '';
+  _mediaBloqueada();
 }
 async function handleDrop(e) {
   e.preventDefault();
   document.getElementById('photo-drop').classList.remove('over');
-  for (const file of Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/'))) {
-    if (editFotos.length >= 10) break;
-    try { const b64 = await compressImg(file); editFotos.push({ tipo:'upload', v:b64, n:file.name }); } catch {}
-  }
-  renderFotoPreview();
+  _mediaBloqueada();
 }
 function addFotoUrl() {
   const url = document.getElementById('imf-foto-url').value.trim();
