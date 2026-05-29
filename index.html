@@ -2,7 +2,12 @@
 <html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HomeMatch">
+<meta name="theme-color" content="#0d1117">
 <title>HomeMatch CRM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -397,8 +402,183 @@ tr:hover td { background: #fafbfc; }
 #modal-sugestao.open { display:flex; }
 #modal-sugestao .modal { max-width:480px; width:90%; }
 
-/* ─── RESPONSIVE ─── */
-@media (max-width: 900px) {
+/* ═══════════════════════════════════════════════════════════
+   MOBILE — Barra superior + nav inferior estilo Instagram
+   ═══════════════════════════════════════════════════════════ */
+
+/* ─── TOP BAR MOBILE ─── */
+.mob-topbar {
+  display: none;
+  position: fixed; top: 0; left: 0; right: 0; height: 54px;
+  background: var(--sb); z-index: 60;
+  align-items: center; justify-content: space-between;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  box-shadow: 0 2px 8px rgba(0,0,0,.25);
+}
+.mob-topbar-brand { display: flex; align-items: center; gap: 8px; }
+.mob-topbar-brand .sb-icon { width: 30px; height: 30px; font-size: 15px; border-radius: 7px; flex-shrink:0; }
+.mob-topbar-brand-text h1 { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: -.3px; line-height:1.1; }
+.mob-topbar-brand-text small { font-size: 9px; color: rgba(255,255,255,.3); text-transform: uppercase; letter-spacing: .6px; }
+.mob-topbar-right { display: flex; align-items: center; gap: 6px; }
+.mob-icon-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: rgba(255,255,255,.07); border: none; cursor: pointer;
+  font-size: 16px; display: flex; align-items: center; justify-content: center; color: #fff;
+  transition: background .15s;
+}
+.mob-icon-btn:active { background: rgba(255,255,255,.15); }
+
+/* ─── BOTTOM NAV (Instagram style) ─── */
+.mob-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  height: 60px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  z-index: 60;
+  align-items: center; justify-content: space-around;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-shadow: 0 -2px 16px rgba(0,0,0,.1);
+}
+.mob-nav-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 2px; flex: 1; height: 100%; background: none; border: none;
+  cursor: pointer; color: var(--text4); font-family: inherit;
+  transition: color .15s; min-width: 44px; padding: 6px 0;
+  position: relative;
+}
+.mob-nav-btn.active { color: var(--accent); }
+.mob-nav-btn .mob-nav-ic { font-size: 21px; line-height: 1; }
+.mob-nav-btn .mob-nav-lbl { font-size: 9px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; }
+.mob-nav-badge {
+  position: absolute; top: 4px; right: 14px;
+  background: var(--red); color: white;
+  font-size: 8px; font-weight: 700; padding: 1px 4px;
+  border-radius: 10px; min-width: 14px; text-align: center; pointer-events: none;
+}
+/* FAB center button */
+.mob-fab-wrap { flex: 0 0 64px; display: flex; align-items: center; justify-content: center; }
+.mob-fab {
+  width: 50px; height: 50px; border-radius: 50%;
+  background: var(--accent); border: none; cursor: pointer;
+  font-size: 26px; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(34,197,94,.45);
+  transition: transform .15s, box-shadow .15s; color: white;
+  margin-bottom: 6px;
+}
+.mob-fab:active { transform: scale(.91); box-shadow: 0 2px 8px rgba(34,197,94,.3); }
+
+/* ─── FAB ACTION SHEET ─── */
+.fab-sheet {
+  position: fixed; inset: 0; z-index: 500;
+  display: none; align-items: flex-end;
+}
+.fab-sheet.open { display: flex; }
+.fab-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.5); }
+.fab-options {
+  position: relative; width: 100%; background: var(--card);
+  border-radius: 22px 22px 0 0; padding: 8px 0;
+  padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -4px 28px rgba(0,0,0,.18);
+  animation: slideUp .22s ease;
+}
+.fab-sheet-title {
+  font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px;
+  color: var(--text4); padding: 10px 20px 8px; border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+.fab-opt {
+  display: flex; align-items: center; gap: 14px;
+  width: 100%; padding: 15px 20px; border: none; background: none;
+  font-size: 15px; font-weight: 600; color: var(--text); cursor: pointer;
+  border-radius: 0; font-family: inherit; text-align: left;
+  transition: background .1s;
+}
+.fab-opt:active { background: var(--card2); }
+.fab-opt-ic { font-size: 22px; width: 38px; height: 38px; border-radius: 10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.fab-opt-ic.green { background: #dcfce7; }
+.fab-opt-ic.blue  { background: #dbeafe; }
+.fab-opt-ic.purple{ background: #f3e8ff; }
+
+/* ─── MOBILE DRAWER (Mais) ─── */
+.mob-drawer {
+  position: fixed; inset: 0; z-index: 450;
+  display: none;
+}
+.mob-drawer.open { display: block; }
+.mob-drawer-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,.45); }
+.mob-drawer-panel {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--sb); border-radius: 22px 22px 0 0;
+  padding: 6px 0;
+  padding-bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+  animation: slideUp .22s ease;
+}
+.mob-drawer-header {
+  padding: 10px 20px 10px;
+  font-size: 11px; font-weight: 700; color: rgba(255,255,255,.28);
+  text-transform: uppercase; letter-spacing: .9px;
+  border-bottom: 1px solid rgba(255,255,255,.06); margin-bottom: 4px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.mob-drawer-close { background: none; border: none; color: rgba(255,255,255,.45); font-size: 18px; cursor: pointer; padding: 0 4px; }
+.mob-drawer-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 20px; color: rgba(255,255,255,.65);
+  font-size: 14px; font-weight: 500; cursor: pointer;
+  transition: all .12s;
+}
+.mob-drawer-item:active { background: rgba(255,255,255,.06); color: #fff; }
+.mob-drawer-item .ic { font-size: 18px; width: 26px; text-align: center; flex-shrink: 0; }
+.mob-drawer-divider { height: 1px; background: rgba(255,255,255,.06); margin: 4px 0; }
+.mob-drawer-footer {
+  display: flex; gap: 10px; padding: 12px 20px 4px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.mob-drawer-footer-btn {
+  flex: 1; padding: 10px; border: 1px solid rgba(255,255,255,.12);
+  background: transparent; color: rgba(255,255,255,.5);
+  font-size: 12px; border-radius: 8px; cursor: pointer;
+  font-family: inherit; font-weight: 500; transition: all .15s;
+}
+.mob-drawer-footer-btn:active { background: rgba(255,255,255,.08); color: white; }
+
+@keyframes slideUp {
+  from { transform: translateY(60px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* ─── IMOVEL CARD (mobile list) ─── */
+.im-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px; margin-bottom: 10px;
+  box-shadow: var(--shadow); transition: border-color .15s;
+}
+.im-card:active { border-color: var(--accent); }
+.im-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 8px; }
+.im-card-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.im-card-sub { font-size: 12px; color: var(--text3); margin-top: 2px; }
+.im-card-code { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--text4); background: var(--card2); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); display: inline-block; margin-top: 3px; }
+.im-card-info { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 10px; margin: 10px 0; }
+.im-card-info-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text2); }
+.im-card-info-item .lbl { color: var(--text4); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; }
+.im-card-val { font-weight: 700; font-family: 'DM Mono', monospace; font-size: 15px; color: var(--accent); margin: 6px 0; }
+.im-card-actions { display: flex; gap: 7px; padding-top: 10px; border-top: 1px solid var(--border); }
+.im-card-actions .btn { flex: 1; font-size: 12px; padding: 9px 6px; }
+
+/* ─── PROP / CLIENTE CARD (mobile) ─── */
+.prop-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px; margin-bottom: 10px;
+  box-shadow: var(--shadow);
+}
+.prop-card-name { font-size: 15px; font-weight: 700; }
+.prop-card-meta { font-size: 12px; color: var(--text3); margin-top: 3px; }
+.prop-card-actions { display: flex; gap: 7px; margin-top: 12px; flex-wrap: wrap; }
+
+/* ─── BREAKPOINT 900px (tablet — sidebar icon-only) ─── */
+@media (max-width: 900px) and (min-width: 481px) {
   #sidebar { width: 54px; }
   #sidebar .sb-logo h1, #sidebar .sb-tagline, .sb-section, .sb-item span.label { display: none; }
   .sb-footer button .sb-btn-lbl { display: none; }
@@ -406,6 +586,165 @@ tr:hover td { background: #fafbfc; }
   .fgrid, .fgrid-3 { grid-template-columns: 1fr; }
   .report-grid { grid-template-columns: 1fr; }
   .stats { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE BREAKPOINT — max-width: 480px
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+
+  /* ── Layout base ── */
+  .mob-topbar { display: flex; }
+  .mob-nav    { display: flex; }
+  #sidebar    { display: none !important; }
+  #theme-btn  { display: none !important; }
+
+  #main {
+    margin-left: 0;
+    padding: 14px 12px;
+    padding-top:    calc(54px + 12px);
+    padding-bottom: calc(60px + 16px + env(safe-area-inset-bottom, 0px));
+    min-height: 100vh;
+  }
+
+  /* ── Page header ── */
+  .ph { flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 14px; }
+  .ph-left h2 { font-size: 19px; }
+  .ph-left p  { font-size: 12px; }
+  .ph-right   { width: 100%; justify-content: flex-end; flex-wrap: wrap; gap: 6px; }
+  .ph-right .btn { font-size: 12px; padding: 9px 13px; min-height: 40px; }
+
+  /* ── Stats grid 2-col ── */
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+  .stat  { padding: 12px 13px; }
+  .stat-n { font-size: 24px; }
+  .stat-l { font-size: 10px; }
+
+  /* ── Dashboard report grid 1-col ── */
+  .report-grid { grid-template-columns: 1fr; gap: 10px; }
+
+  /* ── Form grids 1-col ── */
+  .fgrid   { grid-template-columns: 1fr; gap: 12px; }
+  .fgrid-3 { grid-template-columns: 1fr; gap: 12px; }
+
+  /* ── 16px inputs — previne zoom no iOS ── */
+  .finput, .fsel, .ftxt, .fi, .fi-search,
+  input[type="text"], input[type="tel"], input[type="email"],
+  input[type="number"], input[type="date"], input[type="url"],
+  select, textarea { font-size: 16px !important; }
+
+  /* ── Touch targets ── */
+  .btn       { min-height: 42px; }
+  .btn-sm    { min-height: 36px; padding: 8px 11px; }
+  .fi        { min-height: 42px; padding: 10px 11px; }
+  .finput, .fsel { min-height: 46px; padding: 12px 13px; }
+  .check-item input { width: 18px; height: 18px; }
+
+  /* ── Filters ── */
+  .filters    { gap: 6px; flex-direction: column; }
+  .fi-search  { width: 100%; min-width: unset; }
+  .fi         { width: 100%; }
+
+  /* ── Table → horizontal scroll ── */
+  .tw         { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 8px; }
+  .tw table   { min-width: 580px; }
+
+  /* ── Toast above bottom nav ── */
+  #toast {
+    bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+    right: 12px; left: 12px; max-width: none; text-align: center;
+    border-radius: 10px;
+  }
+
+  /* ── Modals as bottom sheets ── */
+  .modal-bg  { align-items: flex-end; }
+  .modal {
+    max-width: 100%; width: 100%;
+    border-radius: 22px 22px 0 0;
+    padding: 22px 18px;
+    padding-bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    max-height: 88vh; overflow-y: auto;
+  }
+  .modal-lg  { max-width: 100%; max-height: 88vh; }
+
+  /* ── Form actions stacked ── */
+  .form-actions { flex-direction: column; gap: 8px; }
+  .form-actions .btn { width: 100%; justify-content: center; min-height: 46px; }
+
+  /* ── Cliente cards ── */
+  .cli-grid { grid-template-columns: 1fr; }
+
+  /* ── Gestão stats 2-col ── */
+  .gst-stats { grid-template-columns: repeat(2, 1fr); }
+
+  /* ── Chip select ── */
+  .chip-select-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* ── Finalidade buttons ── */
+  .finalidade-box { gap: 7px; }
+  .finalidade-btn { flex: 1; justify-content: center; padding: 10px 6px; font-size: 12px; flex-direction: column; gap: 2px; }
+
+  /* ── Contato tabs ── */
+  .ctabs  { gap: 4px; flex-wrap: wrap; }
+  .ctab   { font-size: 12px; padding: 7px 10px; min-height: 36px; }
+
+  /* ── Card padding ── */
+  .card   { padding: 13px; border-radius: 10px; }
+
+  /* ── Contas grid ── */
+  .contas-grid { grid-template-columns: repeat(2, 1fr); }
+
+  /* ── Pgmt row ── */
+  .pgmt-row { flex-wrap: wrap; gap: 5px; }
+
+  /* ── Gestão card ── */
+  .gst-stat { padding: 12px 13px; }
+  .gst-n    { font-size: 22px; }
+
+  /* ── Doc item ── */
+  .doc-item  { flex-wrap: wrap; gap: 8px; }
+  .doc-acts  { width: 100%; justify-content: flex-end; }
+
+  /* ── Notif banner ── */
+  .notif-banner { font-size: 12px; }
+
+  /* ── Form section ── */
+  .form-section { font-size: 11px; margin: 14px 0 10px; }
+
+  /* ── Alert ── */
+  .alert { font-size: 12px; padding: 10px 13px; }
+
+  /* ── Collapse header ── */
+  .collapse-header { font-size: 11px; padding: 10px 12px; }
+
+  /* ── Input money ── */
+  .input-money .finput { font-size: 16px !important; }
+
+  /* ── Photo grid ── */
+  .photo-grid { gap: 8px; }
+  .photo-thumb { width: 72px; height: 72px; }
+
+  /* ── Cli acts ── */
+  .cli-acts { gap: 5px; }
+  .cli-acts .btn { font-size: 11px; padding: 7px 9px; min-height: 34px; }
+
+  /* ── Match item ── */
+  .match-item { flex-direction: column; align-items: flex-start; gap: 4px; }
+
+  /* ── Empty state ── */
+  .empty { padding: 40px 20px; }
+  .empty-icon { font-size: 36px; }
+
+  /* ── Sec title ── */
+  .sec-title { font-size: 11px; }
+}
+
+/* ─── DESKTOP ONLY: ocultar elementos mobile ─── */
+@media (min-width: 481px) {
+  .mob-topbar { display: none !important; }
+  .mob-nav    { display: none !important; }
+  .fab-sheet  { display: none !important; }
+  .mob-drawer { display: none !important; }
 }
 </style>
 </head>
@@ -467,8 +806,93 @@ tr:hover td { background: #fafbfc; }
   </div>
 </nav>
 
-<!-- ═══ THEME TOGGLE ═══ -->
+<!-- ═══ MOBILE TOP BAR ═══ -->
+<header class="mob-topbar">
+  <div class="mob-topbar-brand">
+    <div class="sb-icon">🏠</div>
+    <div class="mob-topbar-brand-text">
+      <h1>HomeMatch</h1>
+      <small>Inteligência Comercial</small>
+    </div>
+  </div>
+  <div class="mob-topbar-right">
+    <button class="mob-icon-btn" onclick="toggleTheme()" id="mob-theme-btn" title="Alternar tema">☀️</button>
+    <button class="mob-icon-btn" onclick="openMobDrawer()" title="Menu">☰</button>
+  </div>
+</header>
+
+<!-- ═══ THEME TOGGLE (desktop) ═══ -->
 <button id="theme-btn" onclick="toggleTheme()" title="Alternar tema">☀️</button>
+
+<!-- ═══ MOBILE BOTTOM NAV ═══ -->
+<nav class="mob-nav" id="mob-nav">
+  <button class="mob-nav-btn active" id="mbn-dashboard" onclick="nav('dashboard')">
+    <span class="mob-nav-ic">📊</span>
+    <span class="mob-nav-lbl">Início</span>
+  </button>
+  <button class="mob-nav-btn" id="mbn-imoveis" onclick="nav('imoveis')">
+    <span class="mob-nav-ic">🏘️</span>
+    <span class="mob-nav-lbl">Imóveis</span>
+  </button>
+  <div class="mob-fab-wrap">
+    <button class="mob-fab" onclick="openFabSheet()" title="Adicionar">+</button>
+  </div>
+  <button class="mob-nav-btn" id="mbn-clientes" onclick="nav('clientes')">
+    <span class="mob-nav-ic">🔍</span>
+    <span class="mob-nav-lbl">Clientes</span>
+  </button>
+  <button class="mob-nav-btn" id="mbn-mais" onclick="openMobDrawer()">
+    <span class="mob-nav-ic">☰</span>
+    <span class="mob-nav-lbl">Mais</span>
+    <span class="mob-nav-badge" id="mob-badge-atrasados" style="display:none">!</span>
+  </button>
+</nav>
+
+<!-- ═══ FAB ACTION SHEET ═══ -->
+<div class="fab-sheet" id="fab-sheet">
+  <div class="fab-backdrop" onclick="closeFabSheet()"></div>
+  <div class="fab-options">
+    <div class="fab-sheet-title">Adicionar novo</div>
+    <button class="fab-opt" onclick="openImovelForm();closeFabSheet()">
+      <span class="fab-opt-ic green">🏠</span>
+      <span>Novo Imóvel</span>
+    </button>
+    <button class="fab-opt" onclick="openPropForm();closeFabSheet()">
+      <span class="fab-opt-ic blue">👤</span>
+      <span>Novo Contato</span>
+    </button>
+    <button class="fab-opt" onclick="openClienteForm();closeFabSheet()">
+      <span class="fab-opt-ic purple">🔍</span>
+      <span>Novo Cliente / Busca</span>
+    </button>
+  </div>
+</div>
+
+<!-- ═══ MOBILE DRAWER (Mais) ═══ -->
+<div class="mob-drawer" id="mob-drawer">
+  <div class="mob-drawer-backdrop" onclick="closeMobDrawer()"></div>
+  <div class="mob-drawer-panel">
+    <div class="mob-drawer-header">
+      <span>Menu</span>
+      <button class="mob-drawer-close" onclick="closeMobDrawer()">✕</button>
+    </div>
+    <div class="mob-drawer-item" onclick="nav('proprietarios');closeMobDrawer()">
+      <span class="ic">👥</span><span>Contatos</span>
+    </div>
+    <div class="mob-drawer-item" onclick="nav('gestao');closeMobDrawer()">
+      <span class="ic">🗂️</span><span>Locações Ativas</span>
+      <span class="mob-nav-badge" id="mob-badge-atrasados2" style="display:none;position:static;margin-left:auto">!</span>
+    </div>
+    <div class="mob-drawer-item" onclick="nav('documentos');closeMobDrawer()">
+      <span class="ic">📁</span><span>Documentos</span>
+    </div>
+    <div class="mob-drawer-divider"></div>
+    <div class="mob-drawer-footer">
+      <button class="mob-drawer-footer-btn" onclick="exportData();closeMobDrawer()">⬇️ Backup</button>
+      <button class="mob-drawer-footer-btn" onclick="document.getElementById('import-input').click();closeMobDrawer()">⬆️ Importar</button>
+    </div>
+  </div>
+</div>
 
 <!-- ═══ MAIN ═══ -->
 <main id="main">
@@ -534,7 +958,8 @@ tr:hover td { background: #fafbfc; }
         <option value="r">🔴 Críticos</option>
       </select>
     </div>
-    <div class="tw">
+    <!-- desktop table -->
+    <div class="tw" id="im-table-wrap">
       <table>
         <thead>
           <tr>
@@ -554,9 +979,11 @@ tr:hover td { background: #fafbfc; }
         <tbody id="im-tbody"></tbody>
       </table>
     </div>
+    <!-- mobile cards -->
+    <div id="im-cards" style="display:none"></div>
     <div id="im-empty" class="empty" style="display:none">
       <div class="empty-icon">🏡</div>
-      <p>Nenhum imóvel encontrado.<br>Cadastre o primeiro imóvel clicando em "Novo Imóvel".</p>
+      <p>Nenhum imóvel encontrado.<br>Toque em <strong>+</strong> para cadastrar o primeiro!</p>
     </div>
   </div>
 </div>
@@ -953,7 +1380,7 @@ tr:hover td { background: #fafbfc; }
     <div class="filters">
       <input class="fi fi-search" id="fi-prop" placeholder="🔍 Buscar por nome ou telefone..." oninput="renderProps()">
     </div>
-    <div class="tw">
+    <div class="tw" id="prop-table-wrap">
       <table>
         <thead>
           <tr><th>Nome</th><th>WhatsApp</th><th>Tipo</th><th>Situação</th><th>Imóveis</th><th>Cadastro</th><th>Ações</th></tr>
@@ -961,6 +1388,7 @@ tr:hover td { background: #fafbfc; }
         <tbody id="prop-tbody"></tbody>
       </table>
     </div>
+    <div id="prop-cards" style="display:none"></div>
     <div id="prop-empty" class="empty" style="display:none">
       <div class="empty-icon">👥</div>
       <p>Nenhum contato cadastrado.</p>
@@ -1266,7 +1694,7 @@ tr:hover td { background: #fafbfc; }
         <option value="atrasado">🔴 Atrasado</option>
       </select>
     </div>
-    <div class="tw">
+    <div class="tw" id="gst-table-wrap">
       <table>
         <thead>
           <tr>
@@ -1284,6 +1712,7 @@ tr:hover td { background: #fafbfc; }
         <tbody id="gst-tbody"></tbody>
       </table>
     </div>
+    <div id="gst-cards" style="display:none"></div>
     <div id="gst-empty" class="empty" style="display:none">
       <div class="empty-icon">🗂️</div>
       <p>Nenhuma locação administrada.<br>No cadastro de imóvel, marque <strong>"Administro este aluguel"</strong> quando o status for Alugado.</p>
@@ -1658,9 +2087,37 @@ function toggleTheme() {
   const html = document.documentElement;
   const isDark = html.getAttribute('data-theme') === 'dark';
   html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+  const ico = isDark ? '☀️' : '🌙';
+  const tb = document.getElementById('theme-btn');
+  const mtb = document.getElementById('mob-theme-btn');
+  if (tb)  tb.textContent  = ico;
+  if (mtb) mtb.textContent = ico;
   localStorage.setItem('imb_theme', isDark ? 'light' : 'dark');
 }
+
+// ─── MOBILE HELPERS ────────────────────────────────────────
+function isMobile() { return window.innerWidth <= 480; }
+
+function openFabSheet() {
+  document.getElementById('fab-sheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeFabSheet() {
+  document.getElementById('fab-sheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function openMobDrawer() {
+  document.getElementById('mob-drawer').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeMobDrawer() {
+  document.getElementById('mob-drawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+// Fechar sheets com Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { closeFabSheet(); closeMobDrawer(); }
+});
 
 // ─── FRESHNESS ─────────────────────────────────
 function fresh(dateStr) {
@@ -1694,8 +2151,14 @@ function diasParaVencer(dateStr) {
 function nav(sc) {
   document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.sb-item').forEach(el => el.classList.remove('active'));
-  document.getElementById(`screen-${sc}`).classList.add('active');
+  document.getElementById(`screen-${sc}`)?.classList.add('active');
   document.querySelector(`[data-sc="${sc}"]`)?.classList.add('active');
+  // ─── Atualiza bottom nav mobile ───
+  const mobNavMap = { dashboard:'mbn-dashboard', imoveis:'mbn-imoveis', clientes:'mbn-clientes' };
+  document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+  if (mobNavMap[sc]) document.getElementById(mobNavMap[sc])?.classList.add('active');
+  // ─── Scroll topo ───
+  document.getElementById('main')?.scrollTo(0, 0);
   if (sc === 'dashboard')     renderDash();
   if (sc === 'imoveis')       { populateBairroFi(); renderImoveis(); }
   if (sc === 'proprietarios') renderProps();
@@ -2170,58 +2633,110 @@ function renderImoveis() {
     return true;
   }).sort((a,b) => { const o={r:0,y:1,g:2}; return o[fresh(a.updated).c]-o[fresh(b.updated).c]; });
 
-  const tbody = document.getElementById('im-tbody');
-  const empty = document.getElementById('im-empty');
+  const tbody    = document.getElementById('im-tbody');
+  const imCards  = document.getElementById('im-cards');
+  const empty    = document.getElementById('im-empty');
+  const tableWrap= document.getElementById('im-table-wrap');
   document.getElementById('im-count').textContent =
     `${rows.length} imóvel${rows.length!==1?'is':''} encontrado${rows.length!==1?'s':''}`;
 
-  if (!rows.length) { tbody.innerHTML=''; empty.style.display='block'; return; }
+  if (!rows.length) {
+    tbody.innerHTML=''; if(imCards) imCards.innerHTML='';
+    empty.style.display='block'; return;
+  }
   empty.style.display='none';
 
   const stBadge = { disponivel:'bd-disp', alugado:'bd-alugado', vendido:'bd-vendido', indisponivel:'bd-indisp' };
   const stLabel = { disponivel:'Disponível', alugado:'Alugado', vendido:'Vendido', indisponivel:'Indisponível' };
+  const freshDot = { g:'🟢', y:'🟡', r:'🔴' };
 
-  tbody.innerHTML = rows.map(i => {
-    const f = fresh(i.updated);
-    const p = props.find(p => p.id === i.prop_id);
-    const fotos = i.fotos?.length || 0;
-    const fins = (i.finalidade||[]).map(f => f==='aluguel'?'🔑':'🏷️').join(' ');
-    const contratoBadge = (i.status==='alugado' && i.contrato_fim)
-      ? (() => { const d=diasParaVencer(i.contrato_fim); return d!==null&&d<=20 ? `<span style="color:var(--amber);font-size:10px;display:block">⏰ vence em ${d}d</span>` : ''; })()
-      : '';
-    return `<tr>
-      <td>${dot(f.c)}</td>
-      <td><span class="im-code">${esc(i.codigo||'—')}</span></td>
-      <td>
-        <div style="font-weight:600">${esc(i.tipo)}</div>
-        ${i.cond?`<div style="font-size:11px;color:var(--text3)">${esc(i.cond)}</div>`:''}
-        ${fotos?`<div style="font-size:10px;color:var(--text4)">📷 ${fotos} foto${fotos>1?'s':''}</div>`:''}
-        <div style="font-size:10px;margin-top:2px">${fins}</div>
-      </td>
-      <td>${esc(i.bairro)}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px">${i.quartos||'–'}qt${i.suites?` ${i.suites}s`:''} ${i.garagem?`/ ${i.garagem}vg`:''}</td>
-      <td style="font-family:'DM Mono',monospace;font-weight:600">${i.valor?moeda(i.valor):'–'}</td>
-      <td style="font-family:'DM Mono',monospace;font-weight:600">${i.valor_venda?moeda(i.valor_venda):'–'}</td>
-      <td>${capFirst(i.mobilia)}</td>
-      <td>
-        <span class="badge ${stBadge[i.status]||'bd-disp'}">${stLabel[i.status]||i.status}</span>
-        ${contratoBadge}
-        ${i.status==='indisponivel'&&i.indisp_obs
-          ? `<div style="font-size:11px;color:#b45309;margin-top:3px" title="${esc(i.indisp_obs)}">🚫 ${esc(i.indisp_obs.substring(0,28))}${i.indisp_obs.length>28?'…':''}</div>`
-          : ''}
-        ${p?`<div style="font-size:11px;color:var(--text3);margin-top:3px">${esc(p.nome)}</div>`:''}
-      </td>
-      <td>${dotFull(f)}</td>
-      <td>
-        <div style="display:flex;gap:5px">
-          <button class="btn btn-ok btn-sm" onclick="marcar('${i.id}')" title="Marcar atualizado">✓</button>
-          <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${i.id}')">✏️</button>
-          <button class="btn btn-blue btn-sm" onclick="verMatches('${i.id}')" title="Ver clientes interessados">🔍</button>
+  if (isMobile()) {
+    // ── MOBILE: cards estilo Instagram ──
+    if (tableWrap) tableWrap.style.display = 'none';
+    if (imCards)   imCards.style.display   = 'block';
+    imCards.innerHTML = rows.map(i => {
+      const f = fresh(i.updated);
+      const p = props.find(pp => pp.id === i.prop_id);
+      const fotos = i.fotos?.length || 0;
+      const fins = (i.finalidade||[]).map(fn => fn==='aluguel'?'🔑 Aluguel':fn==='venda'?'🏷️ Venda':'⏳ Temporada').join(' · ');
+      const valorLine = [i.valor?`<span style="color:var(--accent)">R$ ${moeda(i.valor)}<span style="font-size:11px;font-weight:400">/mês</span></span>`:'',
+                         i.valor_venda?`<span style="color:var(--purple)">R$ ${moeda(i.valor_venda)}<span style="font-size:11px;font-weight:400"> venda</span></span>`:''].filter(Boolean).join(' &nbsp;·&nbsp; ');
+      const contratoBadge = (i.status==='alugado' && i.contrato_fim)
+        ? (() => { const d=diasParaVencer(i.contrato_fim); return d!==null&&d<=20 ? `<span style="color:var(--amber);font-size:11px">⏰ Contrato vence em ${d}d</span>` : ''; })()
+        : '';
+      return `<div class="im-card">
+        <div class="im-card-head">
+          <div>
+            <div class="im-card-title">${freshDot[f.c]||'🔵'} ${esc(i.tipo)}${i.cond?` <span style="font-size:12px;font-weight:400;color:var(--text3)">· ${esc(i.cond)}</span>`:''}</div>
+            <div class="im-card-sub">${esc(i.bairro)}${p?` · ${esc(p.nome)}`:''}</div>
+            <span class="im-card-code">${esc(i.codigo||'—')}</span>
+          </div>
+          <span class="badge ${stBadge[i.status]||'bd-disp'}">${stLabel[i.status]||i.status}</span>
+        </div>
+        ${valorLine?`<div class="im-card-val">${valorLine}</div>`:''}
+        <div class="im-card-info">
+          ${i.quartos?`<div class="im-card-info-item"><span class="lbl">Quartos</span> ${i.quartos}${i.suites?` (${i.suites} suíte${i.suites>1?'s':''})`:''}</div>`:''}
+          ${i.garagem?`<div class="im-card-info-item"><span class="lbl">Vagas</span> ${i.garagem}</div>`:''}
+          ${i.mobilia&&i.mobilia!=='sem'?`<div class="im-card-info-item"><span class="lbl">Mobília</span> ${capFirst(i.mobilia)}</div>`:''}
+          ${fins?`<div class="im-card-info-item" style="grid-column:1/-1"><span class="lbl">Finalidade</span> ${fins}</div>`:''}
+          ${fotos?`<div class="im-card-info-item"><span class="lbl">Fotos</span> 📷 ${fotos}</div>`:''}
+          ${contratoBadge?`<div class="im-card-info-item" style="grid-column:1/-1">${contratoBadge}</div>`:''}
+          <div class="im-card-info-item" style="grid-column:1/-1"><span class="lbl">Atualizado</span> ${dotFull(f)}</div>
+        </div>
+        <div class="im-card-actions">
+          <button class="btn btn-ok btn-sm" onclick="marcar('${i.id}')" title="Marcar atualizado">✓ Ok</button>
+          <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${i.id}')">✏️ Editar</button>
+          <button class="btn btn-blue btn-sm" onclick="verMatches('${i.id}')" title="Ver clientes">🔍</button>
           <button class="btn btn-danger btn-sm" onclick="deleteImovel('${i.id}')">🗑️</button>
         </div>
-      </td>
-    </tr>`;
-  }).join('');
+      </div>`;
+    }).join('');
+  } else {
+    // ── DESKTOP: tabela clássica ──
+    if (tableWrap) tableWrap.style.display = '';
+    if (imCards)   imCards.style.display   = 'none';
+    tbody.innerHTML = rows.map(i => {
+      const f = fresh(i.updated);
+      const p = props.find(pp => pp.id === i.prop_id);
+      const fotos = i.fotos?.length || 0;
+      const fins = (i.finalidade||[]).map(fn => fn==='aluguel'?'🔑':'🏷️').join(' ');
+      const contratoBadge = (i.status==='alugado' && i.contrato_fim)
+        ? (() => { const d=diasParaVencer(i.contrato_fim); return d!==null&&d<=20 ? `<span style="color:var(--amber);font-size:10px;display:block">⏰ vence em ${d}d</span>` : ''; })()
+        : '';
+      return `<tr>
+        <td>${dot(f.c)}</td>
+        <td><span class="im-code">${esc(i.codigo||'—')}</span></td>
+        <td>
+          <div style="font-weight:600">${esc(i.tipo)}</div>
+          ${i.cond?`<div style="font-size:11px;color:var(--text3)">${esc(i.cond)}</div>`:''}
+          ${fotos?`<div style="font-size:10px;color:var(--text4)">📷 ${fotos} foto${fotos>1?'s':''}</div>`:''}
+          <div style="font-size:10px;margin-top:2px">${fins}</div>
+        </td>
+        <td>${esc(i.bairro)}</td>
+        <td style="font-family:'DM Mono',monospace;font-size:12px">${i.quartos||'–'}qt${i.suites?` ${i.suites}s`:''} ${i.garagem?`/ ${i.garagem}vg`:''}</td>
+        <td style="font-family:'DM Mono',monospace;font-weight:600">${i.valor?moeda(i.valor):'–'}</td>
+        <td style="font-family:'DM Mono',monospace;font-weight:600">${i.valor_venda?moeda(i.valor_venda):'–'}</td>
+        <td>${capFirst(i.mobilia)}</td>
+        <td>
+          <span class="badge ${stBadge[i.status]||'bd-disp'}">${stLabel[i.status]||i.status}</span>
+          ${contratoBadge}
+          ${i.status==='indisponivel'&&i.indisp_obs
+            ? `<div style="font-size:11px;color:#b45309;margin-top:3px" title="${esc(i.indisp_obs)}">🚫 ${esc(i.indisp_obs.substring(0,28))}${i.indisp_obs.length>28?'…':''}</div>`
+            : ''}
+          ${p?`<div style="font-size:11px;color:var(--text3);margin-top:3px">${esc(p.nome)}</div>`:''}
+        </td>
+        <td>${dotFull(f)}</td>
+        <td>
+          <div style="display:flex;gap:5px">
+            <button class="btn btn-ok btn-sm" onclick="marcar('${i.id}')" title="Marcar atualizado">✓</button>
+            <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${i.id}')">✏️</button>
+            <button class="btn btn-blue btn-sm" onclick="verMatches('${i.id}')" title="Ver clientes interessados">🔍</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteImovel('${i.id}')">🗑️</button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
 }
 
 // ─── MATCHES ────────────────────────────────────
@@ -2531,33 +3046,65 @@ function renderProps() {
   document.getElementById('prop-count').textContent =
     `${rows.length} contato${rows.length!==1?'s':''} cadastrado${rows.length!==1?'s':''}`;
 
-  const tbody = document.getElementById('prop-tbody');
-  const empty = document.getElementById('prop-empty');
-  if (!rows.length) { tbody.innerHTML=''; empty.style.display='block'; return; }
+  const tbody     = document.getElementById('prop-tbody');
+  const propCards = document.getElementById('prop-cards');
+  const tableWrap = document.getElementById('prop-table-wrap');
+  const empty     = document.getElementById('prop-empty');
+  if (!rows.length) {
+    tbody.innerHTML=''; if(propCards) propCards.innerHTML='';
+    empty.style.display='block'; return;
+  }
   empty.style.display='none';
 
   const sitLabel = { vendendo:'🏷️ Vendendo', alugando:'🔑 Alugando', ambos:'🏷️🔑 Ambos', '':'–' };
 
-  tbody.innerHTML = rows.map(p => {
-    const n   = ims.filter(i=>i.prop_id===p.id).length;
-    const wa  = `https://wa.me/55${(p.tel||'').replace(/\D/g,'')}`;
-    const badge = p.tipo==='corretor' ? 'bd-corr' : 'bd-prop';
-    const label = p.tipo==='corretor' ? '🤝 Corretor' : '🏠 Proprietário';
-    return `<tr>
-      <td style="font-weight:600">${esc(p.nome)}</td>
-      <td><a href="${wa}" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:500">📱 ${esc(p.tel)}</a></td>
-      <td><span class="badge ${badge}">${label}</span></td>
-      <td style="font-size:12px;color:var(--text3)">${sitLabel[p.situacao||'']}</td>
-      <td style="font-family:'DM Mono',monospace;font-weight:600">${n}</td>
-      <td style="color:var(--text3);font-size:12px">${fmtData(p.created)}</td>
-      <td>
-        <div style="display:flex;gap:5px">
-          <button class="btn btn-ghost btn-sm" onclick="openPropForm('${p.id}')">✏️</button>
+  if (isMobile()) {
+    if (tableWrap)  tableWrap.style.display  = 'none';
+    if (propCards)  propCards.style.display  = 'block';
+    propCards.innerHTML = rows.map(p => {
+      const n   = ims.filter(i=>i.prop_id===p.id).length;
+      const wa  = `https://wa.me/55${(p.tel||'').replace(/\D/g,'')}`;
+      const badge = p.tipo==='corretor' ? 'bd-corr' : 'bd-prop';
+      const label = p.tipo==='corretor' ? '🤝 Corretor' : '🏠 Proprietário';
+      return `<div class="prop-card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+          <div>
+            <div class="prop-card-name">${esc(p.nome)}</div>
+            <div class="prop-card-meta">${sitLabel[p.situacao||'']} · ${n} imóvel${n!==1?'is':''}</div>
+          </div>
+          <span class="badge ${badge}">${label}</span>
+        </div>
+        <div class="prop-card-actions">
+          <a href="${wa}" target="_blank" class="btn btn-ok btn-sm" style="text-decoration:none">📱 WhatsApp</a>
+          <button class="btn btn-ghost btn-sm" onclick="openPropForm('${p.id}')">✏️ Editar</button>
           <button class="btn btn-danger btn-sm" onclick="deleteProp('${p.id}')">🗑️</button>
         </div>
-      </td>
-    </tr>`;
-  }).join('');
+      </div>`;
+    }).join('');
+  } else {
+    if (tableWrap)  tableWrap.style.display  = '';
+    if (propCards)  propCards.style.display  = 'none';
+    tbody.innerHTML = rows.map(p => {
+      const n   = ims.filter(i=>i.prop_id===p.id).length;
+      const wa  = `https://wa.me/55${(p.tel||'').replace(/\D/g,'')}`;
+      const badge = p.tipo==='corretor' ? 'bd-corr' : 'bd-prop';
+      const label = p.tipo==='corretor' ? '🤝 Corretor' : '🏠 Proprietário';
+      return `<tr>
+        <td style="font-weight:600">${esc(p.nome)}</td>
+        <td><a href="${wa}" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:500">📱 ${esc(p.tel)}</a></td>
+        <td><span class="badge ${badge}">${label}</span></td>
+        <td style="font-size:12px;color:var(--text3)">${sitLabel[p.situacao||'']}</td>
+        <td style="font-family:'DM Mono',monospace;font-weight:600">${n}</td>
+        <td style="color:var(--text3);font-size:12px">${fmtData(p.created)}</td>
+        <td>
+          <div style="display:flex;gap:5px">
+            <button class="btn btn-ghost btn-sm" onclick="openPropForm('${p.id}')">✏️</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProp('${p.id}')">🗑️</button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
 }
 
 // ─── CLIENTES ───────────────────────────────────
@@ -3198,48 +3745,99 @@ function renderGestao() {
     { n:vencendo30,l:'⏰ Vencem em 30d',    color:'var(--amber)' },
   ].map(s=>`<div class="gst-stat"><div class="gst-n" style="color:${s.color}">${s.n}</div><div class="gst-l">${s.l}</div></div>`).join('');
 
-  const tbody = document.getElementById('gst-tbody');
-  const empty = document.getElementById('gst-empty');
-  if (!rows.length) { tbody.innerHTML=''; empty.style.display='block'; return; }
+  const tbody     = document.getElementById('gst-tbody');
+  const gstCards  = document.getElementById('gst-cards');
+  const tableWrap = document.getElementById('gst-table-wrap');
+  const empty     = document.getElementById('gst-empty');
+  if (!rows.length) {
+    tbody.innerHTML=''; if(gstCards) gstCards.innerHTML='';
+    empty.style.display='block'; return;
+  }
   empty.style.display='none';
+
+  // Atualiza badge no drawer mobile
+  const badge2 = document.getElementById('mob-badge-atrasados');
+  const badge2b = document.getElementById('mob-badge-atrasados2');
+  const atrasadoCount = ims.filter(im => getStatus(im) === 'atrasado').length;
+  [badge2, badge2b].forEach(b => { if(b) { b.style.display = atrasadoCount > 0 ? 'inline' : 'none'; b.textContent = atrasadoCount; } });
 
   const stMap = { pago:['pgmt-pago','✅ Pago'], pendente:['pgmt-pendente','⏳ Pendente'], atrasado:['pgmt-atrasado','🔴 Atrasado'] };
 
-  tbody.innerHTML = rows.map(im => {
-    const st = getStatus(im);
-    const [cls, lbl] = stMap[st] || ['pgmt-pendente','–'];
-    const pg = pgmts.find(p => p.imovel_id === im.id && p.mes_ref === mesAtual);
-    const reaj = im.data_reaj ? (() => { const d=diasParaVencer(im.data_reaj); return d!==null&&d<=30?`<span style="color:var(--amber);font-size:10px">⚠️ em ${d}d</span>`:fmtData(im.data_reaj); })() : '–';
-    const docs = load(DB.DC).filter(d => d.entidade_tipo==='imovel' && d.entidade_id===im.id).length;
-    return `<tr>
-      <td>${dot(im.status==='alugado'?'g':'r')}</td>
-      <td>
-        <div style="font-weight:600">${esc(im.tipo)}</div>
-        <span class="im-code">${esc(im.codigo)}</span>
-        <div style="font-size:11px;color:var(--text3)">${esc(im.bairro)}</div>
-      </td>
-      <td>
-        <div style="font-weight:600">${esc(im.inq_nome||'–')}</div>
-        ${im.inq_tel?`<a href="https://wa.me/55${(im.inq_tel).replace(/\D/g,'')}" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none">📱 ${esc(im.inq_tel)}</a>`:''}
-      </td>
-      <td style="font-family:'DM Mono',monospace;font-weight:600">${im.valor?moeda(im.valor):'–'}</td>
-      <td style="text-align:center">${im.dia_venc?`Dia ${im.dia_venc}`:'–'}</td>
-      <td>
-        <span class="badge ${cls}">${lbl}</span>
-        ${pg&&pg.data_pagamento?`<div style="font-size:10px;color:var(--text3);margin-top:2px">${fmtData(pg.data_pagamento)}</div>`:''}
-      </td>
-      <td style="font-size:12px">${im.contrato_fim?fmtData(im.contrato_fim):'–'}</td>
-      <td style="font-size:12px">${reaj}</td>
-      <td>
-        <div style="display:flex;gap:4px;flex-wrap:wrap">
-          <button class="btn btn-primary btn-sm" onclick="openPgmtModal('${im.id}')" title="Registrar pagamento">💸</button>
-          <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${im.id}')" title="Editar imóvel">✏️</button>
-          <button class="btn btn-ghost btn-sm" onclick="openDocModal('imovel','${im.id}')" title="Adicionar documento">${docs?`📁(${docs})`:'📁'}</button>
-          <button class="btn btn-ghost btn-sm" onclick="verHistPgmt('${im.id}')" title="Histórico de pagamentos">📊</button>
+  if (isMobile()) {
+    if (tableWrap) tableWrap.style.display = 'none';
+    if (gstCards)  gstCards.style.display  = 'block';
+    gstCards.innerHTML = rows.map(im => {
+      const st = getStatus(im);
+      const [cls, lbl] = stMap[st] || ['pgmt-pendente','–'];
+      const pg = pgmts.find(p => p.imovel_id === im.id && p.mes_ref === mesAtual);
+      const docs = load(DB.DC).filter(d => d.entidade_tipo==='imovel' && d.entidade_id===im.id).length;
+      const dVenc = im.contrato_fim ? diasParaVencer(im.contrato_fim) : null;
+      return `<div class="im-card" style="${st==='atrasado'?'border-color:var(--red)':''}">
+        <div class="im-card-head">
+          <div>
+            <div class="im-card-title">${esc(im.tipo)}</div>
+            <div class="im-card-sub">${esc(im.bairro)} · <span class="im-card-code" style="display:inline">${esc(im.codigo)}</span></div>
+          </div>
+          <span class="badge ${cls}">${lbl}</span>
         </div>
-      </td>
-    </tr>`;
-  }).join('');
+        <div class="im-card-val" style="font-size:18px">${im.valor?`R$ ${moeda(im.valor)}<span style="font-size:12px;font-weight:400">/mês</span>`:'–'}</div>
+        <div class="im-card-info">
+          <div class="im-card-info-item" style="grid-column:1/-1">
+            <span class="lbl">Inquilino</span>
+            <strong>${esc(im.inq_nome||'–')}</strong>
+            ${im.inq_tel?`<a href="https://wa.me/55${im.inq_tel.replace(/\D/g,'')}" target="_blank" style="color:var(--accent);text-decoration:none;margin-left:4px">📱</a>`:''}
+          </div>
+          ${im.dia_venc?`<div class="im-card-info-item"><span class="lbl">Vence dia</span> ${im.dia_venc}</div>`:''}
+          ${pg&&pg.data_pagamento?`<div class="im-card-info-item"><span class="lbl">Pago em</span> ${fmtData(pg.data_pagamento)}</div>`:''}
+          ${im.contrato_fim?`<div class="im-card-info-item"><span class="lbl">Fim contrato</span> ${fmtData(im.contrato_fim)}${dVenc!==null&&dVenc<=30?` <span style="color:var(--amber);font-size:10px">⏰${dVenc}d</span>`:''}</div>`:''}
+        </div>
+        <div class="im-card-actions">
+          <button class="btn btn-primary btn-sm" onclick="openPgmtModal('${im.id}')" style="flex:2">💸 Pagamento</button>
+          <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${im.id}')">✏️</button>
+          <button class="btn btn-ghost btn-sm" onclick="openDocModal('imovel','${im.id}')">${docs?`📁(${docs})`:'📁'}</button>
+          <button class="btn btn-ghost btn-sm" onclick="verHistPgmt('${im.id}')">📊</button>
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    if (tableWrap) tableWrap.style.display = '';
+    if (gstCards)  gstCards.style.display  = 'none';
+    tbody.innerHTML = rows.map(im => {
+      const st = getStatus(im);
+      const [cls, lbl] = stMap[st] || ['pgmt-pendente','–'];
+      const pg = pgmts.find(p => p.imovel_id === im.id && p.mes_ref === mesAtual);
+      const reaj = im.data_reaj ? (() => { const d=diasParaVencer(im.data_reaj); return d!==null&&d<=30?`<span style="color:var(--amber);font-size:10px">⚠️ em ${d}d</span>`:fmtData(im.data_reaj); })() : '–';
+      const docs = load(DB.DC).filter(d => d.entidade_tipo==='imovel' && d.entidade_id===im.id).length;
+      return `<tr>
+        <td>${dot(im.status==='alugado'?'g':'r')}</td>
+        <td>
+          <div style="font-weight:600">${esc(im.tipo)}</div>
+          <span class="im-code">${esc(im.codigo)}</span>
+          <div style="font-size:11px;color:var(--text3)">${esc(im.bairro)}</div>
+        </td>
+        <td>
+          <div style="font-weight:600">${esc(im.inq_nome||'–')}</div>
+          ${im.inq_tel?`<a href="https://wa.me/55${(im.inq_tel).replace(/\D/g,'')}" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none">📱 ${esc(im.inq_tel)}</a>`:''}
+        </td>
+        <td style="font-family:'DM Mono',monospace;font-weight:600">${im.valor?moeda(im.valor):'–'}</td>
+        <td style="text-align:center">${im.dia_venc?`Dia ${im.dia_venc}`:'–'}</td>
+        <td>
+          <span class="badge ${cls}">${lbl}</span>
+          ${pg&&pg.data_pagamento?`<div style="font-size:10px;color:var(--text3);margin-top:2px">${fmtData(pg.data_pagamento)}</div>`:''}
+        </td>
+        <td style="font-size:12px">${im.contrato_fim?fmtData(im.contrato_fim):'–'}</td>
+        <td style="font-size:12px">${reaj}</td>
+        <td>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">
+            <button class="btn btn-primary btn-sm" onclick="openPgmtModal('${im.id}')" title="Registrar pagamento">💸</button>
+            <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${im.id}')" title="Editar imóvel">✏️</button>
+            <button class="btn btn-ghost btn-sm" onclick="openDocModal('imovel','${im.id}')" title="Adicionar documento">${docs?`📁(${docs})`:'📁'}</button>
+            <button class="btn btn-ghost btn-sm" onclick="verHistPgmt('${im.id}')" title="Histórico de pagamentos">📊</button>
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
 }
 
 // ─── PAGAMENTOS ──────────────────────────────────
@@ -3456,7 +4054,24 @@ document.addEventListener('DOMContentLoaded', () => {
   // Restaura tema salvo
   const savedTheme = localStorage.getItem('imb_theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
-  document.getElementById('theme-btn').textContent = savedTheme === 'dark' ? '🌙' : '☀️';
+  const themeIco = savedTheme === 'dark' ? '🌙' : '☀️';
+  const tb = document.getElementById('theme-btn');
+  const mtb = document.getElementById('mob-theme-btn');
+  if (tb)  tb.textContent  = themeIco;
+  if (mtb) mtb.textContent = themeIco;
+
+  // Rerender ao redimensionar (desktop ↔ mobile)
+  let lastMobile = isMobile();
+  window.addEventListener('resize', () => {
+    const nowMobile = isMobile();
+    if (nowMobile !== lastMobile) {
+      lastMobile = nowMobile;
+      const active = document.querySelector('.screen.active')?.id?.replace('screen-','');
+      if (active === 'imoveis')       renderImoveis();
+      if (active === 'proprietarios') renderProps();
+      if (active === 'gestao')        renderGestao();
+    }
+  });
 
   // Delegação de evento no autocomplete de condomínio (evita XSS com inline handlers)
   document.getElementById('cond-suggest').addEventListener('mousedown', function(e) {
