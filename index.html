@@ -133,16 +133,16 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 
 /* ─── THEME TOGGLE ─── */
 #theme-btn {
-  position: fixed; top: 16px; right: 20px; z-index: 100;
-  width: 38px; height: 38px; border-radius: 50%;
-  border: 1px solid var(--border2);
-  background: var(--card);
-  cursor: pointer; font-size: 18px;
+  position: fixed; top: 14px; right: 20px; z-index: 100;
+  width: 34px; height: 34px; border-radius: 8px;
+  border: none; background: transparent;
+  cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  box-shadow: var(--shadow-md);
-  transition: all .2s;
+  color: var(--text3);
+  transition: color .2s, background .2s;
 }
-#theme-btn:hover { transform: scale(1.1); }
+#theme-btn:hover { background: rgba(255,255,255,.07); color: var(--text); }
+[data-theme="light"] #theme-btn:hover { background: rgba(0,0,0,.06); }
 
 /* ─── MAIN ─── */
 #main { margin-left: 230px; flex: 1; padding: 28px; min-height: 100vh; }
@@ -302,7 +302,8 @@ tr:hover td { background: #fafbfc; }
 
 /* ─── FOTOS ─── */
 .photo-drop { border: 2px dashed var(--border2); border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; transition: all .15s; background: var(--card2); color: var(--text3); font-size: 13px; }
-.photo-drop:hover, .photo-drop.over { border-color: var(--accent); background: #fff7ed; }
+.photo-drop:hover, .photo-drop.over { border-color: var(--accent); background: rgba(231,78,0,.04); }
+[data-theme="dark"] .photo-drop:hover, [data-theme="dark"] .photo-drop.over { background: rgba(255,255,255,.05); border-color: rgba(231,78,0,.5); }
 .photo-drop span { font-size: 28px; display: block; margin-bottom: 8px; }
 .photo-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
 .photo-thumb { position: relative; width: 82px; height: 82px; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
@@ -1401,7 +1402,7 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
         ondragover="event.preventDefault();this.classList.add('over')"
         ondragleave="this.classList.remove('over')"
         ondrop="handleDrop(event)">
-        <span>📷</span>
+        <i data-lucide="camera" style="width:28px;height:28px;display:block;margin:0 auto 8px;color:var(--text3)"></i>
         <div>Clique ou arraste fotos aqui</div>
         <div style="font-size:11px;color:var(--text4);margin-top:4px">JPG, PNG, WEBP · Compressão automática</div>
       </div>
@@ -1421,7 +1422,7 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
 
     <div class="form-actions">
       <button class="btn btn-ghost" onclick="nav('imoveis')">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveImovel()">💾 Salvar Imóvel</button>
+      <button class="btn btn-primary" onclick="saveImovel()"><i data-lucide="save"></i> Salvar Imóvel</button>
     </div>
   </div>
 </div>
@@ -1583,7 +1584,7 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
 
     <div class="form-actions">
       <button class="btn btn-ghost" onclick="nav('proprietarios')">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveProp()">💾 Salvar Contato</button>
+      <button class="btn btn-primary" onclick="saveProp()"><i data-lucide="save"></i> Salvar Contato</button>
     </div>
   </div>
 </div>
@@ -1735,7 +1736,7 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
     <div class="form-actions">
       <button class="btn btn-ghost btn-sm" onclick="runClienteMatch()" style="margin-right:auto"><i data-lucide="search"></i> Consultar Matches</button>
       <button class="btn btn-ghost" onclick="nav('clientes')">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveCliente()">💾 Salvar Cliente</button>
+      <button class="btn btn-primary" onclick="saveCliente()"><i data-lucide="save"></i> Salvar Cliente</button>
     </div>
   </div>
 </div>
@@ -1884,7 +1885,7 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
     </div>
     <div class="modal-acts">
       <button class="btn btn-ghost btn-sm" onclick="closePgmtModal()">Cancelar</button>
-      <button class="btn btn-primary btn-sm" onclick="savePgmt()">💾 Salvar Pagamento</button>
+      <button class="btn btn-primary btn-sm" onclick="savePgmt()"><i data-lucide="save"></i> Salvar Pagamento</button>
     </div>
   </div>
 </div>
@@ -1939,7 +1940,7 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
     </div>
     <div class="modal-acts">
       <button class="btn btn-ghost btn-sm" onclick="closeDocModal()">Cancelar</button>
-      <button class="btn btn-primary btn-sm" onclick="saveDoc()">💾 Salvar Documento</button>
+      <button class="btn btn-primary btn-sm" onclick="saveDoc()"><i data-lucide="save"></i> Salvar Documento</button>
     </div>
   </div>
 </div>
@@ -1968,7 +1969,7 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
     </div>
     <div class="modal-acts">
       <button class="btn btn-ghost btn-sm" onclick="closeQuickContact()">Cancelar</button>
-      <button class="btn btn-primary btn-sm" onclick="saveQuickContact()">💾 Cadastrar e Vincular</button>
+      <button class="btn btn-primary btn-sm" onclick="saveQuickContact()"><i data-lucide="save"></i> Cadastrar e Vincular</button>
     </div>
   </div>
 </div>
@@ -1988,7 +1989,7 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
     </div>
     <div class="form-actions">
       <button class="btn btn-ghost" onclick="closeSugestao()">Cancelar</button>
-      <button class="btn btn-primary" onclick="saveSugestao()">📤 Enviar</button>
+      <button class="btn btn-primary" onclick="saveSugestao()"><i data-lucide="send"></i> Enviar</button>
     </div>
   </div>
 </div>
@@ -2761,7 +2762,7 @@ function renderImoveis() {
           ${i.garagem?`<div class="im-card-info-item"><span class="lbl">Vagas</span> ${i.garagem}</div>`:''}
           ${i.mobilia&&i.mobilia!=='sem'?`<div class="im-card-info-item"><span class="lbl">Mobília</span> ${capFirst(i.mobilia)}</div>`:''}
           ${fins?`<div class="im-card-info-item" style="grid-column:1/-1"><span class="lbl">Finalidade</span> ${fins}</div>`:''}
-          ${fotos?`<div class="im-card-info-item"><span class="lbl">Fotos</span> 📷 ${fotos}</div>`:''}
+          ${fotos?`<div class="im-card-info-item"><span class="lbl">Fotos</span> <i data-lucide="camera"></i> ${fotos}</div>`:''}
           ${contratoBadge?`<div class="im-card-info-item" style="grid-column:1/-1">${contratoBadge}</div>`:''}
           <div class="im-card-info-item" style="grid-column:1/-1"><span class="lbl">Atualizado</span> ${dotFull(f)}</div>
         </div>
@@ -2791,7 +2792,7 @@ function renderImoveis() {
         <td>
           <div style="font-weight:600">${esc(i.tipo)}</div>
           ${i.cond?`<div style="font-size:11px;color:var(--text3)">${esc(i.cond)}</div>`:''}
-          ${fotos?`<div style="font-size:10px;color:var(--text4)">📷 ${fotos} foto${fotos>1?'s':''}</div>`:''}
+          ${fotos?`<div style="font-size:10px;color:var(--text4)"><i data-lucide="camera"></i> ${fotos} foto${fotos>1?'s':''}</div>`:''}
           <div style="font-size:10px;margin-top:2px">${fins}</div>
         </td>
         <td>${esc(i.bairro)}</td>
@@ -2876,7 +2877,7 @@ function verMatches(imId) {
         <div style="display:flex;gap:6px;align-items:center">
           ${already
             ? `<span style="font-size:11px;color:var(--accent)">✓ Já oferecido · ${already.feedback||'sem feedback'}</span>`
-            : `<button class="btn btn-primary btn-sm" onclick="registrarOferta('${c.id}','${imId}')">📤 Oferecer</button>`}
+            : `<button class="btn btn-primary btn-sm" onclick="registrarOferta('${c.id}','${imId}')"><i data-lucide="send"></i> Oferecer</button>`}
         </div>
       </div>`;
     }).join('');
@@ -3441,15 +3442,15 @@ function renderDash() {
   } else { notifEl.innerHTML=''; }
 
   document.getElementById('dash-stats').innerHTML = [
-    { n:total,   l:'Total Imóveis',    color:'var(--blue)',    sc:null,         fi:null },
-    { n:disp,    l:'Disponíveis',      color:'var(--accent)', sc:'disponivel',  fi:null },
-    { n:alugado, l:'Alugados',         color:'var(--blue)',   sc:'alugado',     fi:null },
-    { n:vendido, l:'Vendidos',         color:'var(--purple)', sc:'vendido',     fi:null },
-    { n:indisp,  l:'Indisponíveis',    color:'var(--amber)',  sc:'indisponivel',fi:null },
-    { n:vd,      l:'<span class="dot dot-g"></span> Atualizados',  color:'var(--g)',      sc:null,          fi:null },
+    { n:total,   l:'Total Imóveis',    color:'var(--text2)',   sc:null,          fi:null },
+    { n:disp,    l:'Disponíveis',      color:'var(--g)',      sc:'disponivel',   fi:null },
+    { n:alugado, l:'Alugados',         color:'var(--blue)',   sc:'alugado',      fi:null },
+    { n:vendido, l:'Vendidos',         color:'var(--purple)', sc:'vendido',      fi:null },
+    { n:indisp,  l:'Indisponíveis',    color:'var(--amber)',  sc:'indisponivel', fi:null },
+    { n:vd,      l:'<span class="dot dot-g"></span> Atualizados',  color:'var(--text2)',  sc:null,          fi:null },
     { n:am,      l:'<span class="dot dot-y"></span> A verificar',  color:'var(--y)',      sc:null,          fi:null },
     { n:cr,      l:'<span class="dot dot-r"></span> Críticos',     color:'var(--r)',      sc:null,          fi:null },
-    { n:props.length, l:'Contatos',   color:'var(--text3)',  sc:null,          fi:null },
+    { n:props.length, l:'Contatos',   color:'var(--text2)',  sc:null,           fi:null },
     { n:clis.filter(c=>c.alerta==='ativo').length, l:'Clientes Ativos', color:'var(--blue)', sc:null, fi:null },
   ].map(s => {
     const clickable = s.sc ? `class="stat stat-link" onclick="navFiltered('${s.sc}','')" title="Ver imóveis ${s.l.toLowerCase()}"` : 'class="stat"';
