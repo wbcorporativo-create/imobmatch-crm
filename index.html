@@ -11,7 +11,7 @@
 <title>HomeMatch CRM</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <style>
 /* ═══════════════════════════════ TOKENS ═══ */
 :root {
@@ -113,7 +113,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 }
 .sb-logo-mark { display: flex; align-items: center; gap: 10px; }
 .sb-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #E74E00, #c93a00); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; box-shadow: 0 2px 12px rgba(231,78,0,.5); }
-.sb-icon i.ph { font-size: 17px; color: #fff; }
+.sb-icon i.bi { font-size: 17px; color: #fff; }
 .sb-logo h1 { font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -.3px; }
 .sb-tagline { font-size: 10px; color: rgba(255,255,255,.35); margin-top: 2px; letter-spacing: .5px; text-transform: uppercase; }
 .sb-nav { flex: 1; padding: 10px 0; overflow-y: auto; }
@@ -127,7 +127,7 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 .sb-item:hover { color: #fff; background: var(--sb2); }
 .sb-item.active { color: #fff; background: var(--sb3); border-left-color: var(--accent); }
 .sb-item .ic { font-size: 16px; width: 18px; text-align: center; flex-shrink: 0; line-height: 1; }
-.sb-item .ic i.ph { font-size: 16px; vertical-align: middle; }
+.sb-item .ic i.bi { font-size: 16px; vertical-align: middle; }
 .sb-badge { margin-left: auto; background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 20px; }
 .sb-footer { padding: 14px 18px; border-top: 1px solid rgba(255,255,255,.06); display: flex; gap: 6px; }
 .sb-footer button { flex: 1; padding: 7px; border: 1px solid rgba(255,255,255,.12); background: transparent; color: rgba(255,255,255,.5); font-size: 11px; border-radius: 7px; cursor: pointer; font-family: inherit; font-weight: 500; transition: all .15s; }
@@ -172,6 +172,9 @@ html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(-
 .dot-g { background: var(--g); box-shadow: 0 0 0 2px rgba(34,197,94,.2); }
 .dot-y { background: var(--y); box-shadow: 0 0 0 2px rgba(234,179,8,.2); }
 .dot-r { background: var(--r); box-shadow: 0 0 0 2px rgba(239,68,68,.2); animation: pulse 1.8s infinite; }
+.dot-b { background: var(--blue); box-shadow: 0 0 0 2px rgba(59,130,246,.2); }
+.dot-p { background: var(--purple); box-shadow: 0 0 0 2px rgba(139,92,246,.2); }
+.dot-o { background: var(--amber); box-shadow: 0 0 0 2px rgba(245,158,11,.2); }
 @keyframes pulse { 0%,100%{box-shadow:0 0 0 2px rgba(239,68,68,.2)} 50%{box-shadow:0 0 0 5px rgba(239,68,68,.12)} }
 
 /* ─── REPORT GRID ─── */
@@ -350,17 +353,17 @@ tr:hover td { background: #fafbfc; }
 /* ─── EMPTY STATE ─── */
 .empty { text-align: center; padding: 60px 24px; color: var(--text3); }
 .empty-icon { font-size: 44px; margin-bottom: 12px; line-height: 1; display: flex; align-items: center; justify-content: center; }
-.empty-icon i.ph { font-size: 44px; color: var(--text4); }
+.empty-icon i.bi { font-size: 44px; color: var(--text4); }
 
 /* ─── PHOSPHOR ICONS GLOBAL ─── */
-i.ph { line-height: 1; vertical-align: middle; }
-.btn i.ph { font-size: 13px; vertical-align: middle; }
-.fab-opt-ic i.ph { font-size: 18px; }
-.mob-drawer-item i.ph { font-size: 16px; vertical-align: middle; }
-.sb-footer button i.ph { font-size: 14px; vertical-align: middle; }
-.form-section i.ph { font-size: 13px; vertical-align: middle; opacity: .7; }
-.mob-icon-btn i.ph { font-size: 18px; }
-#theme-btn i.ph { font-size: 18px; }
+i.bi { line-height: 1; vertical-align: middle; }
+.btn i.bi { font-size: 13px; vertical-align: middle; }
+.fab-opt-ic i.bi { font-size: 18px; }
+.mob-drawer-item i.bi { font-size: 16px; vertical-align: middle; }
+.sb-footer button i.bi { font-size: 14px; vertical-align: middle; }
+.form-section i.bi { font-size: 13px; vertical-align: middle; opacity: .7; }
+.mob-icon-btn i.bi { font-size: 18px; }
+#theme-btn i.bi { font-size: 18px; }
 .empty p { font-size: 13px; line-height: 1.6; }
 
 /* ─── FRESHNESS BAR ─── */
@@ -410,7 +413,7 @@ i.ph { line-height: 1; vertical-align: middle; }
 .doc-item { display:flex; align-items:center; gap:10px; padding:11px 14px; background:var(--card); border:1px solid var(--border); border-radius:9px; margin-bottom:6px; transition:border-color .15s; }
 .doc-item:hover { border-color:var(--accent); }
 .doc-icon { font-size:22px; flex-shrink:0; width:32px; text-align:center; display:flex; align-items:center; justify-content:center; }
-.doc-icon i.ph { font-size:20px; }
+.doc-icon i.bi { font-size:20px; }
 .doc-info { flex:1; min-width:0; }
 .doc-name { font-weight:600; font-size:13px; color:var(--text); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .doc-meta { font-size:11px; color:var(--text3); margin-top:2px; }
@@ -504,7 +507,7 @@ i.ph { line-height: 1; vertical-align: middle; }
 }
 .mob-nav-btn.active { color: var(--accent); }
 .mob-nav-btn .mob-nav-ic { font-size: 20px; line-height: 1; display: flex; align-items: center; justify-content: center; }
-.mob-nav-btn .mob-nav-ic i.ph { font-size: 20px; }
+.mob-nav-btn .mob-nav-ic i.bi { font-size: 20px; }
 .mob-nav-btn .mob-nav-lbl { font-size: 9px; font-weight: 600; letter-spacing: .3px; text-transform: uppercase; }
 .mob-nav-badge {
   position: absolute; top: 4px; right: 14px;
@@ -813,7 +816,7 @@ i.ph { line-height: 1; vertical-align: middle; }
 <nav id="sidebar">
   <div class="sb-logo">
     <div class="sb-logo-mark">
-      <div class="sb-icon"><i class="ph ph-house"></i></div>
+      <div class="sb-icon"><i class="bi bi-house"></i></div>
       <div>
         <h1>HomeMatch</h1>
         <div class="sb-tagline">Inteligência Comercial</div>
@@ -823,43 +826,43 @@ i.ph { line-height: 1; vertical-align: middle; }
   <div class="sb-nav">
     <div class="sb-section">Principal</div>
     <div class="sb-item active" data-sc="dashboard" onclick="nav('dashboard')">
-      <span class="ic"><i class="ph ph-chart-bar"></i></span><span class="label">Dashboard</span>
+      <span class="ic"><i class="bi bi-bar-chart"></i></span><span class="label">Dashboard</span>
       <span class="sb-badge" id="sb-criticos" style="display:none">0</span>
     </div>
     <div class="sb-section">Imóveis</div>
     <div class="sb-item" data-sc="imoveis" onclick="nav('imoveis')">
-      <span class="ic"><i class="ph ph-buildings"></i></span><span class="label">Lista de Imóveis</span>
+      <span class="ic"><i class="bi bi-buildings"></i></span><span class="label">Lista de Imóveis</span>
     </div>
     <div class="sb-item" data-sc="imovel-form" onclick="openImovelForm()">
-      <span class="ic"><i class="ph ph-plus"></i></span><span class="label">Novo Imóvel</span>
+      <span class="ic"><i class="bi bi-plus-lg"></i></span><span class="label">Novo Imóvel</span>
     </div>
     <div class="sb-section">Contatos</div>
     <div class="sb-item" data-sc="proprietarios" onclick="nav('proprietarios')">
-      <span class="ic"><i class="ph ph-users"></i></span><span class="label">Contatos</span>
+      <span class="ic"><i class="bi bi-people"></i></span><span class="label">Contatos</span>
     </div>
     <div class="sb-item" data-sc="proprietario-form" onclick="openPropForm()">
-      <span class="ic"><i class="ph ph-plus"></i></span><span class="label">Novo Contato</span>
+      <span class="ic"><i class="bi bi-plus-lg"></i></span><span class="label">Novo Contato</span>
     </div>
     <div class="sb-section">Clientes</div>
     <div class="sb-item" data-sc="clientes" onclick="nav('clientes')">
-      <span class="ic"><i class="ph ph-magnifying-glass"></i></span><span class="label">Clientes / Buscas</span>
+      <span class="ic"><i class="bi bi-search"></i></span><span class="label">Clientes / Buscas</span>
     </div>
     <div class="sb-item" data-sc="cliente-form" onclick="openClienteForm()">
-      <span class="ic"><i class="ph ph-plus"></i></span><span class="label">Novo Cliente</span>
+      <span class="ic"><i class="bi bi-plus-lg"></i></span><span class="label">Novo Cliente</span>
     </div>
     <div class="sb-section">Gestão</div>
     <div class="sb-item" data-sc="gestao" onclick="nav('gestao')">
-      <span class="ic"><i class="ph ph-folders"></i></span><span class="label">Locações Ativas</span>
+      <span class="ic"><i class="bi bi-folders"></i></span><span class="label">Locações Ativas</span>
       <span class="sb-badge" id="sb-atrasados" style="display:none">0</span>
     </div>
     <div class="sb-section">Arquivos</div>
     <div class="sb-item" data-sc="documentos" onclick="nav('documentos')">
-      <span class="ic"><i class="ph ph-folder"></i></span><span class="label">Documentos</span>
+      <span class="ic"><i class="bi bi-folder"></i></span><span class="label">Documentos</span>
     </div>
   </div>
   <div class="sb-footer">
-    <button onclick="exportData()" title="Exportar backup"><span><i class="ph ph-download-simple"></i></span><span class="sb-btn-lbl"> Backup</span></button>
-    <button onclick="document.getElementById('import-input').click()" title="Importar backup"><span><i class="ph ph-upload-simple"></i></span><span class="sb-btn-lbl"> Importar</span></button>
+    <button onclick="exportData()" title="Exportar backup"><span><i class="bi bi-download"></i></span><span class="sb-btn-lbl"> Backup</span></button>
+    <button onclick="document.getElementById('import-input').click()" title="Importar backup"><span><i class="bi bi-upload"></i></span><span class="sb-btn-lbl"> Importar</span></button>
     <input type="file" id="import-input" accept=".json" style="display:none" onchange="importData(event)">
   </div>
 </nav>
@@ -867,40 +870,40 @@ i.ph { line-height: 1; vertical-align: middle; }
 <!-- ═══ MOBILE TOP BAR ═══ -->
 <header class="mob-topbar">
   <div class="mob-topbar-brand">
-    <div class="sb-icon"><i class="ph ph-house"></i></div>
+    <div class="sb-icon"><i class="bi bi-house"></i></div>
     <div class="mob-topbar-brand-text">
       <h1>HomeMatch</h1>
       <small>Inteligência Comercial</small>
     </div>
   </div>
   <div class="mob-topbar-right">
-    <button class="mob-icon-btn" onclick="toggleTheme()" id="mob-theme-btn" title="Alternar tema"><i class="ph ph-sun"></i></button>
-    <button class="mob-icon-btn" onclick="openMobDrawer()" title="Menu"><i class="ph ph-list"></i></button>
+    <button class="mob-icon-btn" onclick="toggleTheme()" id="mob-theme-btn" title="Alternar tema"><i class="bi bi-sun"></i></button>
+    <button class="mob-icon-btn" onclick="openMobDrawer()" title="Menu"><i class="bi bi-list"></i></button>
   </div>
 </header>
 
 <!-- ═══ THEME TOGGLE (desktop) ═══ -->
-<button id="theme-btn" onclick="toggleTheme()" title="Alternar tema"><i class="ph ph-sun"></i></button>
+<button id="theme-btn" onclick="toggleTheme()" title="Alternar tema"><i class="bi bi-sun"></i></button>
 
 <!-- ═══ MOBILE BOTTOM NAV ═══ -->
 <nav class="mob-nav" id="mob-nav">
   <button class="mob-nav-btn active" id="mbn-dashboard" onclick="nav('dashboard')">
-    <span class="mob-nav-ic"><i class="ph ph-chart-bar"></i></span>
+    <span class="mob-nav-ic"><i class="bi bi-bar-chart"></i></span>
     <span class="mob-nav-lbl">Início</span>
   </button>
   <button class="mob-nav-btn" id="mbn-imoveis" onclick="nav('imoveis')">
-    <span class="mob-nav-ic"><i class="ph ph-buildings"></i></span>
+    <span class="mob-nav-ic"><i class="bi bi-buildings"></i></span>
     <span class="mob-nav-lbl">Imóveis</span>
   </button>
   <div class="mob-fab-wrap">
     <button class="mob-fab" onclick="openFabSheet()" title="Adicionar">+</button>
   </div>
   <button class="mob-nav-btn" id="mbn-clientes" onclick="nav('clientes')">
-    <span class="mob-nav-ic"><i class="ph ph-magnifying-glass"></i></span>
+    <span class="mob-nav-ic"><i class="bi bi-search"></i></span>
     <span class="mob-nav-lbl">Clientes</span>
   </button>
   <button class="mob-nav-btn" id="mbn-mais" onclick="openMobDrawer()">
-    <span class="mob-nav-ic"><i class="ph ph-list"></i></span>
+    <span class="mob-nav-ic"><i class="bi bi-list"></i></span>
     <span class="mob-nav-lbl">Mais</span>
     <span class="mob-nav-badge" id="mob-badge-atrasados" style="display:none">!</span>
   </button>
@@ -912,15 +915,15 @@ i.ph { line-height: 1; vertical-align: middle; }
   <div class="fab-options">
     <div class="fab-sheet-title">Adicionar novo</div>
     <button class="fab-opt" onclick="openImovelForm();closeFabSheet()">
-      <span class="fab-opt-ic green"><i class="ph ph-house"></i></span>
+      <span class="fab-opt-ic green"><i class="bi bi-house"></i></span>
       <span>Novo Imóvel</span>
     </button>
     <button class="fab-opt" onclick="openPropForm();closeFabSheet()">
-      <span class="fab-opt-ic blue"><i class="ph ph-user"></i></span>
+      <span class="fab-opt-ic blue"><i class="bi bi-person"></i></span>
       <span>Novo Contato</span>
     </button>
     <button class="fab-opt" onclick="openClienteForm();closeFabSheet()">
-      <span class="fab-opt-ic purple"><i class="ph ph-magnifying-glass"></i></span>
+      <span class="fab-opt-ic purple"><i class="bi bi-search"></i></span>
       <span>Novo Cliente / Busca</span>
     </button>
   </div>
@@ -932,22 +935,22 @@ i.ph { line-height: 1; vertical-align: middle; }
   <div class="mob-drawer-panel">
     <div class="mob-drawer-header">
       <span>Menu</span>
-      <button class="mob-drawer-close" onclick="closeMobDrawer()"><i class="ph ph-x"></i></button>
+      <button class="mob-drawer-close" onclick="closeMobDrawer()"><i class="bi bi-x"></i></button>
     </div>
     <div class="mob-drawer-item" onclick="nav('proprietarios');closeMobDrawer()">
-      <span class="ic"><i class="ph ph-users"></i></span><span>Contatos</span>
+      <span class="ic"><i class="bi bi-people"></i></span><span>Contatos</span>
     </div>
     <div class="mob-drawer-item" onclick="nav('gestao');closeMobDrawer()">
-      <span class="ic"><i class="ph ph-folders"></i></span><span>Locações Ativas</span>
+      <span class="ic"><i class="bi bi-folders"></i></span><span>Locações Ativas</span>
       <span class="mob-nav-badge" id="mob-badge-atrasados2" style="display:none;position:static;margin-left:auto">!</span>
     </div>
     <div class="mob-drawer-item" onclick="nav('documentos');closeMobDrawer()">
-      <span class="ic"><i class="ph ph-folder"></i></span><span>Documentos</span>
+      <span class="ic"><i class="bi bi-folder"></i></span><span>Documentos</span>
     </div>
     <div class="mob-drawer-divider"></div>
     <div class="mob-drawer-footer">
-      <button class="mob-drawer-footer-btn" onclick="exportData();closeMobDrawer()"><i class="ph ph-download-simple"></i> Backup</button>
-      <button class="mob-drawer-footer-btn" onclick="document.getElementById('import-input').click();closeMobDrawer()"><i class="ph ph-upload-simple"></i> Importar</button>
+      <button class="mob-drawer-footer-btn" onclick="exportData();closeMobDrawer()"><i class="bi bi-download"></i> Backup</button>
+      <button class="mob-drawer-footer-btn" onclick="document.getElementById('import-input').click();closeMobDrawer()"><i class="bi bi-upload"></i> Importar</button>
     </div>
   </div>
 </div>
@@ -963,7 +966,7 @@ i.ph { line-height: 1; vertical-align: middle; }
       <p>Visão geral do catálogo · <span id="dash-date"></span></p>
     </div>
     <div class="ph-right" style="display:flex;gap:12px;align-items:center">
-      <button class="btn btn-ghost btn-sm" onclick="openSugestao()" title="Enviar sugestão à equipe" style="font-size:11px"><i class="ph ph-lightbulb"></i> Sugestão</button>
+      <button class="btn btn-ghost btn-sm" onclick="openSugestao()" title="Enviar sugestão à equipe" style="font-size:11px"><i class="bi bi-lightbulb"></i> Sugestão</button>
       <div style="display:flex;gap:12px;font-size:12px;color:var(--text3)">
         <span style="display:flex;align-items:center;gap:5px"><span class="dot dot-g"></span> 0–14d</span>
         <span style="display:flex;align-items:center;gap:5px"><span class="dot dot-y"></span> 15–19d</span>
@@ -977,7 +980,7 @@ i.ph { line-height: 1; vertical-align: middle; }
   <div class="report-grid">
     <div class="card"><div class="sec-title">Saúde do Catálogo</div><div id="dash-health"></div></div>
     <div class="card"><div class="sec-title">Por Status</div><ul id="dash-status" class="rlist"></ul></div>
-    <div class="card"><div class="sec-title">Imóveis Críticos 🔴</div><div id="dash-criticos-list"></div></div>
+    <div class="card"><div class="sec-title">Imóveis Críticos <span class="dot dot-r"></span></div><div id="dash-criticos-list"></div></div>
     <div class="card"><div class="sec-title">Por Bairro</div><ul id="dash-bairros" class="rlist"></ul></div>
     <div class="card"><div class="sec-title">Por Tipo</div><ul id="dash-tipos" class="rlist"></ul></div>
     <div class="card"><div class="sec-title">Valor Médio por Tipo</div><ul id="dash-medias" class="rlist"></ul></div>
@@ -988,11 +991,11 @@ i.ph { line-height: 1; vertical-align: middle; }
 <div id="screen-imoveis" class="screen">
   <div class="ph">
     <div class="ph-left"><h2>Imóveis</h2><p id="im-count">–</p></div>
-    <div class="ph-right"><button class="btn btn-primary" onclick="openImovelForm()"><i class="ph ph-plus"></i> Novo Imóvel</button></div>
+    <div class="ph-right"><button class="btn btn-primary" onclick="openImovelForm()"><i class="bi bi-plus-lg"></i> Novo Imóvel</button></div>
   </div>
   <div class="card">
     <div class="filters">
-      <input class="fi fi-search" id="fi-busca" placeholder="<i class="ph ph-magnifying-glass"></i> Buscar tipo, bairro, condomínio, código..." oninput="renderImoveis()">
+      <input class="fi fi-search" id="fi-busca" placeholder="<i class="bi bi-search"></i> Buscar tipo, bairro, condomínio, código..." oninput="renderImoveis()">
       <select class="fi" id="fi-status" onchange="renderImoveis()">
         <option value="">Todos os status</option>
         <option value="disponivel">Disponível</option>
@@ -1011,9 +1014,9 @@ i.ph { line-height: 1; vertical-align: middle; }
       </select>
       <select class="fi" id="fi-fresh" onchange="renderImoveis()">
         <option value="">Todos</option>
-        <option value="g">🟢 Atualizados</option>
-        <option value="y">🟡 A verificar</option>
-        <option value="r">🔴 Críticos</option>
+        <option value="g">● Atualizados</option>
+        <option value="y">● A verificar</option>
+        <option value="r">● Críticos</option>
       </select>
     </div>
     <!-- desktop table -->
@@ -1040,7 +1043,7 @@ i.ph { line-height: 1; vertical-align: middle; }
     <!-- mobile cards -->
     <div id="im-cards" style="display:none"></div>
     <div id="im-empty" class="empty" style="display:none">
-      <div class="empty-icon">🏡</div>
+      <div class="empty-icon"><i class="bi bi-house-heart"></i></div>
       <p>Nenhum imóvel encontrado.<br>Toque em <strong>+</strong> para cadastrar o primeiro!</p>
     </div>
   </div>
@@ -1054,7 +1057,7 @@ i.ph { line-height: 1; vertical-align: middle; }
   </div>
   <div class="card">
 
-    <div class="form-section"><i class="ph ph-clipboard-text"></i> Informações Básicas</div>
+    <div class="form-section"><i class="bi bi-clipboard-check"></i> Informações Básicas</div>
     <div class="fgrid-3">
       <div class="fg">
         <label for="imf-cat">Categoria <span class="req">*</span></label>
@@ -1096,12 +1099,12 @@ i.ph { line-height: 1; vertical-align: middle; }
         <label for="imf-prop">Proprietário / Captador</label>
         <div style="display:flex;gap:6px">
           <select class="fsel" id="imf-prop" style="flex:1"></select>
-          <button type="button" class="btn btn-ghost btn-sm" onclick="openQuickContact()" title="Cadastrar novo contato rapidamente" style="flex-shrink:0;white-space:nowrap"><i class="ph ph-plus"></i> Novo</button>
+          <button type="button" class="btn btn-ghost btn-sm" onclick="openQuickContact()" title="Cadastrar novo contato rapidamente" style="flex-shrink:0;white-space:nowrap"><i class="bi bi-plus-lg"></i> Novo</button>
         </div>
-        <div style="font-size:11px;color:var(--text3);margin-top:3px"><i class="ph ph-lightbulb"></i> Sem vínculo = imóvel sem proprietário cadastrado. Use <i class="ph ph-plus"></i> para cadastrar agora.</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px"><i class="bi bi-lightbulb"></i> Sem vínculo = imóvel sem proprietário cadastrado. Use <i class="bi bi-plus-lg"></i> para cadastrar agora.</div>
       </div>
       <div class="fg">
-        <label for="imf-updated">Data da Última Atualização <button type="button" class="help-btn" onclick="showHint('Atualizada automaticamente toda vez que você salvar o imóvel. Esta data é usada para medir quando foi o último contato com o proprietário e identificar imóveis críticos.')">ℹ️</button></label>
+        <label for="imf-updated">Data da Última Atualização <button type="button" class="help-btn" onclick="showHint('Atualizada automaticamente toda vez que você salvar o imóvel. Esta data é usada para medir quando foi o último contato com o proprietário e identificar imóveis críticos.')"><i class="bi bi-info-circle"></i></button></label>
         <input class="finput" id="imf-updated" type="date">
       </div>
     </div>
@@ -1109,7 +1112,7 @@ i.ph { line-height: 1; vertical-align: middle; }
     <!-- Contrato alugado -->
     <div id="contract-row" style="display:none">
       <div class="contract-box">
-        <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:10px"><i class="ph ph-clipboard-text"></i> CONTRATO DE LOCAÇÃO</div>
+        <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:10px"><i class="bi bi-clipboard-check"></i> CONTRATO DE LOCAÇÃO</div>
         <div class="fgrid">
           <div class="fg">
             <label for="imf-contrato-inicio">Início do Contrato</label>
@@ -1126,7 +1129,7 @@ i.ph { line-height: 1; vertical-align: middle; }
           <div class="fg">
             <label>Notificação automática</label>
             <div style="padding:9px 12px;background:var(--card2);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text3)">
-              <i class="ph ph-bell"></i> Alerta <strong>20 dias antes</strong> do vencimento no dashboard.
+              <i class="bi bi-bell"></i> Alerta <strong>20 dias antes</strong> do vencimento no dashboard.
             </div>
           </div>
         </div>
@@ -1135,20 +1138,20 @@ i.ph { line-height: 1; vertical-align: middle; }
         <div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(59,130,246,.2)">
           <label class="check-item" style="font-size:13px;font-weight:600;color:var(--blue)">
             <input type="checkbox" id="imf-administrado" onchange="onAdministradoChange()" style="accent-color:var(--blue)">
-            <i class="ph ph-folders"></i> Administro este aluguel — ativar gestão completa
+            <i class="bi bi-folders"></i> Administro este aluguel — ativar gestão completa
           </label>
           <div style="font-size:11px;color:var(--text3);margin-top:3px;margin-left:22px">Habilita controle de inquilino, reajuste, garantia, contas e pagamentos mensais.</div>
         </div>
 
         <!-- GESTÃO COMPLETA (só aparece quando administrado=true) -->
         <div id="gestao-fields" style="display:none;margin-top:14px">
-          <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(139,92,246,.2)"><i class="ph ph-user"></i> Inquilino</div>
+          <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.7px;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(139,92,246,.2)"><i class="bi bi-person"></i> Inquilino</div>
           <div class="fgrid-3">
             <div class="fg">
               <label for="imf-inq-id">Vincular a contato existente</label>
               <div style="display:flex;gap:6px">
                 <select class="fsel" id="imf-inq-id" style="flex:1" onchange="onInquilinoVinc()"><option value="">Selecionar contato...</option></select>
-                <button type="button" class="btn btn-ghost btn-sm" onclick="openQuickInquilino()" style="flex-shrink:0"><i class="ph ph-plus"></i></button>
+                <button type="button" class="btn btn-ghost btn-sm" onclick="openQuickInquilino()" style="flex-shrink:0"><i class="bi bi-plus-lg"></i></button>
               </div>
             </div>
             <div class="fg">
@@ -1164,7 +1167,7 @@ i.ph { line-height: 1; vertical-align: middle; }
               <input class="finput" id="imf-inq-cpf" placeholder="000.000.000-00" oninput="maskCPF(this)" maxlength="14" inputmode="numeric">
             </div>
             <div class="fg">
-              <label for="imf-taxa-admin">Taxa de Adm. (%) <button type="button" class="help-btn" onclick="showHint('Percentual cobrado sobre o aluguel pela administração do imóvel. Padrão de mercado em Manaus: 8% a 10% do valor do aluguel.')">ℹ️</button></label>
+              <label for="imf-taxa-admin">Taxa de Adm. (%) <button type="button" class="help-btn" onclick="showHint('Percentual cobrado sobre o aluguel pela administração do imóvel. Padrão de mercado em Manaus: 8% a 10% do valor do aluguel.')"><i class="bi bi-info-circle"></i></button></label>
               <input class="finput" id="imf-taxa-admin" type="number" min="0" max="20" step="0.5" value="8" placeholder="8">
             </div>
           </div>
@@ -1172,7 +1175,7 @@ i.ph { line-height: 1; vertical-align: middle; }
           <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.7px;margin:14px 0 10px;padding-bottom:8px;border-bottom:1px solid rgba(139,92,246,.2)">🔄 Reajuste</div>
           <div class="fgrid-3">
             <div class="fg">
-              <label for="imf-indice-reaj">Índice de Reajuste <button type="button" class="help-btn" onclick="showHint('Define como o aluguel será reajustado anualmente.\n• IGP-M: índice mais usado em contratos de aluguel (FGV)\n• IPCA: inflação oficial do Brasil (IBGE)\n• INPC: inflação para famílias de baixa renda\n• Fixo: percentual definido em contrato')">ℹ️</button></label>
+              <label for="imf-indice-reaj">Índice de Reajuste <button type="button" class="help-btn" onclick="showHint('Define como o aluguel será reajustado anualmente.\n• IGP-M: índice mais usado em contratos de aluguel (FGV)\n• IPCA: inflação oficial do Brasil (IBGE)\n• INPC: inflação para famílias de baixa renda\n• Fixo: percentual definido em contrato')"><i class="bi bi-info-circle"></i></button></label>
               <select class="fsel" id="imf-indice-reaj" onchange="onIndiceChange()">
                 <option value="igpm">IGP-M</option>
                 <option value="ipca">IPCA</option>
@@ -1191,10 +1194,10 @@ i.ph { line-height: 1; vertical-align: middle; }
             </div>
           </div>
 
-          <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.7px;margin:14px 0 10px;padding-bottom:8px;border-bottom:1px solid rgba(139,92,246,.2)"><i class="ph ph-lock-simple"></i> Garantia</div>
+          <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.7px;margin:14px 0 10px;padding-bottom:8px;border-bottom:1px solid rgba(139,92,246,.2)"><i class="bi bi-lock"></i> Garantia</div>
           <div class="fgrid">
             <div class="fg">
-              <label for="imf-garantia">Tipo de Garantia <button type="button" class="help-btn" onclick="showHint('Garantia locatícia protege o proprietário em caso de inadimplência.\n• Fiador: terceiro que assume a dívida\n• Caução: depósito de 3 meses de aluguel\n• Seguro Fiança: seguradora cobre o risco\n• Título Capitalização: aplicação como garantia\n• Depósito Bancário: conta bloqueada como garantia')">ℹ️</button></label>
+              <label for="imf-garantia">Tipo de Garantia <button type="button" class="help-btn" onclick="showHint('Garantia locatícia protege o proprietário em caso de inadimplência.\n• Fiador: terceiro que assume a dívida\n• Caução: depósito de 3 meses de aluguel\n• Seguro Fiança: seguradora cobre o risco\n• Título Capitalização: aplicação como garantia\n• Depósito Bancário: conta bloqueada como garantia')"><i class="bi bi-info-circle"></i></button></label>
               <select class="fsel" id="imf-garantia">
                 <option value="">Sem garantia</option>
                 <option value="fiador">Fiador</option>
@@ -1210,12 +1213,12 @@ i.ph { line-height: 1; vertical-align: middle; }
             </div>
           </div>
 
-          <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.7px;margin:14px 0 6px;padding-bottom:8px;border-bottom:1px solid rgba(139,92,246,.2)">🧾 Responsável pelas Contas <button type="button" class="help-btn" onclick="showHint('Defina quem paga cada conta. O padrão no mercado de Manaus é: inquilino paga água, luz e gás. Condomínio e IPTU variam por contrato.')">ℹ️</button></div>
+          <div style="font-size:11px;font-weight:700;color:var(--purple);text-transform:uppercase;letter-spacing:.7px;margin:14px 0 6px;padding-bottom:8px;border-bottom:1px solid rgba(139,92,246,.2)">🧾 Responsável pelas Contas <button type="button" class="help-btn" onclick="showHint('Defina quem paga cada conta. O padrão no mercado de Manaus é: inquilino paga água, luz e gás. Condomínio e IPTU variam por contrato.')"><i class="bi bi-info-circle"></i></button></div>
           <div class="contas-grid">
             <div class="conta-item"><label>💧 Água</label><select class="conta-sel" id="imf-conta-agua"><option value="inquilino">Inquilino</option><option value="proprietario">Proprietário</option></select></div>
             <div class="conta-item"><label>⚡ Luz</label><select class="conta-sel" id="imf-conta-luz"><option value="inquilino">Inquilino</option><option value="proprietario">Proprietário</option></select></div>
             <div class="conta-item"><label>🔥 Gás</label><select class="conta-sel" id="imf-conta-gas"><option value="inquilino">Inquilino</option><option value="proprietario">Proprietário</option></select></div>
-            <div class="conta-item"><label><i class="ph ph-buildings"></i> Condomínio</label><select class="conta-sel" id="imf-conta-cond"><option value="inquilino">Inquilino</option><option value="proprietario">Proprietário</option></select></div>
+            <div class="conta-item"><label><i class="bi bi-buildings"></i> Condomínio</label><select class="conta-sel" id="imf-conta-cond"><option value="inquilino">Inquilino</option><option value="proprietario">Proprietário</option></select></div>
             <div class="conta-item"><label>🏛️ IPTU</label><select class="conta-sel" id="imf-conta-iptu"><option value="inquilino">Inquilino</option><option value="proprietario">Proprietário</option></select></div>
           </div>
 
@@ -1238,22 +1241,22 @@ i.ph { line-height: 1; vertical-align: middle; }
       </div>
     </div>
 
-    <div class="form-section"><i class="ph ph-target"></i> Finalidade</div>
+    <div class="form-section"><i class="bi bi-bullseye"></i> Finalidade</div>
     <div class="finalidade-box" id="finalidade-box">
       <label class="finalidade-btn" id="fbtn-aluguel" onclick="toggleFinalidade('aluguel')">
-        <input type="checkbox" id="fim-aluguel" style="display:none"> <i class="ph ph-key"></i> Para Aluguel
+        <input type="checkbox" id="fim-aluguel" style="display:none"> <i class="bi bi-key"></i> Para Aluguel
       </label>
       <label class="finalidade-btn" id="fbtn-venda" onclick="toggleFinalidade('venda')">
-        <input type="checkbox" id="fim-venda" style="display:none"> <i class="ph ph-tag"></i> Para Venda
+        <input type="checkbox" id="fim-venda" style="display:none"> <i class="bi bi-tag"></i> Para Venda
       </label>
       <label class="finalidade-btn" id="fbtn-temporada" onclick="toggleFinalidade('temporada')">
-        <input type="checkbox" id="fim-temporada" style="display:none"> <i class="ph ph-calendar"></i> Por Temporada
+        <input type="checkbox" id="fim-temporada" style="display:none"> <i class="bi bi-calendar3"></i> Por Temporada
       </label>
     </div>
 
     <!-- Seção Aluguel -->
     <div class="finalidade-section" id="sec-aluguel">
-      <div class="form-section" style="margin-top:0"><i class="ph ph-key"></i> Dados de Aluguel</div>
+      <div class="form-section" style="margin-top:0"><i class="bi bi-key"></i> Dados de Aluguel</div>
       <div class="fgrid-3">
         <div class="fg">
           <label for="imf-valor">Valor do Aluguel</label>
@@ -1272,7 +1275,7 @@ i.ph { line-height: 1; vertical-align: middle; }
           <div class="input-money"><span class="prefix">R$</span><input class="finput" id="imf-iptu-cota" type="text" placeholder="0,00" oninput="maskMoney(this)"></div>
         </div>
         <div class="fg">
-          <label for="imf-comissao-alug">Comissão (%) <button type="button" class="help-btn" onclick="showHint('Percentual de comissão do corretor sobre o valor do aluguel ou venda. Padrão CRECI-AM: 6% para vendas, 6% a 10% para locações (equivalente a 1 mês de aluguel).')">ℹ️</button></label>
+          <label for="imf-comissao-alug">Comissão (%) <button type="button" class="help-btn" onclick="showHint('Percentual de comissão do corretor sobre o valor do aluguel ou venda. Padrão CRECI-AM: 6% para vendas, 6% a 10% para locações (equivalente a 1 mês de aluguel).')"><i class="bi bi-info-circle"></i></button></label>
           <input class="finput" id="imf-comissao-alug" type="number" min="0" max="100" step="0.5" value="6" placeholder="6">
         </div>
       </div>
@@ -1280,7 +1283,7 @@ i.ph { line-height: 1; vertical-align: middle; }
 
     <!-- Seção Venda -->
     <div class="finalidade-section" id="sec-venda">
-      <div class="form-section" style="margin-top:0"><i class="ph ph-tag"></i> Dados de Venda</div>
+      <div class="form-section" style="margin-top:0"><i class="bi bi-tag"></i> Dados de Venda</div>
       <div class="fgrid-3">
         <div class="fg">
           <label for="imf-valor-venda">Valor de Venda</label>
@@ -1319,7 +1322,7 @@ i.ph { line-height: 1; vertical-align: middle; }
 
     <!-- Seção Temporada -->
     <div class="finalidade-section" id="sec-temporada">
-      <div class="form-section" style="margin-top:0"><i class="ph ph-calendar"></i> Dados de Temporada</div>
+      <div class="form-section" style="margin-top:0"><i class="bi bi-calendar3"></i> Dados de Temporada</div>
       <div class="fgrid-3">
         <div class="fg">
           <label for="imf-valor-temp">Valor (R$)</label>
@@ -1344,7 +1347,7 @@ i.ph { line-height: 1; vertical-align: middle; }
       </div>
     </div>
 
-    <div class="form-section"><i class="ph ph-house"></i> Características</div>
+    <div class="form-section"><i class="bi bi-house"></i> Características</div>
     <div class="fgrid-3">
       <div class="fg">
         <label for="imf-quartos">Quartos</label>
@@ -1376,12 +1379,12 @@ i.ph { line-height: 1; vertical-align: middle; }
       </div>
     </div>
 
-    <div class="form-section"><i class="ph ph-note-pencil"></i> Observações</div>
+    <div class="form-section"><i class="bi bi-file-earmark-text"></i> Observações</div>
     <div class="fg">
       <textarea class="ftxt" id="imf-obs" placeholder="Detalhes sobre o imóvel, condições especiais, andares, reformas..."></textarea>
     </div>
 
-    <div class="form-section"><i class="ph ph-camera"></i> Fotos</div>
+    <div class="form-section"><i class="bi bi-camera"></i> Fotos</div>
     <div class="fg" style="margin-bottom:10px">
       <label for="imf-foto-url">Adicionar via link (Google Fotos, Drive, etc.)</label>
       <div class="url-row">
@@ -1406,12 +1409,12 @@ i.ph { line-height: 1; vertical-align: middle; }
 
     <!-- Documentos do imóvel -->
     <div class="collapse-header" id="docs-im-header" onclick="toggleCollapse('docs-im')">
-      <span><i class="ph ph-folder"></i> Documentos vinculados <span id="docs-im-count" style="font-weight:400;text-transform:none;font-size:11px;color:var(--text4)"></span></span>
+      <span><i class="bi bi-folder"></i> Documentos vinculados <span id="docs-im-count" style="font-weight:400;text-transform:none;font-size:11px;color:var(--text4)"></span></span>
       <span class="collapse-arrow">▶</span>
     </div>
     <div class="collapse-body" id="docs-im-body">
       <div id="docs-im-list"></div>
-      <button type="button" class="btn btn-ghost btn-sm" onclick="openDocModal('imovel', editId)" style="margin-top:6px"><i class="ph ph-plus"></i> Adicionar documento a este imóvel</button>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="openDocModal('imovel', editId)" style="margin-top:6px"><i class="bi bi-plus-lg"></i> Adicionar documento a este imóvel</button>
     </div>
 
     <div class="form-actions">
@@ -1425,18 +1428,18 @@ i.ph { line-height: 1; vertical-align: middle; }
 <div id="screen-proprietarios" class="screen">
   <div class="ph">
     <div class="ph-left"><h2>Contatos</h2><p id="prop-count">–</p></div>
-    <div class="ph-right"><button class="btn btn-primary" onclick="openPropForm()"><i class="ph ph-plus"></i> Novo Contato</button></div>
+    <div class="ph-right"><button class="btn btn-primary" onclick="openPropForm()"><i class="bi bi-plus-lg"></i> Novo Contato</button></div>
   </div>
   <div class="card">
     <div class="ctabs">
       <div class="ctab active" onclick="setCtab('todos')">Todos</div>
       <div class="ctab" onclick="setCtab('proprietario')">Proprietários</div>
       <div class="ctab" onclick="setCtab('corretor')">Corretores Parceiros</div>
-      <div class="ctab" onclick="setCtab('vendendo')"><i class="ph ph-tag"></i> Vendendo Agora</div>
-      <div class="ctab" onclick="setCtab('alugando')"><i class="ph ph-key"></i> Alugando Agora</div>
+      <div class="ctab" onclick="setCtab('vendendo')"><i class="bi bi-tag"></i> Vendendo Agora</div>
+      <div class="ctab" onclick="setCtab('alugando')"><i class="bi bi-key"></i> Alugando Agora</div>
     </div>
     <div class="filters">
-      <input class="fi fi-search" id="fi-prop" placeholder="<i class="ph ph-magnifying-glass"></i> Buscar por nome ou telefone..." oninput="renderProps()">
+      <input class="fi fi-search" id="fi-prop" placeholder="<i class="bi bi-search"></i> Buscar por nome ou telefone..." oninput="renderProps()">
     </div>
     <div class="tw" id="prop-table-wrap">
       <table>
@@ -1448,7 +1451,7 @@ i.ph { line-height: 1; vertical-align: middle; }
     </div>
     <div id="prop-cards" style="display:none"></div>
     <div id="prop-empty" class="empty" style="display:none">
-      <div class="empty-icon"><i class="ph ph-users"></i></div>
+      <div class="empty-icon"><i class="bi bi-people"></i></div>
       <p>Nenhum contato cadastrado.</p>
     </div>
   </div>
@@ -1461,14 +1464,14 @@ i.ph { line-height: 1; vertical-align: middle; }
     <div class="ph-right"><button class="btn btn-ghost" onclick="nav('proprietarios')">← Voltar</button></div>
   </div>
   <div class="card">
-    <div class="form-section"><i class="ph ph-user"></i> Dados Principais</div>
+    <div class="form-section"><i class="bi bi-person"></i> Dados Principais</div>
     <div class="fgrid">
       <div class="fg">
         <label for="pf-nome">Nome <span class="req">*</span></label>
         <input class="finput" id="pf-nome" placeholder="Nome completo">
       </div>
       <div class="fg">
-        <label for="pf-tel">WhatsApp <span class="req">*</span> <button type="button" class="help-btn" onclick="showHint('Digite o número com DDD. Ex: (92) 9 9999-9999. O campo aceita no máximo 11 dígitos.')">ℹ️</button></label>
+        <label for="pf-tel">WhatsApp <span class="req">*</span> <button type="button" class="help-btn" onclick="showHint('Digite o número com DDD. Ex: (92) 9 9999-9999. O campo aceita no máximo 11 dígitos.')"><i class="bi bi-info-circle"></i></button></label>
         <input class="finput" id="pf-tel" placeholder="(92) 9 9999-9999" oninput="maskPhone(this)" maxlength="16" inputmode="numeric">
       </div>
       <div class="fg">
@@ -1482,8 +1485,8 @@ i.ph { line-height: 1; vertical-align: middle; }
         <label for="pf-situacao">Situação Atual</label>
         <select class="fsel" id="pf-situacao">
           <option value="">Nenhuma</option>
-          <option value="vendendo"><i class="ph ph-tag"></i> Vendendo imóvel</option>
-          <option value="alugando"><i class="ph ph-key"></i> Alugando imóvel</option>
+          <option value="vendendo"><i class="bi bi-tag"></i> Vendendo imóvel</option>
+          <option value="alugando"><i class="bi bi-key"></i> Alugando imóvel</option>
           <option value="ambos">Vendendo e Alugando</option>
         </select>
       </div>
@@ -1503,13 +1506,13 @@ i.ph { line-height: 1; vertical-align: middle; }
 
     <!-- Qualificação completa -->
     <div class="collapse-header" id="qual-header" onclick="toggleCollapse('qual')">
-      <span><i class="ph ph-clipboard-text"></i> Qualificação Completa <span style="font-weight:400;text-transform:none;font-size:11px;color:var(--text4)">(clique para expandir)</span></span>
+      <span><i class="bi bi-clipboard-check"></i> Qualificação Completa <span style="font-weight:400;text-transform:none;font-size:11px;color:var(--text4)">(clique para expandir)</span></span>
       <span class="collapse-arrow">▶</span>
     </div>
     <div class="collapse-body" id="qual-body">
       <div class="fgrid">
         <div class="fg">
-          <label for="pf-cpf">CPF <button type="button" class="help-btn" onclick="showHint('Digite apenas os números. A formatação 000.000.000-00 é aplicada automaticamente.')">ℹ️</button></label>
+          <label for="pf-cpf">CPF <button type="button" class="help-btn" onclick="showHint('Digite apenas os números. A formatação 000.000.000-00 é aplicada automaticamente.')"><i class="bi bi-info-circle"></i></button></label>
           <input class="finput" id="pf-cpf" placeholder="000.000.000-00" oninput="maskCPF(this)" maxlength="14" inputmode="numeric">
         </div>
         <div class="fg">
@@ -1552,7 +1555,7 @@ i.ph { line-height: 1; vertical-align: middle; }
           <input class="finput" id="pf-conjuge" placeholder="Nome completo">
         </div>
         <div class="fg full">
-          <label for="pf-fiador">Fiador (nome e telefone) <button type="button" class="help-btn" onclick="showHint('Fiador é uma pessoa que assume a responsabilidade do aluguel caso o inquilino não pague. Registre o nome completo e WhatsApp do fiador aqui.')">ℹ️</button></label>
+          <label for="pf-fiador">Fiador (nome e telefone) <button type="button" class="help-btn" onclick="showHint('Fiador é uma pessoa que assume a responsabilidade do aluguel caso o inquilino não pague. Registre o nome completo e WhatsApp do fiador aqui.')"><i class="bi bi-info-circle"></i></button></label>
           <input class="finput" id="pf-fiador" placeholder="Nome · (92) 9 9999-9999">
         </div>
         <div class="fg">
@@ -1568,12 +1571,12 @@ i.ph { line-height: 1; vertical-align: middle; }
 
     <!-- Documentos do contato -->
     <div class="collapse-header" id="docs-pr-header" onclick="toggleCollapse('docs-pr')">
-      <span><i class="ph ph-folder"></i> Documentos vinculados <span id="docs-pr-count" style="font-weight:400;text-transform:none;font-size:11px;color:var(--text4)"></span></span>
+      <span><i class="bi bi-folder"></i> Documentos vinculados <span id="docs-pr-count" style="font-weight:400;text-transform:none;font-size:11px;color:var(--text4)"></span></span>
       <span class="collapse-arrow">▶</span>
     </div>
     <div class="collapse-body" id="docs-pr-body">
       <div id="docs-pr-list"></div>
-      <button type="button" class="btn btn-ghost btn-sm" onclick="openDocModal('contato', editId)" style="margin-top:6px"><i class="ph ph-plus"></i> Adicionar documento a este contato</button>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="openDocModal('contato', editId)" style="margin-top:6px"><i class="bi bi-plus-lg"></i> Adicionar documento a este contato</button>
     </div>
 
     <div class="form-actions">
@@ -1587,11 +1590,11 @@ i.ph { line-height: 1; vertical-align: middle; }
 <div id="screen-clientes" class="screen">
   <div class="ph">
     <div class="ph-left"><h2>Clientes com Perfil de Busca</h2><p id="cli-count">–</p></div>
-    <div class="ph-right"><button class="btn btn-primary" onclick="openClienteForm()"><i class="ph ph-plus"></i> Novo Cliente</button></div>
+    <div class="ph-right"><button class="btn btn-primary" onclick="openClienteForm()"><i class="bi bi-plus-lg"></i> Novo Cliente</button></div>
   </div>
   <div class="card">
     <div class="filters">
-      <input class="fi fi-search" id="fi-cli" placeholder="<i class="ph ph-magnifying-glass"></i> Buscar cliente..." oninput="renderClientes()">
+      <input class="fi fi-search" id="fi-cli" placeholder="<i class="bi bi-search"></i> Buscar cliente..." oninput="renderClientes()">
       <select class="fi" id="fi-cli-intent" onchange="renderClientes()">
         <option value="">Compra + Aluguel</option>
         <option value="alugar">Quer Alugar</option>
@@ -1605,7 +1608,7 @@ i.ph { line-height: 1; vertical-align: middle; }
     </div>
     <div id="cli-grid" class="cli-grid"></div>
     <div id="cli-empty" class="empty" style="display:none">
-      <div class="empty-icon"><i class="ph ph-magnifying-glass"></i></div>
+      <div class="empty-icon"><i class="bi bi-search"></i></div>
       <p>Nenhum cliente cadastrado.</p>
     </div>
   </div>
@@ -1618,7 +1621,7 @@ i.ph { line-height: 1; vertical-align: middle; }
     <div class="ph-right"><button class="btn btn-ghost" onclick="nav('clientes')">← Voltar</button></div>
   </div>
   <div class="card">
-    <div class="form-section"><i class="ph ph-user"></i> Dados do Cliente</div>
+    <div class="form-section"><i class="bi bi-person"></i> Dados do Cliente</div>
     <div class="fgrid">
       <div class="fg">
         <label for="cf-nome">Nome <span class="req">*</span></label>
@@ -1645,7 +1648,7 @@ i.ph { line-height: 1; vertical-align: middle; }
       </div>
     </div>
 
-    <div class="form-section"><i class="ph ph-magnifying-glass"></i> Perfil de Busca (texto livre)</div>
+    <div class="form-section"><i class="bi bi-search"></i> Perfil de Busca (texto livre)</div>
     <div class="fg">
       <textarea class="ftxt" id="cf-perfil-txt" style="min-height:110px"
         placeholder="Descreva o perfil de busca desta pessoa. Inclua:
@@ -1659,13 +1662,13 @@ i.ph { line-height: 1; vertical-align: middle; }
 • Motivo da busca (trabalho próximo, escola dos filhos...)"></textarea>
     </div>
 
-    <div class="form-section"><i class="ph ph-sliders"></i> Filtros de Match (para consulta automática)</div>
+    <div class="form-section"><i class="bi bi-sliders"></i> Filtros de Match (para consulta automática)</div>
     <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:12px;color:#0369a1">
-      <i class="ph ph-lightbulb"></i> <strong>Dica:</strong> Selecione múltiplos tipos e bairros — o sistema buscará imóveis que atendam a qualquer uma das opções marcadas, respeitando sua ordem de preferência.
+      <i class="bi bi-lightbulb"></i> <strong>Dica:</strong> Selecione múltiplos tipos e bairros — o sistema buscará imóveis que atendam a qualquer uma das opções marcadas, respeitando sua ordem de preferência.
     </div>
     <div class="fgrid-3">
       <div class="fg">
-        <label for="cf-cat">Categoria <button type="button" class="help-btn" onclick="showHint('Filtra os tipos de imóvel disponíveis. Condomínio = portaria/área comum. Via Pública = rua aberta.')">ℹ️</button></label>
+        <label for="cf-cat">Categoria <button type="button" class="help-btn" onclick="showHint('Filtra os tipos de imóvel disponíveis. Condomínio = portaria/área comum. Via Pública = rua aberta.')"><i class="bi bi-info-circle"></i></button></label>
         <select class="fsel" id="cf-cat" onchange="onCfCatChange()">
           <option value="">Todas as categorias</option>
           <option value="condominio">Condomínio</option>
@@ -1675,18 +1678,18 @@ i.ph { line-height: 1; vertical-align: middle; }
         </select>
       </div>
       <div class="fg" id="fg-cf-tipo" style="grid-column:1/-1">
-        <label>Tipo de Imóvel — múltipla escolha <button type="button" class="help-btn" onclick="showHint('Marque todos os tipos que o cliente aceita. O sistema buscará correspondências para qualquer um deles.')">ℹ️</button></label>
+        <label>Tipo de Imóvel — múltipla escolha <button type="button" class="help-btn" onclick="showHint('Marque todos os tipos que o cliente aceita. O sistema buscará correspondências para qualquer um deles.')"><i class="bi bi-info-circle"></i></button></label>
         <div id="cf-tipo-chips" class="chip-select"><p style="font-size:12px;color:var(--text3)">Selecione uma categoria acima para ver os tipos disponíveis.</p></div>
         <input type="hidden" id="cf-tipo">
       </div>
       <div class="fg" style="grid-column:1/-1">
-        <label>Bairros de preferência — múltipla escolha <button type="button" class="help-btn" onclick="showHint('Marque todos os bairros de interesse. Deixe em branco para aceitar qualquer bairro.')">ℹ️</button></label>
-        <div style="margin-bottom:6px"><input class="finput" id="cf-bairro-search" placeholder="<i class="ph ph-magnifying-glass"></i> Filtrar bairro..." oninput="filterBairroChips(this.value)" style="max-width:280px;font-size:12px"></div>
+        <label>Bairros de preferência — múltipla escolha <button type="button" class="help-btn" onclick="showHint('Marque todos os bairros de interesse. Deixe em branco para aceitar qualquer bairro.')"><i class="bi bi-info-circle"></i></button></label>
+        <div style="margin-bottom:6px"><input class="finput" id="cf-bairro-search" placeholder="<i class="bi bi-search"></i> Filtrar bairro..." oninput="filterBairroChips(this.value)" style="max-width:280px;font-size:12px"></div>
         <div id="cf-bairro-chips" class="chip-select chip-select-grid"></div>
         <input type="hidden" id="cf-bairro">
       </div>
       <div class="fg">
-        <label for="cf-mobilia">Mobília <button type="button" class="help-btn" onclick="showHint('Selecione o estado de mobília desejado. Deixe em branco para aceitar qualquer estado.')">ℹ️</button></label>
+        <label for="cf-mobilia">Mobília <button type="button" class="help-btn" onclick="showHint('Selecione o estado de mobília desejado. Deixe em branco para aceitar qualquer estado.')"><i class="bi bi-info-circle"></i></button></label>
         <select class="fsel" id="cf-mobilia">
           <option value="">Sem preferência</option>
           <option value="mobiliado">Mobiliado</option>
@@ -1713,22 +1716,22 @@ i.ph { line-height: 1; vertical-align: middle; }
     </div>
 
     <div id="cf-match-preview" style="margin-top:16px;display:none">
-      <div class="form-section" style="margin-top:0;margin-bottom:12px"><i class="ph ph-target"></i> Imóveis que correspondem ao perfil</div>
+      <div class="form-section" style="margin-top:0;margin-bottom:12px"><i class="bi bi-bullseye"></i> Imóveis que correspondem ao perfil</div>
       <div id="cf-match-list"></div>
     </div>
 
     <!-- Documentos do cliente -->
     <div class="collapse-header" id="docs-cl-header" onclick="toggleCollapse('docs-cl')">
-      <span><i class="ph ph-folder"></i> Documentos vinculados <span id="docs-cl-count" style="font-weight:400;text-transform:none;font-size:11px;color:var(--text4)"></span></span>
+      <span><i class="bi bi-folder"></i> Documentos vinculados <span id="docs-cl-count" style="font-weight:400;text-transform:none;font-size:11px;color:var(--text4)"></span></span>
       <span class="collapse-arrow">▶</span>
     </div>
     <div class="collapse-body" id="docs-cl-body">
       <div id="docs-cl-list"></div>
-      <button type="button" class="btn btn-ghost btn-sm" onclick="openDocModal('cliente', editId)" style="margin-top:6px"><i class="ph ph-plus"></i> Adicionar documento a este cliente</button>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="openDocModal('cliente', editId)" style="margin-top:6px"><i class="bi bi-plus-lg"></i> Adicionar documento a este cliente</button>
     </div>
 
     <div class="form-actions">
-      <button class="btn btn-ghost btn-sm" onclick="runClienteMatch()" style="margin-right:auto"><i class="ph ph-magnifying-glass"></i> Consultar Matches</button>
+      <button class="btn btn-ghost btn-sm" onclick="runClienteMatch()" style="margin-right:auto"><i class="bi bi-search"></i> Consultar Matches</button>
       <button class="btn btn-ghost" onclick="nav('clientes')">Cancelar</button>
       <button class="btn btn-primary" onclick="saveCliente()">💾 Salvar Cliente</button>
     </div>
@@ -1738,18 +1741,18 @@ i.ph { line-height: 1; vertical-align: middle; }
 <!-- ── GESTÃO DE LOCAÇÕES ── -->
 <div id="screen-gestao" class="screen">
   <div class="ph">
-    <div class="ph-left"><h2><i class="ph ph-folders"></i> Locações Ativas</h2><p>Imóveis administrados por você</p></div>
+    <div class="ph-left"><h2><i class="bi bi-folders"></i> Locações Ativas</h2><p>Imóveis administrados por você</p></div>
     <div class="ph-right"></div>
   </div>
   <div id="gst-stats" class="gst-stats"></div>
   <div class="card">
     <div class="filters">
-      <input class="fi fi-search" id="fi-gst" placeholder="<i class="ph ph-magnifying-glass"></i> Buscar por inquilino, código, bairro..." oninput="renderGestao()">
+      <input class="fi fi-search" id="fi-gst" placeholder="<i class="bi bi-search"></i> Buscar por inquilino, código, bairro..." oninput="renderGestao()">
       <select class="fi" id="fi-gst-status" onchange="renderGestao()">
         <option value="">Todos os status</option>
-        <option value="pago"><i class="ph ph-check-circle"></i> Em dia</option>
+        <option value="pago"><i class="bi bi-check-circle"></i> Em dia</option>
         <option value="pendente">⏳ Pendente</option>
-        <option value="atrasado">🔴 Atrasado</option>
+        <option value="atrasado">Atrasado</option>
       </select>
     </div>
     <div class="tw" id="gst-table-wrap">
@@ -1772,7 +1775,7 @@ i.ph { line-height: 1; vertical-align: middle; }
     </div>
     <div id="gst-cards" style="display:none"></div>
     <div id="gst-empty" class="empty" style="display:none">
-      <div class="empty-icon"><i class="ph ph-folders"></i></div>
+      <div class="empty-icon"><i class="bi bi-folders"></i></div>
       <p>Nenhuma locação administrada.<br>No cadastro de imóvel, marque <strong>"Administro este aluguel"</strong> quando o status for Alugado.</p>
     </div>
   </div>
@@ -1781,39 +1784,39 @@ i.ph { line-height: 1; vertical-align: middle; }
 <!-- ── DOCUMENTOS ── -->
 <div id="screen-documentos" class="screen">
   <div class="ph">
-    <div class="ph-left"><h2><i class="ph ph-folder"></i> Documentos</h2><p id="doc-count">–</p></div>
-    <div class="ph-right"><button class="btn btn-primary" onclick="openDocModal(null,null)"><i class="ph ph-plus"></i> Adicionar Documento</button></div>
+    <div class="ph-left"><h2><i class="bi bi-folder"></i> Documentos</h2><p id="doc-count">–</p></div>
+    <div class="ph-right"><button class="btn btn-primary" onclick="openDocModal(null,null)"><i class="bi bi-plus-lg"></i> Adicionar Documento</button></div>
   </div>
   <div class="card">
     <div class="filters">
-      <input class="fi fi-search" id="fi-doc" placeholder="<i class="ph ph-magnifying-glass"></i> Buscar documento..." oninput="renderDocs()">
+      <input class="fi fi-search" id="fi-doc" placeholder="<i class="bi bi-search"></i> Buscar documento..." oninput="renderDocs()">
       <select class="fi" id="fi-doc-entidade" onchange="renderDocs()">
         <option value="">Todos os vínculos</option>
-        <option value="imovel"><i class="ph ph-buildings"></i> Imóveis</option>
-        <option value="contato"><i class="ph ph-users"></i> Contatos</option>
-        <option value="cliente"><i class="ph ph-magnifying-glass"></i> Clientes</option>
+        <option value="imovel"><i class="bi bi-buildings"></i> Imóveis</option>
+        <option value="contato"><i class="bi bi-people"></i> Contatos</option>
+        <option value="cliente"><i class="bi bi-search"></i> Clientes</option>
       </select>
       <select class="fi" id="fi-doc-tipo" onchange="renderDocs()">
         <option value="">Todos os tipos</option>
-        <option value="contrato_locacao"><i class="ph ph-clipboard-text"></i> Contrato de Locação</option>
-        <option value="contrato_venda"><i class="ph ph-tag"></i> Contrato de Venda</option>
+        <option value="contrato_locacao"><i class="bi bi-clipboard-check"></i> Contrato de Locação</option>
+        <option value="contrato_venda"><i class="bi bi-tag"></i> Contrato de Venda</option>
         <option value="rg_cpf">🪪 RG / CPF</option>
         <option value="comp_renda">💰 Comprovante de Renda</option>
-        <option value="comp_residencia"><i class="ph ph-house"></i> Comp. Residência</option>
-        <option value="ficha_cadastral"><i class="ph ph-note-pencil"></i> Ficha Cadastral</option>
-        <option value="vistoria_entrada"><i class="ph ph-magnifying-glass"></i> Vistoria de Entrada</option>
+        <option value="comp_residencia"><i class="bi bi-house"></i> Comp. Residência</option>
+        <option value="ficha_cadastral"><i class="bi bi-file-earmark-text"></i> Ficha Cadastral</option>
+        <option value="vistoria_entrada"><i class="bi bi-search"></i> Vistoria de Entrada</option>
         <option value="vistoria_saida">🚪 Vistoria de Saída</option>
         <option value="matricula">📄 Matrícula / Escritura</option>
         <option value="iptu">🏛️ IPTU</option>
-        <option value="notificacao"><i class="ph ph-warning"></i> Notificação</option>
-        <option value="recibo"><i class="ph ph-money"></i> Recibo de Pagamento</option>
-        <option value="seguro_fianca"><i class="ph ph-lock-simple"></i> Seguro Fiança</option>
+        <option value="notificacao"><i class="bi bi-exclamation-triangle"></i> Notificação</option>
+        <option value="recibo"><i class="bi bi-cash-coin"></i> Recibo de Pagamento</option>
+        <option value="seguro_fianca"><i class="bi bi-lock"></i> Seguro Fiança</option>
         <option value="outros">📎 Outros</option>
       </select>
     </div>
     <div id="doc-list"></div>
     <div id="doc-empty" class="empty" style="display:none">
-      <div class="empty-icon"><i class="ph ph-folder"></i></div>
+      <div class="empty-icon"><i class="bi bi-folder"></i></div>
       <p>Nenhum documento cadastrado.<br>Adicione links de contratos, documentos e comprovantes para manter tudo organizado.</p>
     </div>
   </div>
@@ -1848,7 +1851,7 @@ i.ph { line-height: 1; vertical-align: middle; }
 <!-- MODAL REGISTRAR PAGAMENTO -->
 <div class="modal-bg" id="modal-pgmt">
   <div class="modal" style="max-width:460px">
-    <h3><i class="ph ph-money"></i> Registrar Pagamento</h3>
+    <h3><i class="bi bi-cash-coin"></i> Registrar Pagamento</h3>
     <p id="modal-pgmt-desc" style="margin-bottom:16px;font-size:13px;color:var(--text3)"></p>
     <input type="hidden" id="pgmt-imovel-id">
     <div class="fgrid" style="margin-bottom:16px">
@@ -1859,9 +1862,9 @@ i.ph { line-height: 1; vertical-align: middle; }
       <div class="fg">
         <label for="pgmt-status">Status</label>
         <select class="fsel" id="pgmt-status">
-          <option value="pago"><i class="ph ph-check-circle"></i> Pago</option>
+          <option value="pago"><i class="bi bi-check-circle"></i> Pago</option>
           <option value="pendente">⏳ Pendente</option>
-          <option value="atrasado">🔴 Atrasado</option>
+          <option value="atrasado">Atrasado</option>
         </select>
       </div>
       <div class="fg">
@@ -1887,7 +1890,7 @@ i.ph { line-height: 1; vertical-align: middle; }
 <!-- MODAL ADICIONAR DOCUMENTO -->
 <div class="modal-bg" id="modal-doc">
   <div class="modal" style="max-width:500px">
-    <h3 id="modal-doc-title"><i class="ph ph-folder"></i> Adicionar Documento</h3>
+    <h3 id="modal-doc-title"><i class="bi bi-folder"></i> Adicionar Documento</h3>
     <p id="modal-doc-desc" style="margin-bottom:16px;font-size:12px;color:var(--text3)"></p>
     <input type="hidden" id="doc-entidade-tipo">
     <input type="hidden" id="doc-entidade-id">
@@ -1901,19 +1904,19 @@ i.ph { line-height: 1; vertical-align: middle; }
         <div class="fg">
           <label for="doc-tipo">Tipo</label>
           <select class="fsel" id="doc-tipo">
-            <option value="contrato_locacao"><i class="ph ph-clipboard-text"></i> Contrato de Locação</option>
-            <option value="contrato_venda"><i class="ph ph-tag"></i> Contrato de Venda</option>
+            <option value="contrato_locacao"><i class="bi bi-clipboard-check"></i> Contrato de Locação</option>
+            <option value="contrato_venda"><i class="bi bi-tag"></i> Contrato de Venda</option>
             <option value="rg_cpf">🪪 RG / CPF</option>
             <option value="comp_renda">💰 Comp. de Renda</option>
-            <option value="comp_residencia"><i class="ph ph-house"></i> Comp. Residência</option>
-            <option value="ficha_cadastral"><i class="ph ph-note-pencil"></i> Ficha Cadastral</option>
-            <option value="vistoria_entrada"><i class="ph ph-magnifying-glass"></i> Vistoria de Entrada</option>
+            <option value="comp_residencia"><i class="bi bi-house"></i> Comp. Residência</option>
+            <option value="ficha_cadastral"><i class="bi bi-file-earmark-text"></i> Ficha Cadastral</option>
+            <option value="vistoria_entrada"><i class="bi bi-search"></i> Vistoria de Entrada</option>
             <option value="vistoria_saida">🚪 Vistoria de Saída</option>
             <option value="matricula">📄 Matrícula / Escritura</option>
             <option value="iptu">🏛️ IPTU</option>
-            <option value="notificacao"><i class="ph ph-warning"></i> Notificação</option>
-            <option value="recibo"><i class="ph ph-money"></i> Recibo de Pagamento</option>
-            <option value="seguro_fianca"><i class="ph ph-lock-simple"></i> Seguro Fiança</option>
+            <option value="notificacao"><i class="bi bi-exclamation-triangle"></i> Notificação</option>
+            <option value="recibo"><i class="bi bi-cash-coin"></i> Recibo de Pagamento</option>
+            <option value="seguro_fianca"><i class="bi bi-lock"></i> Seguro Fiança</option>
             <option value="outros">📎 Outros</option>
           </select>
         </div>
@@ -1923,9 +1926,9 @@ i.ph { line-height: 1; vertical-align: middle; }
         </div>
       </div>
       <div class="fg" style="margin-bottom:10px">
-        <label for="doc-url"><i class="ph ph-link"></i> Link (Google Drive, WhatsApp, Dropbox...)</label>
+        <label for="doc-url"><i class="bi bi-link-45deg"></i> Link (Google Drive, WhatsApp, Dropbox...)</label>
         <input class="finput" id="doc-url" type="url" placeholder="https://drive.google.com/...">
-        <div style="font-size:11px;color:var(--text3);margin-top:3px"><i class="ph ph-lightbulb"></i> Recomendado: salve no Google Drive e cole o link. Fica seguro e acessível de qualquer lugar.</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:3px"><i class="bi bi-lightbulb"></i> Recomendado: salve no Google Drive e cole o link. Fica seguro e acessível de qualquer lugar.</div>
       </div>
       <div class="fg">
         <label for="doc-obs">Observação</label>
@@ -1942,7 +1945,7 @@ i.ph { line-height: 1; vertical-align: middle; }
 <!-- MODAL CADASTRO RÁPIDO DE CONTATO -->
 <div class="modal-bg" id="modal-quick-contact">
   <div class="modal">
-    <h3><i class="ph ph-plus"></i> Cadastro Rápido de Contato</h3>
+    <h3><i class="bi bi-plus-lg"></i> Cadastro Rápido de Contato</h3>
     <p>Preencha os dados básicos e o contato já ficará disponível para vincular. Você pode completar o cadastro completo depois em <strong>Contatos</strong>.</p>
     <div class="fgrid" style="margin-bottom:16px">
       <div class="fg">
@@ -1971,7 +1974,7 @@ i.ph { line-height: 1; vertical-align: middle; }
 <!-- MODAL SUGESTÃO -->
 <div class="modal-bg" id="modal-sugestao">
   <div class="modal">
-    <h3><i class="ph ph-lightbulb"></i> Enviar Sugestão à Equipe</h3>
+    <h3><i class="bi bi-lightbulb"></i> Enviar Sugestão à Equipe</h3>
     <p style="margin-bottom:12px;color:var(--text3);font-size:13px">Encontrou algo para melhorar? Descreva abaixo e a equipe vai avaliar.</p>
     <div class="fg" style="margin-bottom:12px">
       <label>Sua sugestão</label>
@@ -2138,14 +2141,14 @@ let ctabAtual = 'todos';
 
 // ─── STORAGE ───────────────────────────────────
 function load(k) { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } }
-function save(k, d) { try { localStorage.setItem(k, JSON.stringify(d)); } catch(e) { toast('<i class="ph ph-x-circle"></i> Armazenamento cheio. Use links para fotos.'); } }
+function save(k, d) { try { localStorage.setItem(k, JSON.stringify(d)); } catch(e) { toast('<i class="bi bi-x-circle"></i> Armazenamento cheio. Use links para fotos.'); } }
 
 // ─── THEME ─────────────────────────────────────
 function toggleTheme() {
   const html = document.documentElement;
   const isDark = html.getAttribute('data-theme') === 'dark';
   html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  const ico = isDark ? '<i class="ph ph-sun"></i>' : '<i class="ph ph-moon"></i>';
+  const ico = isDark ? '<i class="bi bi-sun"></i>' : '<i class="bi bi-moon"></i>';
   const tb = document.getElementById('theme-btn');
   const mtb = document.getElementById('mob-theme-btn');
   if (tb)  tb.innerHTML  = ico;
@@ -2249,7 +2252,7 @@ function buildPropOpts() {
   const props = load(DB.PR);
   const elProp = document.getElementById('imf-prop');
   elProp.innerHTML = '<option value="">Sem vínculo</option>'
-    + props.map(p => `<option value="${esc(p.id)}">${esc(p.nome)} · ${p.tipo === 'proprietario' ? '<i class="ph ph-house"></i>' : '🤝'}</option>`).join('');
+    + props.map(p => `<option value="${esc(p.id)}">${esc(p.nome)} · ${p.tipo === 'proprietario' ? '<i class="bi bi-house"></i>' : '🤝'}</option>`).join('');
 }
 function buildImovelOpts(selId) {
   const el = document.getElementById(selId);
@@ -2343,11 +2346,11 @@ function condAutoComplete(val) {
   const matches = uniq.filter(c => c.toLowerCase().includes(val.toLowerCase())).slice(0, 10);
   let html = '';
   if (!matches.length) {
-    html = `<div class="cond-suggest-item cond-new" data-val="${esc(val)}" data-new="1"><i class="ph ph-plus"></i> Cadastrar "${esc(val)}" como novo</div>`;
+    html = `<div class="cond-suggest-item cond-new" data-val="${esc(val)}" data-new="1"><i class="bi bi-plus-lg"></i> Cadastrar "${esc(val)}" como novo</div>`;
   } else {
     html = matches.map(c => `<div class="cond-suggest-item" data-val="${esc(c)}">${esc(c)}</div>`).join('');
     if (!uniq.find(c => c.toLowerCase() === val.toLowerCase())) {
-      html += `<div class="cond-suggest-item cond-new" data-val="${esc(val)}" data-new="1"><i class="ph ph-plus"></i> Cadastrar "${esc(val)}" como novo</div>`;
+      html += `<div class="cond-suggest-item cond-new" data-val="${esc(val)}" data-new="1"><i class="bi bi-plus-lg"></i> Cadastrar "${esc(val)}" como novo</div>`;
     }
   }
   sug.innerHTML = html;
@@ -2359,7 +2362,7 @@ function selectCond(nome, isNew) {
   if (isNew) {
     const novos = load('imb_novos_condominios');
     if (!novos.includes(nome)) { novos.push(nome); save('imb_novos_condominios', novos); }
-    toast(`<i class="ph ph-check-circle"></i> Condomínio "${nome}" adicionado à lista local.`);
+    toast(`<i class="bi bi-check-circle"></i> Condomínio "${nome}" adicionado à lista local.`);
   }
 }
 function condBlur() {
@@ -2564,13 +2567,13 @@ function openImovelForm(id = null) {
 function saveImovel() {
   const tipo   = document.getElementById('imf-tipo').value;
   const bairro = document.getElementById('imf-bairro').value;
-  if (!tipo)   return toast('<i class="ph ph-warning"></i> Selecione o tipo de imóvel');
-  if (!bairro) return toast('<i class="ph ph-warning"></i> Selecione o bairro');
+  if (!tipo)   return toast('<i class="bi bi-exclamation-triangle"></i> Selecione o tipo de imóvel');
+  if (!bairro) return toast('<i class="bi bi-exclamation-triangle"></i> Selecione o bairro');
 
   const finAluguel   = document.getElementById('fbtn-aluguel').classList.contains('active-aluguel');
   const finVenda     = document.getElementById('fbtn-venda').classList.contains('active-venda');
   const finTemporada = document.getElementById('fbtn-temporada').classList.contains('active-temporada');
-  if (!finAluguel && !finVenda && !finTemporada) return toast('<i class="ph ph-warning"></i> Selecione pelo menos uma finalidade (Aluguel, Venda ou Temporada)');
+  if (!finAluguel && !finVenda && !finTemporada) return toast('<i class="bi bi-exclamation-triangle"></i> Selecione pelo menos uma finalidade (Aluguel, Venda ou Temporada)');
 
   const finalidade = [];
   if (finAluguel)   finalidade.push('aluguel');
@@ -2653,7 +2656,7 @@ function saveImovel() {
     list.push(im);
   }
   save(DB.IM, list);
-  toast(`<i class="ph ph-check-circle"></i> Imóvel [${im.codigo}] salvo com sucesso!`);
+  toast(`<i class="bi bi-check-circle"></i> Imóvel [${im.codigo}] salvo com sucesso!`);
   nav('imoveis');
 }
 
@@ -2661,7 +2664,7 @@ function deleteImovel(id) {
   openModal('Excluir imóvel', 'Deseja realmente excluir este imóvel? Não pode ser desfeito.', () => {
     save(DB.IM, load(DB.IM).filter(i => i.id !== id));
     renderImoveis(); renderDash();
-    toast('<i class="ph ph-trash"></i> Imóvel excluído');
+    toast('<i class="bi bi-trash"></i> Imóvel excluído');
   });
 }
 
@@ -2670,7 +2673,7 @@ function marcar(id) {
   const idx = list.findIndex(i => i.id === id);
   if (idx >= 0) { list[idx].updated = today(); save(DB.IM, list); }
   renderImoveis(); renderDash();
-  toast('<i class="ph ph-check-circle"></i> Marcado como atualizado — contador zerado!');
+  toast('<i class="bi bi-check-circle"></i> Marcado como atualizado — contador zerado!');
 }
 
 function renderImoveis() {
@@ -2706,7 +2709,7 @@ function renderImoveis() {
 
   const stBadge = { disponivel:'bd-disp', alugado:'bd-alugado', vendido:'bd-vendido', indisponivel:'bd-indisp' };
   const stLabel = { disponivel:'Disponível', alugado:'Alugado', vendido:'Vendido', indisponivel:'Indisponível' };
-  const freshDot = { g:'🟢', y:'🟡', r:'🔴' };
+  const freshDot = { g:'<span class="dot dot-g"></span>', y:'<span class="dot dot-y"></span>', r:'<span class="dot dot-r"></span>' };
 
   if (isMobile()) {
     // ── MOBILE: cards estilo Instagram ──
@@ -2716,16 +2719,16 @@ function renderImoveis() {
       const f = fresh(i.updated);
       const p = props.find(pp => pp.id === i.prop_id);
       const fotos = i.fotos?.length || 0;
-      const fins = (i.finalidade||[]).map(fn => fn==='aluguel'?'<i class="ph ph-key"></i> Aluguel':fn==='venda'?'<i class="ph ph-tag"></i> Venda':'⏳ Temporada').join(' · ');
+      const fins = (i.finalidade||[]).map(fn => fn==='aluguel'?'<i class="bi bi-key"></i> Aluguel':fn==='venda'?'<i class="bi bi-tag"></i> Venda':'⏳ Temporada').join(' · ');
       const valorLine = [i.valor?`<span style="color:var(--accent)">R$ ${moeda(i.valor)}<span style="font-size:11px;font-weight:400">/mês</span></span>`:'',
                          i.valor_venda?`<span style="color:var(--purple)">R$ ${moeda(i.valor_venda)}<span style="font-size:11px;font-weight:400"> venda</span></span>`:''].filter(Boolean).join(' &nbsp;·&nbsp; ');
       const contratoBadge = (i.status==='alugado' && i.contrato_fim)
-        ? (() => { const d=diasParaVencer(i.contrato_fim); return d!==null&&d<=20 ? `<span style="color:var(--amber);font-size:11px">⏰ Contrato vence em ${d}d</span>` : ''; })()
+        ? (() => { const d=diasParaVencer(i.contrato_fim); return d!==null&&d<=20 ? `<span style="color:var(--amber);font-size:11px"><i class="bi bi-alarm"></i> Contrato vence em ${d}d</span>` : ''; })()
         : '';
       return `<div class="im-card">
         <div class="im-card-head">
           <div>
-            <div class="im-card-title">${freshDot[f.c]||'🔵'} ${esc(i.tipo)}${i.cond?` <span style="font-size:12px;font-weight:400;color:var(--text3)">· ${esc(i.cond)}</span>`:''}</div>
+            <div class="im-card-title">${freshDot[f.c]||'<span class="dot dot-b"></span>'} ${esc(i.tipo)}${i.cond?` <span style="font-size:12px;font-weight:400;color:var(--text3)">· ${esc(i.cond)}</span>`:''}</div>
             <div class="im-card-sub">${esc(i.bairro)}${p?` · ${esc(p.nome)}`:''}</div>
             <span class="im-card-code">${esc(i.codigo||'—')}</span>
           </div>
@@ -2743,9 +2746,9 @@ function renderImoveis() {
         </div>
         <div class="im-card-actions">
           <button class="btn btn-ok btn-sm" onclick="marcar('${i.id}')" title="Marcar atualizado">✓ Ok</button>
-          <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${i.id}')"><i class="ph ph-pencil-simple"></i> Editar</button>
-          <button class="btn btn-blue btn-sm" onclick="verMatches('${i.id}')" title="Ver clientes"><i class="ph ph-magnifying-glass"></i></button>
-          <button class="btn btn-danger btn-sm" onclick="deleteImovel('${i.id}')"><i class="ph ph-trash"></i></button>
+          <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${i.id}')"><i class="bi bi-pencil"></i> Editar</button>
+          <button class="btn btn-blue btn-sm" onclick="verMatches('${i.id}')" title="Ver clientes"><i class="bi bi-search"></i></button>
+          <button class="btn btn-danger btn-sm" onclick="deleteImovel('${i.id}')"><i class="bi bi-trash"></i></button>
         </div>
       </div>`;
     }).join('');
@@ -2757,9 +2760,9 @@ function renderImoveis() {
       const f = fresh(i.updated);
       const p = props.find(pp => pp.id === i.prop_id);
       const fotos = i.fotos?.length || 0;
-      const fins = (i.finalidade||[]).map(fn => fn==='aluguel'?'<i class="ph ph-key"></i>':'<i class="ph ph-tag"></i>').join(' ');
+      const fins = (i.finalidade||[]).map(fn => fn==='aluguel'?'<i class="bi bi-key"></i>':'<i class="bi bi-tag"></i>').join(' ');
       const contratoBadge = (i.status==='alugado' && i.contrato_fim)
-        ? (() => { const d=diasParaVencer(i.contrato_fim); return d!==null&&d<=20 ? `<span style="color:var(--amber);font-size:10px;display:block">⏰ vence em ${d}d</span>` : ''; })()
+        ? (() => { const d=diasParaVencer(i.contrato_fim); return d!==null&&d<=20 ? `<span style="color:var(--amber);font-size:10px;display:block"><i class="bi bi-alarm"></i> vence em ${d}d</span>` : ''; })()
         : '';
       return `<tr>
         <td>${dot(f.c)}</td>
@@ -2787,9 +2790,9 @@ function renderImoveis() {
         <td>
           <div style="display:flex;gap:5px">
             <button class="btn btn-ok btn-sm" onclick="marcar('${i.id}')" title="Marcar atualizado">✓</button>
-            <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${i.id}')"><i class="ph ph-pencil-simple"></i></button>
-            <button class="btn btn-blue btn-sm" onclick="verMatches('${i.id}')" title="Ver clientes interessados"><i class="ph ph-magnifying-glass"></i></button>
-            <button class="btn btn-danger btn-sm" onclick="deleteImovel('${i.id}')"><i class="ph ph-trash"></i></button>
+            <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${i.id}')"><i class="bi bi-pencil"></i></button>
+            <button class="btn btn-blue btn-sm" onclick="verMatches('${i.id}')" title="Ver clientes interessados"><i class="bi bi-search"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="deleteImovel('${i.id}')"><i class="bi bi-trash"></i></button>
           </div>
         </td>
       </tr>`;
@@ -2867,7 +2870,7 @@ function registrarOferta(cliId, imId) {
   if (!list[idx].historico) list[idx].historico = [];
   list[idx].historico.push({ im_id: imId, data: today(), feedback: null });
   save(DB.CL, list);
-  toast('<i class="ph ph-check-circle"></i> Oferta registrada!');
+  toast('<i class="bi bi-check-circle"></i> Oferta registrada!');
   verMatches(imId);
 }
 
@@ -2910,17 +2913,17 @@ function runClienteMatch() {
       </div>
     </div>`).join('');
   }
-  toast(`<i class="ph ph-target"></i> ${ims.length} imóvel${ims.length!==1?'s':''} compatível${ims.length!==1?'s':''} encontrado${ims.length!==1?'s':''}`);
+  toast(`<i class="bi bi-bullseye"></i> ${ims.length} imóvel${ims.length!==1?'s':''} compatível${ims.length!==1?'s':''} encontrado${ims.length!==1?'s':''}`);
 }
 
 // ─── FOTOS ──────────────────────────────────────
 async function handleFiles(e) {
   for (const file of Array.from(e.target.files)) {
-    if (editFotos.length >= 10) { toast('<i class="ph ph-warning"></i> Máximo 10 fotos'); break; }
+    if (editFotos.length >= 10) { toast('<i class="bi bi-exclamation-triangle"></i> Máximo 10 fotos'); break; }
     try {
       const b64 = await compressImg(file);
       editFotos.push({ tipo: 'upload', v: b64, n: file.name });
-    } catch(err) { toast(`<i class="ph ph-x-circle"></i> Erro ao processar "${file.name}"`); }
+    } catch(err) { toast(`<i class="bi bi-x-circle"></i> Erro ao processar "${file.name}"`); }
   }
   renderFotoPreview(); e.target.value = '';
 }
@@ -2944,7 +2947,7 @@ function removeFoto(i) { editFotos.splice(i,1); renderFotoPreview(); }
 function renderFotoPreview() {
   document.getElementById('fotos-preview').innerHTML = editFotos.map((f,i) => {
     const inner = f.tipo==='url'
-      ? `<div class="photo-url-badge"><i class="ph ph-link"></i><br><span>${f.v.substring(0,30)}...</span></div>`
+      ? `<div class="photo-url-badge"><i class="bi bi-link-45deg"></i><br><span>${f.v.substring(0,30)}...</span></div>`
       : `<img src="${f.v}" alt="">`;
     return `<div class="photo-thumb">${inner}<div class="photo-rm" onclick="removeFoto(${i})">×</div></div>`;
   }).join('');
@@ -3007,14 +3010,14 @@ function openPropForm(id = null) {
 function saveProp() {
   const nome = document.getElementById('pf-nome').value.trim();
   const tel  = document.getElementById('pf-tel').value.trim();
-  if (!nome) return toast('<i class="ph ph-warning"></i> Informe o nome');
-  if (!tel)  return toast('<i class="ph ph-warning"></i> Informe o WhatsApp');
+  if (!nome) return toast('<i class="bi bi-exclamation-triangle"></i> Informe o nome');
+  if (!tel)  return toast('<i class="bi bi-exclamation-triangle"></i> Informe o WhatsApp');
   const dupTel = checkDupTel(tel, editId);
-  if (dupTel) return toast(`<i class="ph ph-warning"></i> Este telefone já está cadastrado para "${dupTel.nome}". Verifique antes de salvar.`);
+  if (dupTel) return toast(`<i class="bi bi-exclamation-triangle"></i> Este telefone já está cadastrado para "${dupTel.nome}". Verifique antes de salvar.`);
   const cpfVal = document.getElementById('pf-cpf').value.trim();
   if (cpfVal && cpfVal.replace(/\D/g,'').length === 11) {
     const dupCPF = checkDupCPF(cpfVal, editId);
-    if (dupCPF) return toast(`<i class="ph ph-warning"></i> Este CPF já está cadastrado para "${dupCPF.nome}". Verifique antes de salvar.`);
+    if (dupCPF) return toast(`<i class="bi bi-exclamation-triangle"></i> Este CPF já está cadastrado para "${dupCPF.nome}". Verifique antes de salvar.`);
   }
 
   const p = {
@@ -3045,14 +3048,14 @@ function saveProp() {
     if(idx>=0){ p.created=list[idx].created; list[idx]=p; }
   } else { p.created=new Date().toISOString(); list.push(p); }
   save(DB.PR, list);
-  toast('<i class="ph ph-check-circle"></i> Contato salvo!');
+  toast('<i class="bi bi-check-circle"></i> Contato salvo!');
   nav('proprietarios');
 }
 
 function deleteProp(id) {
   openModal('Excluir contato','Deseja excluir este contato?', () => {
     save(DB.PR, load(DB.PR).filter(p=>p.id!==id));
-    renderProps(); toast('<i class="ph ph-trash"></i> Contato excluído');
+    renderProps(); toast('<i class="bi bi-trash"></i> Contato excluído');
   });
 }
 
@@ -3070,10 +3073,10 @@ function closeQuickContact() {
 function saveQuickContact() {
   const nome = document.getElementById('qc-nome').value.trim();
   const tel  = document.getElementById('qc-tel').value.trim();
-  if (!nome) return toast('<i class="ph ph-warning"></i> Informe o nome');
-  if (!tel)  return toast('<i class="ph ph-warning"></i> Informe o WhatsApp');
+  if (!nome) return toast('<i class="bi bi-exclamation-triangle"></i> Informe o nome');
+  if (!tel)  return toast('<i class="bi bi-exclamation-triangle"></i> Informe o WhatsApp');
   const dupTel = checkDupTel(tel);
-  if (dupTel) return toast(`<i class="ph ph-warning"></i> Este telefone já existe: "${dupTel.nome}". Pesquise em Contatos para vincular.`);
+  if (dupTel) return toast(`<i class="bi bi-exclamation-triangle"></i> Este telefone já existe: "${dupTel.nome}". Pesquise em Contatos para vincular.`);
   const p = {
     id: uid(), nome, tel,
     tipo:    document.getElementById('qc-tipo').value,
@@ -3085,7 +3088,7 @@ function saveQuickContact() {
   buildPropOpts();
   document.getElementById('imf-prop').value = p.id;
   closeQuickContact();
-  toast(`<i class="ph ph-check-circle"></i> "${p.nome}" cadastrado e vinculado! Complete o cadastro em Contatos quando quiser.`);
+  toast(`<i class="bi bi-check-circle"></i> "${p.nome}" cadastrado e vinculado! Complete o cadastro em Contatos quando quiser.`);
 }
 
 function renderProps() {
@@ -3114,7 +3117,7 @@ function renderProps() {
   }
   empty.style.display='none';
 
-  const sitLabel = { vendendo:'<i class="ph ph-tag"></i> Vendendo', alugando:'<i class="ph ph-key"></i> Alugando', ambos:'<i class="ph ph-tag"></i><i class="ph ph-key"></i> Ambos', '':'–' };
+  const sitLabel = { vendendo:'<i class="bi bi-tag"></i> Vendendo', alugando:'<i class="bi bi-key"></i> Alugando', ambos:'<i class="bi bi-tag"></i><i class="bi bi-key"></i> Ambos', '':'–' };
 
   if (isMobile()) {
     if (tableWrap)  tableWrap.style.display  = 'none';
@@ -3123,7 +3126,7 @@ function renderProps() {
       const n   = ims.filter(i=>i.prop_id===p.id).length;
       const wa  = `https://wa.me/55${(p.tel||'').replace(/\D/g,'')}`;
       const badge = p.tipo==='corretor' ? 'bd-corr' : 'bd-prop';
-      const label = p.tipo==='corretor' ? '🤝 Corretor' : '<i class="ph ph-house"></i> Proprietário';
+      const label = p.tipo==='corretor' ? '🤝 Corretor' : '<i class="bi bi-house"></i> Proprietário';
       return `<div class="prop-card">
         <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
           <div>
@@ -3133,9 +3136,9 @@ function renderProps() {
           <span class="badge ${badge}">${label}</span>
         </div>
         <div class="prop-card-actions">
-          <a href="${wa}" target="_blank" class="btn btn-ok btn-sm" style="text-decoration:none"><i class="ph ph-device-mobile"></i> WhatsApp</a>
-          <button class="btn btn-ghost btn-sm" onclick="openPropForm('${p.id}')"><i class="ph ph-pencil-simple"></i> Editar</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteProp('${p.id}')"><i class="ph ph-trash"></i></button>
+          <a href="${wa}" target="_blank" class="btn btn-ok btn-sm" style="text-decoration:none"><i class="bi bi-phone"></i> WhatsApp</a>
+          <button class="btn btn-ghost btn-sm" onclick="openPropForm('${p.id}')"><i class="bi bi-pencil"></i> Editar</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProp('${p.id}')"><i class="bi bi-trash"></i></button>
         </div>
       </div>`;
     }).join('');
@@ -3146,18 +3149,18 @@ function renderProps() {
       const n   = ims.filter(i=>i.prop_id===p.id).length;
       const wa  = `https://wa.me/55${(p.tel||'').replace(/\D/g,'')}`;
       const badge = p.tipo==='corretor' ? 'bd-corr' : 'bd-prop';
-      const label = p.tipo==='corretor' ? '🤝 Corretor' : '<i class="ph ph-house"></i> Proprietário';
+      const label = p.tipo==='corretor' ? '🤝 Corretor' : '<i class="bi bi-house"></i> Proprietário';
       return `<tr>
         <td style="font-weight:600">${esc(p.nome)}</td>
-        <td><a href="${wa}" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:500"><i class="ph ph-device-mobile"></i> ${esc(p.tel)}</a></td>
+        <td><a href="${wa}" target="_blank" style="color:var(--accent);text-decoration:none;font-weight:500"><i class="bi bi-phone"></i> ${esc(p.tel)}</a></td>
         <td><span class="badge ${badge}">${label}</span></td>
         <td style="font-size:12px;color:var(--text3)">${sitLabel[p.situacao||'']}</td>
         <td style="font-family:'DM Mono',monospace;font-weight:600">${n}</td>
         <td style="color:var(--text3);font-size:12px">${fmtData(p.created)}</td>
         <td>
           <div style="display:flex;gap:5px">
-            <button class="btn btn-ghost btn-sm" onclick="openPropForm('${p.id}')"><i class="ph ph-pencil-simple"></i></button>
-            <button class="btn btn-danger btn-sm" onclick="deleteProp('${p.id}')"><i class="ph ph-trash"></i></button>
+            <button class="btn btn-ghost btn-sm" onclick="openPropForm('${p.id}')"><i class="bi bi-pencil"></i></button>
+            <button class="btn btn-danger btn-sm" onclick="deleteProp('${p.id}')"><i class="bi bi-trash"></i></button>
           </div>
         </td>
       </tr>`;
@@ -3212,11 +3215,11 @@ function openClienteForm(id = null) {
 
 function saveCliente() {
   const nome = document.getElementById('cf-nome').value.trim();
-  if (!nome) return toast('<i class="ph ph-warning"></i> Informe o nome do cliente');
+  if (!nome) return toast('<i class="bi bi-exclamation-triangle"></i> Informe o nome do cliente');
   const telCl = document.getElementById('cf-tel').value.trim();
   if (telCl) {
     const dupTel = checkDupTel(telCl, editId);
-    if (dupTel) return toast(`<i class="ph ph-warning"></i> Este WhatsApp já está cadastrado para "${dupTel.nome}". Verifique antes de salvar.`);
+    if (dupTel) return toast(`<i class="bi bi-exclamation-triangle"></i> Este WhatsApp já está cadastrado para "${dupTel.nome}". Verifique antes de salvar.`);
   }
 
   const c = {
@@ -3244,14 +3247,14 @@ function saveCliente() {
     if(idx>=0){ c.created=list[idx].created; c.historico=list[idx].historico||[]; list[idx]=c; }
   } else { c.created=new Date().toISOString(); c.historico=[]; list.push(c); }
   save(DB.CL, list);
-  toast('<i class="ph ph-check-circle"></i> Cliente salvo!');
+  toast('<i class="bi bi-check-circle"></i> Cliente salvo!');
   nav('clientes');
 }
 
 function deleteCliente(id) {
   openModal('Excluir cliente','Deseja excluir este cliente e seu perfil de busca?', () => {
     save(DB.CL, load(DB.CL).filter(c=>c.id!==id));
-    renderClientes(); toast('<i class="ph ph-trash"></i> Cliente excluído');
+    renderClientes(); toast('<i class="bi bi-trash"></i> Cliente excluído');
   });
 }
 
@@ -3261,7 +3264,7 @@ function toggleAlerta(id) {
   if(idx>=0){
     list[idx].alerta=list[idx].alerta==='ativo'?'pausado':'ativo';
     save(DB.CL,list); renderClientes();
-    toast(`<i class="ph ph-check-circle"></i> Alerta ${list[idx].alerta==='ativo'?'ativado':'pausado'}`);
+    toast(`<i class="bi bi-check-circle"></i> Alerta ${list[idx].alerta==='ativo'?'ativado':'pausado'}`);
   }
 }
 
@@ -3273,7 +3276,7 @@ function registrarFeedback(cliId, imId) {
   if(idx<0) return;
   const hIdx=(list[idx].historico||[]).findIndex(h=>h.im_id===imId);
   if(hIdx>=0) list[idx].historico[hIdx].feedback=fb;
-  save(DB.CL,list); toast('<i class="ph ph-check-circle"></i> Feedback salvo!'); renderClientes();
+  save(DB.CL,list); toast('<i class="bi bi-check-circle"></i> Feedback salvo!'); renderClientes();
 }
 
 function renderClientes() {
@@ -3302,12 +3305,12 @@ function renderClientes() {
     const p = c.perfil||{};
     const wa = `https://wa.me/55${(c.tel||'').replace(/\D/g,'')}`;
     const intentBadge = c.intent==='comprar'
-      ? `<span style="background:#f3e8ff;color:#7e22ce;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700"><i class="ph ph-tag"></i> Compra</span>`
+      ? `<span style="background:#f3e8ff;color:#7e22ce;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700"><i class="bi bi-tag"></i> Compra</span>`
       : c.intent==='ambos'
-      ? `<span style="background:#fef3c7;color:#b45309;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700"><i class="ph ph-key"></i><i class="ph ph-tag"></i> Ambos</span>`
-      : `<span style="background:#dbeafe;color:#1d4ed8;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700"><i class="ph ph-key"></i> Aluguel</span>`;
+      ? `<span style="background:#fef3c7;color:#b45309;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700"><i class="bi bi-key"></i><i class="bi bi-tag"></i> Ambos</span>`
+      : `<span style="background:#dbeafe;color:#1d4ed8;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700"><i class="bi bi-key"></i> Aluguel</span>`;
     const alertaBadge = c.alerta==='ativo'
-      ? `<span style="background:#dcfce7;color:#15803d;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700"><i class="ph ph-bell"></i> Ativo</span>`
+      ? `<span style="background:#dcfce7;color:#15803d;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700"><i class="bi bi-bell"></i> Ativo</span>`
       : `<span style="background:#f1f5f9;color:var(--text3);font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700">⏸ Pausado</span>`;
     const tags = [];
     if (p.tipo) tags.push(p.tipo);
@@ -3326,7 +3329,7 @@ function renderClientes() {
       <div class="cli-head">
         <div>
           <div class="cli-name">${esc(c.nome)}</div>
-          ${c.tel?`<a href="${wa}" target="_blank" class="cli-phone"><i class="ph ph-device-mobile"></i> ${esc(c.tel)}</a>`:''}
+          ${c.tel?`<a href="${wa}" target="_blank" class="cli-phone"><i class="bi bi-phone"></i> ${esc(c.tel)}</a>`:''}
         </div>
         <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end">
           ${intentBadge}${alertaBadge}
@@ -3336,7 +3339,7 @@ function renderClientes() {
         ${tags.length?tags.map(t=>`<span class="tag">${esc(t)}</span>`).join(''):'<span style="font-size:12px;color:var(--text3)">Sem perfil definido</span>'}
       </div>
       ${c.perfil_txt?`<div class="cli-obs">💬 ${esc(c.perfil_txt.substring(0,120))}${c.perfil_txt.length>120?'…':''}</div>`:''}
-      ${matches>0?`<div style="margin-top:8px;font-size:12px;font-weight:600;color:var(--accent)"><i class="ph ph-target"></i> ${matches} imóvel${matches!==1?'is':''} compatível${matches!==1?'s':''} disponíve${matches!==1?'is':'l'}</div>`:''}
+      ${matches>0?`<div style="margin-top:8px;font-size:12px;font-weight:600;color:var(--accent)"><i class="bi bi-bullseye"></i> ${matches} imóvel${matches!==1?'is':''} compatível${matches!==1?'s':''} disponíve${matches!==1?'is':'l'}</div>`:''}
       ${hist.length?`<div style="margin-top:8px">
         <div style="font-size:10px;font-weight:700;color:var(--text4);margin-bottom:4px">ÚLTIMAS OFERTAS</div>
         ${hist.map(h=>{
@@ -3350,8 +3353,8 @@ function renderClientes() {
         }).join('')}
       </div>`:''}
       <div class="cli-acts">
-        <button class="btn btn-ghost btn-sm" onclick="openClienteForm('${c.id}')"><i class="ph ph-pencil-simple"></i> Editar</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteCliente('${c.id}')"><i class="ph ph-trash"></i></button>
+        <button class="btn btn-ghost btn-sm" onclick="openClienteForm('${c.id}')"><i class="bi bi-pencil"></i> Editar</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteCliente('${c.id}')"><i class="bi bi-trash"></i></button>
         <button class="btn btn-sm" style="background:#eff6ff;color:var(--blue);border:1px solid #bfdbfe;font-weight:600" onclick="toggleAlerta('${c.id}')">
           ${c.alerta==='ativo'?'⏸ Pausar':'▶ Ativar'}
         </button>
@@ -3412,7 +3415,7 @@ function renderDash() {
   if (vencendo.length) {
     notifEl.innerHTML = vencendo.map(i => {
       const d=diasParaVencer(i.contrato_fim);
-      return `<div class="notif-banner">⏰ <strong>Contrato próximo do vencimento:</strong> [${i.codigo}] ${esc(i.tipo)} — ${esc(i.bairro)} &nbsp;·&nbsp; Vence em <strong>${d} dia${d!==1?'s':''}</strong></div>`;
+      return `<div class="notif-banner"><i class="bi bi-alarm"></i> <strong>Contrato próximo do vencimento:</strong> [${i.codigo}] ${esc(i.tipo)} — ${esc(i.bairro)} &nbsp;·&nbsp; Vence em <strong>${d} dia${d!==1?'s':''}</strong></div>`;
     }).join('');
   } else { notifEl.innerHTML=''; }
 
@@ -3422,9 +3425,9 @@ function renderDash() {
     { n:alugado, l:'Alugados',         color:'var(--blue)',   sc:'alugado',     fi:null },
     { n:vendido, l:'Vendidos',         color:'var(--purple)', sc:'vendido',     fi:null },
     { n:indisp,  l:'Indisponíveis',    color:'var(--amber)',  sc:'indisponivel',fi:null },
-    { n:vd,      l:'🟢 Atualizados',  color:'var(--g)',      sc:null,          fi:null },
-    { n:am,      l:'🟡 A verificar',  color:'var(--y)',      sc:null,          fi:null },
-    { n:cr,      l:'🔴 Críticos',     color:'var(--r)',      sc:null,          fi:null },
+    { n:vd,      l:'<span class="dot dot-g"></span> Atualizados',  color:'var(--g)',      sc:null,          fi:null },
+    { n:am,      l:'<span class="dot dot-y"></span> A verificar',  color:'var(--y)',      sc:null,          fi:null },
+    { n:cr,      l:'<span class="dot dot-r"></span> Críticos',     color:'var(--r)',      sc:null,          fi:null },
     { n:props.length, l:'Contatos',   color:'var(--text3)',  sc:null,          fi:null },
     { n:clis.filter(c=>c.alerta==='ativo').length, l:'Clientes Ativos', color:'var(--blue)', sc:null, fi:null },
   ].map(s => {
@@ -3434,11 +3437,11 @@ function renderDash() {
 
   const al=document.getElementById('dash-alert');
   if (cr>0)
-    al.innerHTML=`<div class="alert alert-r">🔴 <strong>${cr} imóvel${cr>1?'is':''} sem atualização há mais de 20 dias.</strong> Contate os proprietários e verifique disponibilidade e preço.</div>`;
+    al.innerHTML=`<div class="alert alert-r"><span class="dot dot-r"></span> <strong>${cr} imóvel${cr>1?'is':''} sem atualização há mais de 20 dias.</strong> Contate os proprietários e verifique disponibilidade e preço.</div>`;
   else if (am>0)
-    al.innerHTML=`<div class="alert alert-y">🟡 <strong>${am} imóvel${am>1?'is':''} precisam de verificação</strong> (15–19 dias sem contato).</div>`;
+    al.innerHTML=`<div class="alert alert-y"><span class="dot dot-y"></span> <strong>${am} imóvel${am>1?'is':''} precisam de verificação</strong> (15–19 dias sem contato).</div>`;
   else if (total>0)
-    al.innerHTML=`<div class="alert alert-g"><i class="ph ph-check-circle"></i> Catálogo 100% atualizado. Bom trabalho!</div>`;
+    al.innerHTML=`<div class="alert alert-g"><i class="bi bi-check-circle"></i> Catálogo 100% atualizado. Bom trabalho!</div>`;
   else al.innerHTML='';
 
   const pct=n=>total>0?Math.round(n/total*100):0;
@@ -3453,7 +3456,7 @@ function renderDash() {
       <div class="fbar-seg" style="width:${pct(am)}%;background:var(--y)"></div>
       <div class="fbar-seg" style="width:${pct(cr)}%;background:var(--r)"></div>
     </div>
-    <div style="font-size:11px;color:var(--text3);margin-top:8px">Escala: 🟢 0–14d &nbsp;|&nbsp; 🟡 15–19d &nbsp;|&nbsp; 🔴 20+d</div>
+    <div style="font-size:11px;color:var(--text3);margin-top:8px">Escala: <span class="dot dot-g"></span> 0–14d &nbsp;|&nbsp; <span class="dot dot-y"></span> 15–19d &nbsp;|&nbsp; <span class="dot dot-r"></span> 20+d</div>
     <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
       <div style="font-size:12px;font-weight:600;color:var(--text3);margin-bottom:8px">PRÓXIMOS A VENCER</div>
       ${am===0?'<p style="font-size:12px;color:var(--text3)">Nenhum no momento.</p>':
@@ -3466,15 +3469,15 @@ function renderDash() {
     </div>`;
 
   document.getElementById('dash-status').innerHTML=[
-    {l:'🟢 Disponível',    n:disp},
-    {l:'🔵 Alugado',       n:alugado},
-    {l:'🟣 Vendido',       n:vendido},
-    {l:'🟠 Indisponível',  n:indisp},
+    {l:'<span class="dot dot-g"></span> Disponível',    n:disp},
+    {l:'<span class="dot dot-b"></span> Alugado',       n:alugado},
+    {l:'<span class="dot dot-p"></span> Vendido',       n:vendido},
+    {l:'<span class="dot dot-o"></span> Indisponível',  n:indisp},
   ].map(s=>`<li><span>${s.l}</span><span class="rv">${s.n}</span></li>`).join('');
 
   const crList=ims.filter(i=>fresh(i.updated).c==='r').sort((a,b)=>fresh(b.updated).d-fresh(a.updated).d);
   document.getElementById('dash-criticos-list').innerHTML=crList.length===0
-    ?'<p style="font-size:13px;color:var(--accent);margin-top:6px"><i class="ph ph-check-circle"></i> Nenhum imóvel crítico!</p>'
+    ?'<p style="font-size:13px;color:var(--accent);margin-top:6px"><i class="bi bi-check-circle"></i> Nenhum imóvel crítico!</p>'
     :`<ul class="rlist">${crList.slice(0,8).map(i=>{const f=fresh(i.updated);return`<li>
         <span style="display:flex;align-items:center;gap:6px">${dot('r')} <span class="im-code" style="font-size:9px">${esc(i.codigo)}</span> ${esc(i.tipo)} · ${esc(i.bairro)}</span>
         <span class="rv" style="color:var(--r)">${f.d}d</span></li>`;}).join('')}</ul>`;
@@ -3508,7 +3511,7 @@ function exportData() {
   const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a'); a.href=url; a.download=`imobmatch-backup-${today()}.json`; a.click(); URL.revokeObjectURL(url);
-  toast('<i class="ph ph-check-circle"></i> Backup exportado!');
+  toast('<i class="bi bi-check-circle"></i> Backup exportado!');
 }
 function importData(e) {
   const file=e.target.files[0]; if(!file) return;
@@ -3516,14 +3519,14 @@ function importData(e) {
   reader.onload=ev=>{
     try {
       const data=JSON.parse(ev.target.result);
-      if(!data.imobmatch_backup) return toast('<i class="ph ph-x-circle"></i> Arquivo inválido — não é um backup do ImobMatch');
+      if(!data.imobmatch_backup) return toast('<i class="bi bi-x-circle"></i> Arquivo inválido — não é um backup do ImobMatch');
       openModal('Importar backup',`Backup de ${fmtData(data.date)}. Isso SUBSTITUIRÁ todos os dados atuais. Confirmar?`,()=>{
         save(DB.IM, Array.isArray(data.imoveis)?data.imoveis:[]);
         save(DB.PR, Array.isArray(data.proprietarios)?data.proprietarios:[]);
         save(DB.CL, Array.isArray(data.clientes)?data.clientes:[]);
-        nav('dashboard'); toast('<i class="ph ph-check-circle"></i> Dados importados com sucesso!');
+        nav('dashboard'); toast('<i class="bi bi-check-circle"></i> Dados importados com sucesso!');
       });
-    } catch { toast('<i class="ph ph-x-circle"></i> Erro ao ler o arquivo'); }
+    } catch { toast('<i class="bi bi-x-circle"></i> Erro ao ler o arquivo'); }
   };
   reader.readAsText(file); e.target.value='';
 }
@@ -3578,20 +3581,20 @@ function esc(s) {
 
 // ─── DOCUMENTOS ─────────────────────────────────
 const DOC_TIPOS = {
-  contrato_locacao: { label:'Contrato de Locação', icon:'<i class="ph ph-clipboard-text"></i>', css:'bd-doc-contrato' },
-  contrato_venda:   { label:'Contrato de Venda',   icon:'<i class="ph ph-tag"></i>', css:'bd-doc-contrato' },
-  rg_cpf:           { label:'RG / CPF',            icon:'<i class="ph ph-identification-card"></i>', css:'bd-doc-pessoa' },
-  comp_renda:       { label:'Comp. de Renda',      icon:'<i class="ph ph-currency-dollar"></i>', css:'bd-doc-financeiro' },
-  comp_residencia:  { label:'Comp. Residência',    icon:'<i class="ph ph-house"></i>', css:'bd-doc-pessoa' },
-  ficha_cadastral:  { label:'Ficha Cadastral',     icon:'<i class="ph ph-note-pencil"></i>', css:'bd-doc-pessoa' },
-  vistoria_entrada: { label:'Vistoria de Entrada', icon:'<i class="ph ph-magnifying-glass"></i>', css:'bd-doc-vistoria' },
-  vistoria_saida:   { label:'Vistoria de Saída',   icon:'<i class="ph ph-door"></i>', css:'bd-doc-vistoria' },
-  matricula:        { label:'Matrícula/Escritura', icon:'<i class="ph ph-file-text"></i>', css:'bd-doc-imovel' },
-  iptu:             { label:'IPTU',                icon:'<i class="ph ph-bank"></i>', css:'bd-doc-imovel' },
-  notificacao:      { label:'Notificação',         icon:'<i class="ph ph-warning"></i>', css:'bd-doc-outros' },
-  recibo:           { label:'Recibo de Pagamento', icon:'<i class="ph ph-money"></i>', css:'bd-doc-financeiro' },
-  seguro_fianca:    { label:'Seguro Fiança',       icon:'<i class="ph ph-lock-simple"></i>', css:'bd-doc-contrato' },
-  outros:           { label:'Outros',              icon:'<i class="ph ph-paperclip"></i>', css:'bd-doc-outros' },
+  contrato_locacao: { label:'Contrato de Locação', icon:'<i class="bi bi-clipboard-check"></i>', css:'bd-doc-contrato' },
+  contrato_venda:   { label:'Contrato de Venda',   icon:'<i class="bi bi-tag"></i>', css:'bd-doc-contrato' },
+  rg_cpf:           { label:'RG / CPF',            icon:'<i class="bi bi-person-badge"></i>', css:'bd-doc-pessoa' },
+  comp_renda:       { label:'Comp. de Renda',      icon:'<i class="bi bi-currency-dollar"></i>', css:'bd-doc-financeiro' },
+  comp_residencia:  { label:'Comp. Residência',    icon:'<i class="bi bi-house"></i>', css:'bd-doc-pessoa' },
+  ficha_cadastral:  { label:'Ficha Cadastral',     icon:'<i class="bi bi-file-earmark-text"></i>', css:'bd-doc-pessoa' },
+  vistoria_entrada: { label:'Vistoria de Entrada', icon:'<i class="bi bi-search"></i>', css:'bd-doc-vistoria' },
+  vistoria_saida:   { label:'Vistoria de Saída',   icon:'<i class="bi bi-door-open"></i>', css:'bd-doc-vistoria' },
+  matricula:        { label:'Matrícula/Escritura', icon:'<i class="bi bi-file-earmark-text"></i>', css:'bd-doc-imovel' },
+  iptu:             { label:'IPTU',                icon:'<i class="bi bi-bank"></i>', css:'bd-doc-imovel' },
+  notificacao:      { label:'Notificação',         icon:'<i class="bi bi-exclamation-triangle"></i>', css:'bd-doc-outros' },
+  recibo:           { label:'Recibo de Pagamento', icon:'<i class="bi bi-cash-coin"></i>', css:'bd-doc-financeiro' },
+  seguro_fianca:    { label:'Seguro Fiança',       icon:'<i class="bi bi-lock"></i>', css:'bd-doc-contrato' },
+  outros:           { label:'Outros',              icon:'<i class="bi bi-paperclip"></i>', css:'bd-doc-outros' },
 };
 
 function openDocModal(entTipo, entId) {
@@ -3604,7 +3607,7 @@ function openDocModal(entTipo, entId) {
   document.getElementById('doc-entidade-tipo').value = entTipo || '';
   document.getElementById('doc-entidade-id').value = entId || '';
   const entLabels = { imovel:'Imóvel', contato:'Contato', cliente:'Cliente', '':'Geral' };
-  document.getElementById('modal-doc-title').textContent = '<i class="ph ph-folder"></i> Adicionar Documento';
+  document.getElementById('modal-doc-title').textContent = '<i class="bi bi-folder"></i> Adicionar Documento';
   document.getElementById('modal-doc-desc').textContent = entTipo && entId
     ? `Documento será vinculado a: ${entLabels[entTipo] || entTipo}. Você pode vincular a qualquer entidade após salvar.`
     : 'Documento geral — sem vínculo específico.';
@@ -3614,7 +3617,7 @@ function openDocModal(entTipo, entId) {
 function closeDocModal() { document.getElementById('modal-doc').classList.remove('open'); }
 function saveDoc() {
   const nome = document.getElementById('doc-nome').value.trim();
-  if (!nome) return toast('<i class="ph ph-warning"></i> Informe o nome do documento');
+  if (!nome) return toast('<i class="bi bi-exclamation-triangle"></i> Informe o nome do documento');
   const d = {
     id:            document.getElementById('doc-edit-id').value || uid(),
     nome,
@@ -3632,7 +3635,7 @@ function saveDoc() {
   else list.push(d);
   save(DB.DC, list);
   closeDocModal();
-  toast(`<i class="ph ph-check-circle"></i> Documento "${nome}" salvo!`);
+  toast(`<i class="bi bi-check-circle"></i> Documento "${nome}" salvo!`);
   // Atualiza seções contextuais se estiver num form
   if (d.entidade_tipo === 'imovel')  renderEntityDocs('im', d.entidade_id);
   if (d.entidade_tipo === 'contato') renderEntityDocs('pr', d.entidade_id);
@@ -3643,7 +3646,7 @@ function deleteDoc(id) {
   openModal('Excluir documento','Deseja excluir este documento? O arquivo em si não será afetado.', () => {
     const d = load(DB.DC).find(x => x.id === id);
     save(DB.DC, load(DB.DC).filter(x => x.id !== id));
-    toast('<i class="ph ph-trash"></i> Documento excluído');
+    toast('<i class="bi bi-trash"></i> Documento excluído');
     if (d) {
       renderEntityDocs('im', d.entidade_id);
       renderEntityDocs('pr', d.entidade_id);
@@ -3671,7 +3674,7 @@ function renderEntityDocs(prefix, entId) {
       </div>
       <div class="doc-acts">
         ${d.url?`<a href="${esc(d.url)}" target="_blank" class="btn btn-ok btn-sm">👁️ Ver</a>`:'<span style="font-size:11px;color:var(--text4)">Sem link</span>'}
-        <button class="btn btn-danger btn-sm" onclick="deleteDoc('${d.id}')"><i class="ph ph-trash"></i></button>
+        <button class="btn btn-danger btn-sm" onclick="deleteDoc('${d.id}')"><i class="bi bi-trash"></i></button>
       </div>
     </div>`;
   }).join('');
@@ -3705,7 +3708,7 @@ function renderDocs() {
     if (d.entidade_tipo==='cliente') { const c=clis.find(x=>x.id===d.entidade_id);  return c?c.nome:'Cliente removido'; }
     return '—';
   };
-  const entIcon = { imovel:'<i class="ph ph-buildings"></i>', contato:'<i class="ph ph-users"></i>', cliente:'<i class="ph ph-magnifying-glass"></i>', '':'📂' };
+  const entIcon = { imovel:'<i class="bi bi-buildings"></i>', contato:'<i class="bi bi-people"></i>', cliente:'<i class="bi bi-search"></i>', '':'📂' };
 
   listEl.innerHTML = rows.map(d => {
     const ti = DOC_TIPOS[d.tipo] || DOC_TIPOS.outros;
@@ -3722,7 +3725,7 @@ function renderDocs() {
       </div>
       <div class="doc-acts">
         ${d.url?`<a href="${esc(d.url)}" target="_blank" class="btn btn-ok btn-sm">👁️ Abrir</a>`:'<span style="font-size:11px;color:var(--text4)">Sem link</span>'}
-        <button class="btn btn-danger btn-sm" onclick="deleteDoc('${d.id}')"><i class="ph ph-trash"></i></button>
+        <button class="btn btn-danger btn-sm" onclick="deleteDoc('${d.id}')"><i class="bi bi-trash"></i></button>
       </div>
     </div>`;
   }).join('');
@@ -3798,9 +3801,9 @@ function renderGestao() {
 
   document.getElementById('gst-stats').innerHTML = [
     { n:total,     l:'Total Administrados', color:'var(--blue)' },
-    { n:emDia,     l:'<i class="ph ph-check-circle"></i> Em dia',           color:'var(--accent)' },
-    { n:atrasado,  l:'🔴 Atrasados',        color:'var(--r)' },
-    { n:vencendo30,l:'⏰ Vencem em 30d',    color:'var(--amber)' },
+    { n:emDia,     l:'<i class="bi bi-check-circle"></i> Em dia',           color:'var(--accent)' },
+    { n:atrasado,  l:'<span class="dot dot-r"></span> Atrasados',        color:'var(--r)' },
+    { n:vencendo30,l:'<i class="bi bi-alarm"></i> Vencem em 30d',    color:'var(--amber)' },
   ].map(s=>`<div class="gst-stat"><div class="gst-n" style="color:${s.color}">${s.n}</div><div class="gst-l">${s.l}</div></div>`).join('');
 
   const tbody     = document.getElementById('gst-tbody');
@@ -3819,7 +3822,7 @@ function renderGestao() {
   const atrasadoCount = ims.filter(im => getStatus(im) === 'atrasado').length;
   [badge2, badge2b].forEach(b => { if(b) { b.style.display = atrasadoCount > 0 ? 'inline' : 'none'; b.textContent = atrasadoCount; } });
 
-  const stMap = { pago:['pgmt-pago','<i class="ph ph-check-circle"></i> Pago'], pendente:['pgmt-pendente','⏳ Pendente'], atrasado:['pgmt-atrasado','🔴 Atrasado'] };
+  const stMap = { pago:['pgmt-pago','<i class="bi bi-check-circle"></i> Pago'], pendente:['pgmt-pendente','⏳ Pendente'], atrasado:['pgmt-atrasado','<span class="dot dot-r"></span> Atrasado'] };
 
   if (isMobile()) {
     if (tableWrap) tableWrap.style.display = 'none';
@@ -3843,17 +3846,17 @@ function renderGestao() {
           <div class="im-card-info-item" style="grid-column:1/-1">
             <span class="lbl">Inquilino</span>
             <strong>${esc(im.inq_nome||'–')}</strong>
-            ${im.inq_tel?`<a href="https://wa.me/55${im.inq_tel.replace(/\D/g,'')}" target="_blank" style="color:var(--accent);text-decoration:none;margin-left:4px"><i class="ph ph-device-mobile"></i></a>`:''}
+            ${im.inq_tel?`<a href="https://wa.me/55${im.inq_tel.replace(/\D/g,'')}" target="_blank" style="color:var(--accent);text-decoration:none;margin-left:4px"><i class="bi bi-phone"></i></a>`:''}
           </div>
           ${im.dia_venc?`<div class="im-card-info-item"><span class="lbl">Vence dia</span> ${im.dia_venc}</div>`:''}
           ${pg&&pg.data_pagamento?`<div class="im-card-info-item"><span class="lbl">Pago em</span> ${fmtData(pg.data_pagamento)}</div>`:''}
-          ${im.contrato_fim?`<div class="im-card-info-item"><span class="lbl">Fim contrato</span> ${fmtData(im.contrato_fim)}${dVenc!==null&&dVenc<=30?` <span style="color:var(--amber);font-size:10px">⏰${dVenc}d</span>`:''}</div>`:''}
+          ${im.contrato_fim?`<div class="im-card-info-item"><span class="lbl">Fim contrato</span> ${fmtData(im.contrato_fim)}${dVenc!==null&&dVenc<=30?` <span style="color:var(--amber);font-size:10px"><i class="bi bi-alarm"></i>${dVenc}d</span>`:''}</div>`:''}
         </div>
         <div class="im-card-actions">
-          <button class="btn btn-primary btn-sm" onclick="openPgmtModal('${im.id}')" style="flex:2"><i class="ph ph-money"></i> Pagamento</button>
-          <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${im.id}')"><i class="ph ph-pencil-simple"></i></button>
-          <button class="btn btn-ghost btn-sm" onclick="openDocModal('imovel','${im.id}')">${docs?`<i class="ph ph-folder"></i>(${docs})`:'<i class="ph ph-folder"></i>'}</button>
-          <button class="btn btn-ghost btn-sm" onclick="verHistPgmt('${im.id}')"><i class="ph ph-chart-bar"></i></button>
+          <button class="btn btn-primary btn-sm" onclick="openPgmtModal('${im.id}')" style="flex:2"><i class="bi bi-cash-coin"></i> Pagamento</button>
+          <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${im.id}')"><i class="bi bi-pencil"></i></button>
+          <button class="btn btn-ghost btn-sm" onclick="openDocModal('imovel','${im.id}')">${docs?`<i class="bi bi-folder"></i>(${docs})`:'<i class="bi bi-folder"></i>'}</button>
+          <button class="btn btn-ghost btn-sm" onclick="verHistPgmt('${im.id}')"><i class="bi bi-bar-chart"></i></button>
         </div>
       </div>`;
     }).join('');
@@ -3864,7 +3867,7 @@ function renderGestao() {
       const st = getStatus(im);
       const [cls, lbl] = stMap[st] || ['pgmt-pendente','–'];
       const pg = pgmts.find(p => p.imovel_id === im.id && p.mes_ref === mesAtual);
-      const reaj = im.data_reaj ? (() => { const d=diasParaVencer(im.data_reaj); return d!==null&&d<=30?`<span style="color:var(--amber);font-size:10px"><i class="ph ph-warning"></i> em ${d}d</span>`:fmtData(im.data_reaj); })() : '–';
+      const reaj = im.data_reaj ? (() => { const d=diasParaVencer(im.data_reaj); return d!==null&&d<=30?`<span style="color:var(--amber);font-size:10px"><i class="bi bi-exclamation-triangle"></i> em ${d}d</span>`:fmtData(im.data_reaj); })() : '–';
       const docs = load(DB.DC).filter(d => d.entidade_tipo==='imovel' && d.entidade_id===im.id).length;
       return `<tr>
         <td>${dot(im.status==='alugado'?'g':'r')}</td>
@@ -3875,7 +3878,7 @@ function renderGestao() {
         </td>
         <td>
           <div style="font-weight:600">${esc(im.inq_nome||'–')}</div>
-          ${im.inq_tel?`<a href="https://wa.me/55${(im.inq_tel).replace(/\D/g,'')}" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none"><i class="ph ph-device-mobile"></i> ${esc(im.inq_tel)}</a>`:''}
+          ${im.inq_tel?`<a href="https://wa.me/55${(im.inq_tel).replace(/\D/g,'')}" target="_blank" style="font-size:11px;color:var(--accent);text-decoration:none"><i class="bi bi-phone"></i> ${esc(im.inq_tel)}</a>`:''}
         </td>
         <td style="font-family:'DM Mono',monospace;font-weight:600">${im.valor?moeda(im.valor):'–'}</td>
         <td style="text-align:center">${im.dia_venc?`Dia ${im.dia_venc}`:'–'}</td>
@@ -3887,10 +3890,10 @@ function renderGestao() {
         <td style="font-size:12px">${reaj}</td>
         <td>
           <div style="display:flex;gap:4px;flex-wrap:wrap">
-            <button class="btn btn-primary btn-sm" onclick="openPgmtModal('${im.id}')" title="Registrar pagamento"><i class="ph ph-money"></i></button>
-            <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${im.id}')" title="Editar imóvel"><i class="ph ph-pencil-simple"></i></button>
-            <button class="btn btn-ghost btn-sm" onclick="openDocModal('imovel','${im.id}')" title="Adicionar documento">${docs?`<i class="ph ph-folder"></i>(${docs})`:'<i class="ph ph-folder"></i>'}</button>
-            <button class="btn btn-ghost btn-sm" onclick="verHistPgmt('${im.id}')" title="Histórico de pagamentos"><i class="ph ph-chart-bar"></i></button>
+            <button class="btn btn-primary btn-sm" onclick="openPgmtModal('${im.id}')" title="Registrar pagamento"><i class="bi bi-cash-coin"></i></button>
+            <button class="btn btn-ghost btn-sm" onclick="openImovelForm('${im.id}')" title="Editar imóvel"><i class="bi bi-pencil"></i></button>
+            <button class="btn btn-ghost btn-sm" onclick="openDocModal('imovel','${im.id}')" title="Adicionar documento">${docs?`<i class="bi bi-folder"></i>(${docs})`:'<i class="bi bi-folder"></i>'}</button>
+            <button class="btn btn-ghost btn-sm" onclick="verHistPgmt('${im.id}')" title="Histórico de pagamentos"><i class="bi bi-bar-chart"></i></button>
           </div>
         </td>
       </tr>`;
@@ -3915,7 +3918,7 @@ function closePgmtModal() { document.getElementById('modal-pgmt').classList.remo
 function savePgmt() {
   const imId   = document.getElementById('pgmt-imovel-id').value;
   const mesRef = document.getElementById('pgmt-mes-ref').value;
-  if (!imId || !mesRef) return toast('<i class="ph ph-warning"></i> Selecione o mês de referência');
+  if (!imId || !mesRef) return toast('<i class="bi bi-exclamation-triangle"></i> Selecione o mês de referência');
   const pg = {
     id:          uid(),
     imovel_id:   imId,
@@ -3932,7 +3935,7 @@ function savePgmt() {
   filtered.push(pg);
   save(DB.PG, filtered);
   closePgmtModal();
-  toast(`<i class="ph ph-check-circle"></i> Pagamento de ${mesRef} registrado como ${pg.status === 'pago' ? 'Pago <i class="ph ph-check-circle"></i>' : pg.status === 'atrasado' ? 'Atrasado 🔴' : 'Pendente ⏳'}`);
+  toast(`<i class="bi bi-check-circle"></i> Pagamento de ${mesRef} registrado como ${pg.status === 'pago' ? 'Pago <i class="bi bi-check-circle"></i>' : pg.status === 'atrasado' ? 'Atrasado <span class="dot dot-r"></span>' : 'Pendente ⏳'}`);
   renderGestao();
 }
 function verHistPgmt(imId) {
@@ -3940,11 +3943,11 @@ function verHistPgmt(imId) {
   if (!im) return;
   const pgmts = load(DB.PG).filter(p => p.imovel_id === imId).sort((a,b)=>b.mes_ref.localeCompare(a.mes_ref));
   const stMap = { pago:'pgmt-pago', pendente:'pgmt-pendente', atrasado:'pgmt-atrasado' };
-  const stLbl = { pago:'<i class="ph ph-check-circle"></i> Pago', pendente:'⏳ Pendente', atrasado:'🔴 Atrasado' };
+  const stLbl = { pago:'<i class="bi bi-check-circle"></i> Pago', pendente:'⏳ Pendente', atrasado:'<span class="dot dot-r"></span> Atrasado' };
   let html = `<strong>[${im.codigo}] ${im.tipo} — ${im.bairro}</strong><div style="font-size:12px;color:var(--text3);margin-bottom:12px">Inquilino: ${esc(im.inq_nome||'–')}</div>`;
   if (!pgmts.length) { html += '<p style="font-size:13px;color:var(--text3)">Nenhum pagamento registrado ainda.</p>'; }
   else { html += pgmts.map(p => `<div class="pgmt-row"><span style="font-weight:600">${p.mes_ref}</span><span class="badge ${stMap[p.status]}">${stLbl[p.status]}</span><span style="font-family:'DM Mono',monospace">${p.valor?moeda(p.valor):'–'}</span><span style="color:var(--text3)">${p.data_pagamento?fmtData(p.data_pagamento):'–'}</span>${p.obs?`<span style="color:var(--text3);font-style:italic">${esc(p.obs)}</span>`:''}</div>`).join(''); }
-  document.getElementById('modal-matches-title').textContent = '<i class="ph ph-chart-bar"></i> Histórico de Pagamentos';
+  document.getElementById('modal-matches-title').textContent = '<i class="bi bi-bar-chart"></i> Histórico de Pagamentos';
   document.getElementById('modal-matches-body').innerHTML = html;
   document.getElementById('modal-matches').classList.add('open');
 }
@@ -3996,7 +3999,7 @@ function checkDupCPF(cpf, excludeId = null) {
 function showHint(msg) {
   // Exibe no toast com duração maior
   const el = document.getElementById('toast');
-  el.innerHTML = `<span style="font-size:15px">ℹ️</span> <span style="white-space:pre-line">${msg}</span>`;
+  el.innerHTML = `<span style="font-size:15px"><i class="bi bi-info-circle"></i></span> <span style="white-space:pre-line">${msg}</span>`;
   el.style.display = 'block';
   clearTimeout(toastT);
   toastT = setTimeout(() => el.style.display = 'none', 7000);
@@ -4094,7 +4097,7 @@ function openSugestao() {
 function closeSugestao() { document.getElementById('modal-sugestao').classList.remove('open'); }
 function saveSugestao() {
   const txt = document.getElementById('sug-texto').value.trim();
-  if (!txt) return toast('<i class="ph ph-warning"></i> Escreva sua sugestão antes de enviar');
+  if (!txt) return toast('<i class="bi bi-exclamation-triangle"></i> Escreva sua sugestão antes de enviar');
   const sug = {
     id: uid(), texto: txt,
     nome: document.getElementById('sug-nome').value.trim() || 'Anônimo',
@@ -4104,7 +4107,7 @@ function saveSugestao() {
   list.push(sug);
   save('hmcrm_sugestoes', list);
   closeSugestao();
-  toast('<i class="ph ph-check-circle"></i> Sugestão registrada! Obrigado pelo feedback 🙏');
+  toast('<i class="bi bi-check-circle"></i> Sugestão registrada! Obrigado pelo feedback 🙏');
 }
 
 // ─── BOOT ───────────────────────────────────────
@@ -4112,7 +4115,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Restaura tema salvo
   const savedTheme = localStorage.getItem('imb_theme') || 'light';
   document.documentElement.setAttribute('data-theme', savedTheme);
-  const themeIco = savedTheme === 'dark' ? '<i class="ph ph-moon"></i>' : '<i class="ph ph-sun"></i>';
+  const themeIco = savedTheme === 'dark' ? '<i class="bi bi-moon"></i>' : '<i class="bi bi-sun"></i>';
   const tb = document.getElementById('theme-btn');
   const mtb = document.getElementById('mob-theme-btn');
   if (tb)  tb.innerHTML  = themeIco;
@@ -4181,7 +4184,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return d!==null && d>=0 && d<=20;
   });
   if (urgentes.length) {
-    setTimeout(() => toast(`⏰ ${urgentes.length} contrato${urgentes.length>1?'s':''} vencendo em até 20 dias! Veja o Dashboard.`), 1000);
+    setTimeout(() => toast(`<i class="bi bi-alarm"></i> ${urgentes.length} contrato${urgentes.length>1?'s':''} vencendo em até 20 dias! Veja o Dashboard.`), 1000);
   }
 });
 </script>
