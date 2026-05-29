@@ -55,6 +55,112 @@
 }
 
 
+/* ═══════════════════ LOGIN SCREEN ═══════════════════ */
+#login-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #080808;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+#login-overlay.hidden { display: none; }
+
+/* glow blob de fundo na tela de login */
+#login-overlay::before {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 420px; height: 420px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(231,78,0,.28) 0%, transparent 70%);
+  pointer-events: none;
+}
+#login-overlay::after {
+  content: '';
+  position: absolute; bottom: -120px; left: -80px;
+  width: 350px; height: 350px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(231,78,0,.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+#login-box {
+  position: relative; z-index: 1;
+  width: 360px; max-width: 92vw;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 18px;
+  padding: 40px 36px 36px;
+  backdrop-filter: blur(30px);
+  box-shadow: 0 8px 40px rgba(0,0,0,.6);
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+
+.login-brand {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 32px;
+}
+.login-brand-text h1 {
+  font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -.4px;
+}
+.login-brand-text p {
+  font-size: 11px; color: rgba(255,255,255,.35);
+  text-transform: uppercase; letter-spacing: .6px; margin-top: 2px;
+}
+
+.login-label {
+  width: 100%;
+  font-size: 11px; font-weight: 600; color: rgba(255,255,255,.4);
+  text-transform: uppercase; letter-spacing: .7px;
+  margin-bottom: 10px;
+}
+
+.login-input-wrap {
+  width: 100%; position: relative; margin-bottom: 6px;
+}
+#login-pin {
+  width: 100%; padding: 14px 46px 14px 16px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  color: #fff; font-size: 18px; font-family: 'DM Mono', monospace;
+  letter-spacing: 6px; outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+#login-pin::placeholder { letter-spacing: 3px; font-size: 14px; color: rgba(255,255,255,.2); }
+#login-pin:focus { border-color: rgba(231,78,0,.6); box-shadow: 0 0 0 3px rgba(231,78,0,.12); }
+#login-pin.pin-shake {
+  animation: pin-shake .35s ease;
+  border-color: rgba(239,68,68,.6) !important;
+}
+@keyframes pin-shake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-8px); }
+  40%      { transform: translateX(8px); }
+  60%      { transform: translateX(-5px); }
+  80%      { transform: translateX(5px); }
+}
+.login-eye {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; color: rgba(255,255,255,.3);
+  display: flex; align-items: center; padding: 0;
+  transition: color .15s;
+}
+.login-eye:hover { color: rgba(255,255,255,.6); }
+
+#login-err {
+  font-size: 12px; color: #f87171; text-align: center;
+  min-height: 18px; margin-bottom: 14px; margin-top: 4px;
+  opacity: 0; transition: opacity .2s;
+}
+#login-err.visible { opacity: 1; }
+
+#login-btn {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, #E74E00, #c93a00);
+  color: #fff; font-size: 14px; font-weight: 600;
+  border: none; border-radius: 10px; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(231,78,0,.4);
+  transition: opacity .15s, transform .1s;
+}
+#login-btn:hover { opacity: .92; }
+#login-btn:active { transform: scale(.98); }
+
 /* ─── ORANGE GLOW BLOBS (fixed, top-right) ─── */
 #glow-blobs {
   position: fixed; top: 0; right: 0;
@@ -813,6 +919,31 @@ svg.lucide { display: inline-block; vertical-align: middle; stroke-width: 1.5; f
 </style>
 </head>
 <body>
+
+<!-- ═══ LOGIN SCREEN ═══ -->
+<div id="login-overlay">
+  <div id="login-box">
+    <div class="login-brand">
+      <div class="sb-icon"><i data-lucide="house"></i></div>
+      <div class="login-brand-text">
+        <h1>HomeMatch CRM</h1>
+        <p>Inteligência Comercial</p>
+      </div>
+    </div>
+    <div class="login-label">Código de acesso</div>
+    <div class="login-input-wrap">
+      <input type="password" id="login-pin" placeholder="••••"
+        maxlength="30" autocomplete="off"
+        onkeydown="if(event.key==='Enter') checkPin()">
+      <button class="login-eye" onclick="toggleLoginEye(this)" tabindex="-1" title="Mostrar/ocultar">
+        <i data-lucide="eye" style="width:16px;height:16px"></i>
+      </button>
+    </div>
+    <div id="login-err"></div>
+    <button id="login-btn" onclick="checkPin()">Entrar</button>
+  </div>
+</div>
+
 <div class="app">
 
 <!-- ═══ SIDEBAR ═══ -->
@@ -2211,6 +2342,49 @@ function diasParaVencer(dateStr) {
   const hoje = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   return Math.round((venc - hoje) / 86400000);
 }
+
+// ═══════════════════ LOGIN ═══════════════════
+// ← Para trocar a senha, edite apenas esta linha:
+const APP_PIN = '1234';
+
+function checkPin() {
+  const input = document.getElementById('login-pin');
+  const errEl = document.getElementById('login-err');
+  if (input.value === APP_PIN) {
+    sessionStorage.setItem('hmcrm_auth', '1');
+    const ov = document.getElementById('login-overlay');
+    ov.style.opacity = '0';
+    ov.style.transition = 'opacity .3s';
+    setTimeout(() => ov.classList.add('hidden'), 300);
+  } else {
+    input.classList.add('pin-shake');
+    errEl.textContent = 'Código incorreto. Tente novamente.';
+    errEl.classList.add('visible');
+    input.value = '';
+    setTimeout(() => input.classList.remove('pin-shake'), 400);
+    setTimeout(() => { errEl.classList.remove('visible'); errEl.textContent=''; }, 2500);
+    input.focus();
+  }
+}
+function toggleLoginEye(btn) {
+  const input = document.getElementById('login-pin');
+  const isHidden = input.type === 'password';
+  input.type = isHidden ? 'text' : 'password';
+  btn.innerHTML = isHidden
+    ? '<i data-lucide="eye-off" style="width:16px;height:16px"></i>'
+    : '<i data-lucide="eye" style="width:16px;height:16px"></i>';
+  renderIcons();
+}
+// Boot: checa autenticação
+(function() {
+  if (sessionStorage.getItem('hmcrm_auth') === '1') {
+    const ov = document.getElementById('login-overlay');
+    if (ov) ov.classList.add('hidden');
+  } else {
+    // Espera o Lucide carregar para renderizar ícone da tela de login
+    window.addEventListener('load', () => { if (window.lucide) lucide.createIcons(); });
+  }
+})();
 
 // ─── LUCIDE ICONS ──────────────────────────────
 function renderIcons() {
@@ -4117,19 +4291,32 @@ function openSugestao() {
   setTimeout(() => document.getElementById('sug-texto').focus(), 80);
 }
 function closeSugestao() { document.getElementById('modal-sugestao').classList.remove('open'); }
+// ← Cole aqui o endpoint do Formspree após criar sua conta em formspree.io
+// Exemplo: 'https://formspree.io/f/xyzabcde'
+const FORMSPREE_URL = '';
+
 function saveSugestao() {
   const txt = document.getElementById('sug-texto').value.trim();
   if (!txt) return toast('<i data-lucide="alert-triangle"></i> Escreva sua sugestão antes de enviar');
-  const sug = {
-    id: uid(), texto: txt,
-    nome: document.getElementById('sug-nome').value.trim() || 'Anônimo',
-    data: new Date().toISOString(),
-  };
+  const nome = document.getElementById('sug-nome').value.trim() || 'Anônimo';
+  const sug = { id: uid(), texto: txt, nome, data: new Date().toISOString() };
+
+  // Salva localmente (backup)
   const list = load('hmcrm_sugestoes') || [];
   list.push(sug);
   save('hmcrm_sugestoes', list);
+
+  // Envia por e-mail via Formspree (se configurado)
+  if (FORMSPREE_URL) {
+    fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ name: nome, message: txt, _subject: 'Nova sugestão – HomeMatch CRM' })
+    }).catch(() => {}); // falha silenciosa, já salvou localmente
+  }
+
   closeSugestao();
-  toast('<i data-lucide="check-circle"></i> Sugestão registrada! Obrigado pelo feedback 🙏');
+  toast('<i data-lucide="check-circle"></i> Sugestão registrada! Obrigado pelo feedback.');
 }
 
 // ─── BOOT ───────────────────────────────────────
