@@ -12,6 +12,95 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+// ═══════════════ FIREBASE CONFIG ═══════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyB6zw_zieuXIlcdvusCvRpXD_q-4-SgqHw",
+  authDomain: "homematch-crm.firebaseapp.com",
+  databaseURL: "https://homematch-crm-default-rtdb.firebaseio.com",
+  projectId: "homematch-crm",
+  storageBucket: "homematch-crm.firebasestorage.app",
+  messagingSenderId: "117150102129",
+  appId: "1:117150102129:web:b389d1ba9ef98d10c9e1d0"
+};
+firebase.initializeApp(firebaseConfig);
+const fbDB = firebase.database();
+
+// ─── Sincronização: localStorage ↔ Firebase ───
+const FB_KEYS = {
+  imb_imoveis: 'imoveis',
+  imb_props:   'contatos',
+  imb_clientes:'clientes',
+  imb_pagamentos:'pagamentos',
+  imb_docs:    'docs'
+};
+const DEVICE_ID = localStorage.getItem('hmcrm_device_id') || (() => {
+  const id = 'dev_' + Math.random().toString(36).slice(2,10);
+  localStorage.setItem('hmcrm_device_id', id);
+  return id;
+})();
+
+// Push local → Firebase
+function fbPush(lsKey, data) {
+  const fbKey = FB_KEYS[lsKey];
+  if (!fbKey) return;
+  fbDB.ref('crm/' + fbKey).set(data).catch(() => {});
+}
+
+// Pull Firebase → localStorage (ao iniciar)
+function fbPull() {
+  fbDB.ref('crm').once('value', snap => {
+    const remote = snap.val();
+    if (!remote) return;
+    Object.entries(FB_KEYS).forEach(([lsKey, fbKey]) => {
+      if (remote[fbKey] != null) {
+        try { localStorage.setItem(lsKey, JSON.stringify(remote[fbKey])); } catch(e) {}
+      }
+    });
+    // Re-render tela ativa
+    const active = document.querySelector('.screen.active')?.id?.replace('screen-','');
+    if (active === 'dashboard') renderDash?.();
+    else if (active === 'imoveis') renderImoveis?.();
+    else if (active === 'proprietarios') renderProps?.();
+    else if (active === 'clientes') renderClientes?.();
+    else if (active === 'gestao') renderGestao?.();
+    else if (active === 'documentos') renderDocs?.();
+  });
+}
+
+// Escuta mudanças em tempo real
+function fbListen() {
+  fbDB.ref('crm').on('value', snap => {
+    const remote = snap.val();
+    if (!remote) return;
+    Object.entries(FB_KEYS).forEach(([lsKey, fbKey]) => {
+      if (remote[fbKey] != null) {
+        const remoteStr = JSON.stringify(remote[fbKey]);
+        const localStr  = localStorage.getItem(lsKey) || '[]';
+        if (remoteStr !== localStr) {
+          try { localStorage.setItem(lsKey, remoteStr); } catch(e) {}
+        }
+      }
+    });
+    // Re-render silencioso
+    const active = document.querySelector('.screen.active')?.id?.replace('screen-','');
+    if (active === 'dashboard') renderDash?.();
+    else if (active === 'imoveis') renderImoveis?.();
+    else if (active === 'proprietarios') renderProps?.();
+    else if (active === 'clientes') renderClientes?.();
+    else if (active === 'gestao') renderGestao?.();
+    else if (active === 'documentos') renderDocs?.();
+  });
+}
+
+window.addEventListener('load', () => {
+  fbPull();
+  setTimeout(fbListen, 2000);
+});
+</script>
 <style>
 /* ═══════════════════════════════ TOKENS ═══ */
 :root {
@@ -2275,7 +2364,11 @@ let ctabAtual = 'todos';
 
 // ─── STORAGE ───────────────────────────────────
 function load(k) { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } }
-function save(k, d) { try { localStorage.setItem(k, JSON.stringify(d)); } catch(e) { toast('<i data-lucide="x-circle"></i> Armazenamento cheio. Use links para fotos.'); } }
+function save(k, d) {
+  try { localStorage.setItem(k, JSON.stringify(d)); } catch(e) { toast('<i data-lucide="x-circle"></i> Armazenamento cheio. Use links para fotos.'); }
+  // Sincroniza com Firebase em tempo real
+  if (window.fbPush) fbPush(k, d);
+}
 
 // ─── THEME ─────────────────────────────────────
 function toggleTheme() {
