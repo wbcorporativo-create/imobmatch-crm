@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HomeMatch · Extrator de Mensagens</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<style>
+:root{
+  --bg:#0d1117; --bg2:#161b22; --bg3:#1c2330; --line:#2a313c;
+  --text:#e6edf3; --text2:#a9b4c0; --text3:#6e7a89;
+  --accent:#E74E00; --accent2:#ff6a26;
+  --green:#2ea043; --amber:#d29922; --red:#da3633; --blue:#388bfd; --purple:#a371f7;
+  --radius:10px;
+}
+[data-theme="light"]{ --bg:#f6f8fa; --bg2:#fff; --bg3:#eef1f5; --line:#d0d7de; --text:#1f2328; --text2:#57606a; --text3:#8c959f; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;padding:0 0 80px}
+.mono{font-family:'DM Mono',monospace}
+a{color:var(--accent2);text-decoration:none}
+header{position:sticky;top:0;z-index:10;background:var(--bg2);border-bottom:1px solid var(--line);padding:14px 20px;display:flex;align-items:center;gap:12px}
+header h1{font-size:17px;font-weight:700;display:flex;align-items:center;gap:9px}
+header .accent{color:var(--accent)}
+header .spacer{flex:1}
+.btn{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:14px;font-weight:600;
+  border:1px solid var(--line);background:var(--bg3);color:var(--text);padding:9px 15px;border-radius:var(--radius);cursor:pointer;transition:.15s}
+.btn:hover{border-color:var(--accent)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent2);border-color:var(--accent2)}
+.btn-ghost{background:transparent}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn-sm{padding:6px 11px;font-size:13px}
+.wrap{max-width:980px;margin:0 auto;padding:22px 20px}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:16px}
+.card h2{font-size:14px;font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.muted{color:var(--text3);font-size:13px}
+textarea{width:100%;min-height:180px;background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);
+  color:var(--text);font-family:'DM Mono',monospace;font-size:13px;padding:13px;resize:vertical;line-height:1.6}
+textarea:focus{outline:none;border-color:var(--accent)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:13px}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.seg button{background:var(--bg3);border:none;color:var(--text2);font-family:inherit;font-size:13px;font-weight:600;padding:8px 13px;cursor:pointer}
+.seg button.on{background:var(--accent);color:#fff}
+.lbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px;display:block}
+input,select{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:8px;color:var(--text);
+  font-family:inherit;font-size:13px;padding:8px 10px}
+input:focus,select:focus{outline:none;border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:11px}
+.badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.03em}
+.b-oferta{background:rgba(46,160,67,.15);color:#4ac26b;border:1px solid rgba(46,160,67,.3)}
+.b-procura{background:rgba(56,139,253,.15);color:#6cb0ff;border:1px solid rgba(56,139,253,.3)}
+.b-conf-hi{background:rgba(46,160,67,.12);color:#4ac26b}
+.b-conf-mid{background:rgba(210,153,34,.14);color:#e3b341}
+.b-conf-lo{background:rgba(218,54,51,.14);color:#f0857d}
+.item{background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin-bottom:14px;position:relative}
+.item.dropped{opacity:.4}
+.item-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:12px}
+.item-head .spacer{flex:1}
+.raw{font-family:'DM Mono',monospace;font-size:12px;color:var(--text3);background:var(--bg);border-left:3px solid var(--line);
+  padding:8px 11px;border-radius:6px;margin-bottom:13px;white-space:pre-wrap}
+.pend{color:#e3b341}
+.field-pend select,.field-pend input{border-color:rgba(210,153,34,.5)}
+.empty{text-align:center;color:var(--text3);padding:40px 20px;font-size:14px}
+.notice{background:rgba(56,139,253,.08);border:1px solid rgba(56,139,253,.25);border-radius:var(--radius);padding:12px 14px;font-size:13px;color:var(--text2);margin-bottom:16px}
+.notice b{color:var(--text)}
+.warn{background:rgba(210,153,34,.08);border-color:rgba(210,153,34,.3)}
+.stat{display:flex;gap:18px;flex-wrap:wrap;margin-top:10px}
+.stat div{font-size:13px;color:var(--text2)}
+.stat b{color:var(--text);font-size:18px;display:block;font-family:'DM Mono',monospace}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--bg3);border:1px solid var(--accent);
+  color:var(--text);padding:12px 18px;border-radius:var(--radius);font-size:14px;font-weight:600;z-index:50;
+  display:flex;align-items:center;gap:8px;box-shadow:0 8px 30px rgba(0,0,0,.4);opacity:0;transition:.25s;pointer-events:none}
+.toast.show{opacity:1}
+i[data-lucide]{width:16px;height:16px;stroke-width:2}
+.auth-pill{font-size:12px;color:var(--text2);display:flex;align-items:center;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--red)}
+.dot.on{background:var(--green)}
+details{margin-top:10px}
+summary{cursor:pointer;font-size:13px;color:var(--text2);font-weight:600}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:60;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--line);border-radius:14px;padding:22px;max-width:440px;width:100%}
+.modal h3{font-size:16px;margin-bottom:12px}
+</style>
+</head>
+<body>
+<header>
+  <h1><i data-lucide="scan-line" style="color:var(--accent)"></i> Home<span class="accent">Match</span> · Extrator</h1>
+  <div class="spacer"></div>
+  <span class="auth-pill"><span class="dot" id="auth-dot"></span><span id="auth-txt">verificando…</span></span>
+  <button class="btn btn-ghost btn-sm" onclick="toggleTheme()" id="theme-btn"><i data-lucide="moon"></i></button>
+  <a class="btn btn-ghost btn-sm" href="index.html"><i data-lucide="arrow-left"></i> Voltar ao CRM</a>
+</header>
+
+<div class="wrap">
+
+  <div class="notice">
+    <b>O que é isto?</b> Cole aqui as mensagens dos seus grupos de WhatsApp de corretores. O Extrator lê cada mensagem,
+    identifica se é uma <b>oferta</b> (imóvel disponível) ou uma <b>procura</b> (cliente buscando), estrutura os dados e
+    deixa tudo pronto para entrar no HomeMatch. Confira e ajuste antes de importar — o sistema <b>nunca inventa</b> um dado
+    que não estava na mensagem.
+  </div>
+
+  <div class="card">
+    <h2><i data-lucide="clipboard-paste"></i> 1. Cole as mensagens</h2>
+    <p class="muted" style="margin-bottom:11px">Uma mensagem por linha (em branco separa blocos). Pode colar direto a exportação do WhatsApp.</p>
+    <textarea id="input" placeholder="Ex.:
+Vendo ap 3 quartos sendo 1 suíte no Aleixo, 2 vagas, 92m², R$ 450 mil, aceita financiamento. Falar com 92 99155-2030
+Procuro casa pra alugar no Parque 10, cliente quer 3/4, até R$ 3.500/mês. Quem tem?
+Repasse cobertura mobiliada na Ponta Negra, 1,2 milhão, 3 suítes"></textarea>
+
+    <div class="toolbar">
+      <span class="lbl" style="margin:0">Motor:</span>
+      <div class="seg" id="engine-seg">
+        <button class="on" data-engine="heuristico" onclick="setEngine('heuristico')">Rápido (offline)</button>
+        <button data-engine="ia" onclick="setEngine('ia')">IA · GPT-4o</button>
+      </div>
+      <div class="spacer" style="flex:1"></div>
+      <button class="btn btn-ghost btn-sm" onclick="loadExemplo()"><i data-lucide="flask-conical"></i> Exemplo</button>
+      <button class="btn btn-primary" onclick="analisar()" id="btn-analisar"><i data-lucide="sparkles"></i> Analisar</button>
+    </div>
+    <details id="ia-config" style="display:none">
+      <summary>Configurar IA (GPT-4o)</summary>
+      <div class="notice warn" style="margin:11px 0 0">
+        <b>Atenção (LGPD):</b> o motor IA envia o texto colado para a OpenAI. Para dados de corretores/clientes reais,
+        prefira o motor <b>Rápido (offline)</b>, que processa tudo no seu navegador sem enviar nada para fora.
+      </div>
+      <div class="row" style="margin-top:11px">
+        <input type="password" id="openai-key" placeholder="sk-... (sua chave OpenAI, guardada só neste navegador)" style="flex:1;min-width:240px">
+        <button class="btn btn-sm" onclick="saveKey()"><i data-lucide="save"></i> Salvar chave</button>
+      </div>
+    </details>
+  </div>
+
+  <div id="results-card" class="card" style="display:none">
+    <h2><i data-lucide="list-checks"></i> 2. Confira e ajuste</h2>
+    <div class="stat" id="stats"></div>
+    <div class="stat" style="margin-top:14px">
+      <button class="btn btn-primary" onclick="importar()" id="btn-importar"><i data-lucide="download"></i> Importar para o HomeMatch</button>
+      <button class="btn btn-sm btn-ghost" onclick="copiarJSON()"><i data-lucide="copy"></i> Copiar JSON</button>
+      <button class="btn btn-sm btn-ghost" onclick="baixarJSON()"><i data-lucide="file-down"></i> Baixar .json</button>
+    </div>
+  </div>
+
+  <div id="results"></div>
+  <div id="empty" class="empty" style="display:none"><i data-lucide="inbox" style="width:30px;height:30px;opacity:.5"></i><br>Nenhum item reconhecido. Tente o motor IA ou ajuste o texto.</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="login-modal">
+  <div class="modal">
+    <h3><i data-lucide="log-in"></i> Entrar para importar</h3>
+    <p class="muted" style="margin-bottom:16px">Para gravar no seu HomeMatch (e sincronizar com o app), entre com a mesma conta Google que usa no CRM.</p>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="loginGoogle()"><i data-lucide="log-in"></i> Entrar com Google</button>
+    <p class="muted" style="margin-top:12px;text-align:center">ou <a href="#" onclick="closeLogin();return false">importar só neste dispositivo</a></p>
+  </div>
+</div>
+
+<script>
+// ═══════════════ ESTADO ═══════════════
+let ITENS = [];
+let ENGINE = 'heuristico';
+let _toastT;
+let _user = null;
+const FB_KEYS = { imb_imoveis:'imoveis', imb_clientes:'clientes' };
+
+// ═══════════════ FIREBASE (mesma config do HomeMatch; resiliente a falha de CDN) ═══════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyB6zw_zieuXIlcdvusCvRpXD_q-4-SgqHw",
+  authDomain: "homematch-crm.firebaseapp.com",
+  databaseURL: "https://homematch-crm-default-rtdb.firebaseio.com",
+  projectId: "homematch-crm",
+  storageBucket: "homematch-crm.firebasestorage.app",
+  messagingSenderId: "117150102129",
+  appId: "1:117150102129:web:b389d1ba9ef98d10c9e1d0"
+};
+let fbDB = null, fbAuth = null, FB_OK = false;
+try {
+  if (typeof firebase === 'undefined') throw new Error('SDK do Firebase não carregou');
+  firebase.initializeApp(firebaseConfig);
+  fbDB = firebase.database(); fbAuth = firebase.auth(); FB_OK = true;
+  fbAuth.onAuthStateChanged(u => {
+    _user = u;
+    const dot = document.getElementById('auth-dot'), txt = document.getElementById('auth-txt');
+    if (u) { dot.classList.add('on'); txt.textContent = (u.displayName||u.email||'conectado').split(' ')[0]; fbPull(); }
+    else { dot.classList.remove('on'); txt.textContent = 'sem login'; }
+  });
+} catch(e) {
+  console.warn('Firebase indisponível — modo offline:', e.message);
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const txt = document.getElementById('auth-txt'); if(txt) txt.textContent = 'offline';
+  });
+}
+function loginGoogle(){
+  if(!FB_OK) return toast('<i data-lucide="wifi-off"></i> Sem conexão com o Firebase');
+  fbAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    .then(()=>{ closeLogin(); toast('<i data-lucide="check-circle"></i> Conectado!'); })
+    .catch(e=>toast('<i data-lucide="x-circle"></i> '+e.message));
+}
+// Puxa dados atuais do Firebase para o localStorage (evita sobrescrever com base velha)
+function fbPull(){
+  if(!FB_OK || !_user) return;
+  fbDB.ref(`users/${_user.uid}`).once('value', snap=>{
+    const r = snap.val(); if(!r) return;
+    Object.entries(FB_KEYS).forEach(([ls,fk])=>{ if(r[fk]!=null){ try{localStorage.setItem(ls,JSON.stringify(r[fk]));}catch{} }});
+  });
+}
+function fbPush(ls,data){ if(FB_OK && _user) fbDB.ref(`users/${_user.uid}/${FB_KEYS[ls]}`).set(data).catch(()=>{}); }
+
+// ═══════════════ DADOS DO DOMÍNIO (espelham o HomeMatch) ═══════════════
+const BAIRROS = ['Adrianópolis','Aleixo','Alvorada','Armando Mendes','Betânia','Cachoeirinha','Centro','Chapada','Cidade Nova','Colônia Oliveira Machado','Compensa','Coroado','Crespo','Da Paz','Dom Pedro','Educandos','Flores','Gilberto Mestrinho','Glória','Japiim','Jesus de Nazaré','Jorge Teixeira','Lago Azul','Lírio do Vale','Mauazinho','Monte das Oliveiras','Morro da Liberdade','Nossa Senhora Aparecida','Nossa Senhora das Graças','Nova Cidade','Nova Esperança','Novo Aleixo','Novo Israel','Parque 10 de Novembro','Petrópolis','Planalto','Ponta Negra','Praça 14 de Janeiro','Presidente Vargas','Raiz','Redenção','Santo Antônio','São Francisco','São Jorge','São Lázaro','São Raimundo','Tancredo Neves','Terra Nova','Tarumã','Vieiralves','Vila Buriti','Vila da Prata','Zumbi dos Palmares'].sort();
+const BAIRRO_ALIAS = { 'parque 10':'Parque 10 de Novembro','pq 10':'Parque 10 de Novembro','pn':'Ponta Negra','gracas':'Nossa Senhora das Graças','aparecida':'Nossa Senhora Aparecida' };
+const TIPOS_CAT = {
+  condominio:['Apartamento','Casa de Condomínio','Cobertura','Flat','Lote em Condomínio'],
+  via_publica:['Casa','Apartamento em Via Pública','Lote'],
+  comercial:['Loja/Ponto','Sala/Andar','Prédio','Galpão/Depósito','Hotel/Motel/Pousada','Posto de Gasolina','Hangar','Marina'],
+  rural:['Chácara/Sítio/Fazenda Residencial','Chácara/Sítio/Fazenda Comercial','Lote Rural'],
+};
+const ALL_TIPOS = Object.values(TIPOS_CAT).flat();
+const CAT_LABEL = { condominio:'Condomínio', via_publica:'Via Pública', comercial:'Comercial', rural:'Rural' };
+
+// ═══════════════ HELPERS ═══════════════
+const norm = s => (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).substr(2,5); }
+function today(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function load(k){ try{ return JSON.parse(localStorage.getItem(k))||[]; }catch{ return []; } }
+function moeda(v){ return v? 'R$ '+v.toLocaleString('pt-BR') : '—'; }
+function gerarCodigo(tipo,bairro,usados){
+  const t=tipo?tipo.replace(/[^A-Za-zÀ-ÿ]/g,'').substring(0,2).toUpperCase():'IM';
+  const b=bairro?bairro.replace(/[^A-Za-zÀ-ÿ]/g,'').substring(0,3).toUpperCase():'MNS';
+  let c,a=0; do{ c=`${t}${b}${String(Date.now()+a).slice(-5)}`; a++; }while(usados.has(c)); usados.add(c); return c;
+}
+
+// ═══════════════ MOTOR HEURÍSTICO (offline) ═══════════════
+function parseValor(txt){
+  const t = norm(txt).replace(/\s+/g,' ');
+  let m;
+  m = t.match(/r?\$?\s*(\d+(?:[.,]\d+)?)\s*(?:milhoes|milhao|milh|mi(?![l\w]))/);
+  if(m) return Math.round(parseFloat(m[1].replace(',','.'))*1e6);
+  m = t.match(/r?\$?\s*(\d+(?:[.,]\d+)?)\s*mil(?!h)\b/);
+  if(m) return Math.round(parseFloat(m[1].replace(',','.'))*1e3);
+  m = t.match(/r\$\s*(\d{1,3}(?:\.\d{3})+|\d{4,})(?:,\d{2})?/);
+  if(m) return parseInt(m[1].replace(/\./g,''),10)||0;
+  m = t.match(/(?<![\d(])\b(\d{1,3}(?:\.\d{3})+)\b(?!\s*m[²2])/);
+  if(m) return parseInt(m[1].replace(/\./g,''),10)||0;
+  return 0;
+}
+function parsePhone(txt){
+  const m = txt.match(/(?:\+?55\s*)?\(?\b(?:92|11|21|9\d)\)?\s*9?\d{4}[-.\s]?\d{4}\b/);
+  return m ? m[0].trim() : '';
+}
+function parseHeuristico(txt){
+  const t = norm(txt);
+  const procura = /(procuro|busco|preciso|necessito|estou procurando|to procurando|cliente (quer|busca|procura|precisa)|quem tem|alguem tem|algum corretor tem)/.test(t);
+  const oferta  = /(vendo|alugo|aluga-se|vende-se|disponivel|repasse|lancamento|oportunidade|a venda|para alugar|tenho (um|uma|a |para))/.test(t);
+  const kind = procura && !oferta ? 'procura' : 'oferta';
+
+  const finalidade = [];
+  if(/(alug|locac|locar|\/mes|mensal)/.test(t)) finalidade.push('aluguel');
+  if(/(vend|a venda|repasse|financ)/.test(t)) finalidade.push('venda');
+  if(/(temporad|diaria|airbnb)/.test(t)) finalidade.push('temporada');
+
+  let cat='', tipo='';
+  if(/\bcobertura\b/.test(t)){cat='condominio';tipo='Cobertura';}
+  else if(/\bflat\b/.test(t)){cat='condominio';tipo='Flat';}
+  else if(/casa (de|em) cond/.test(t)){cat='condominio';tipo='Casa de Condomínio';}
+  else if(/\b(apartamento|apto|aptos|apt|ap)\b/.test(t)){cat='condominio';tipo='Apartamento';}
+  else if(/\bcasa\b/.test(t)){cat='via_publica';tipo='Casa';}
+  else if(/\b(loja|ponto|sala|galpao|deposito|predio comercial)\b/.test(t)){cat='comercial';tipo='Loja/Ponto';}
+  else if(/\b(terreno|lote)\b/.test(t)){cat='via_publica';tipo='Lote';}
+  else if(/\b(chacara|sitio|fazenda)\b/.test(t)){cat='rural';tipo='Chácara/Sítio/Fazenda Residencial';}
+
+  let bairro='';
+  for(const [ali,canon] of Object.entries(BAIRRO_ALIAS)){ if(new RegExp(`\\b${ali}\\b`).test(t)){ bairro=canon; break; } }
+  if(!bairro) for(const b of BAIRROS){ if(t.includes(norm(b))){ bairro=b; break; } }
+
+  const q = t.match(/(\d+)\s*(?:quartos?|qts?|dorm(?:itorios?)?)/) || t.match(/(\d)\s*\/\s*4/);
+  const s = t.match(/(\d+)\s*su[ií]?tes?/);
+  const g = t.match(/(\d+)\s*(?:vagas?|garagens?)/);
+  const a = t.match(/(\d+(?:[.,]\d+)?)\s*m[²2]/);
+  let mobilia='';
+  if(/semi[\s-]?mob/.test(t)) mobilia='semi';
+  else if(/\bmobiliad/.test(t)) mobilia='sim';
+  else if(/sem mobili|vazio|nao mobiliad/.test(t)) mobilia='nao';
+
+  const valorNum = parseValor(txt);
+  const soVenda = finalidade.includes('venda') && !finalidade.includes('aluguel');
+  return {
+    kind, finalidade, cat, tipo, bairro,
+    quartos:q?parseInt(q[1]):0, suites:s?parseInt(s[1]):0,
+    garagem:g?parseInt(g[1]):0, area:a?parseFloat(a[1].replace(',','.')):0,
+    mobilia, telefone:parsePhone(txt),
+    valor: soVenda?0:valorNum, valor_venda: finalidade.includes('venda')?valorNum:0,
+    raw: txt.trim(),
+  };
+}
+
+// ═══════════════ MOTOR IA (GPT-4o, opcional) ═══════════════
+async function parseIA(linhas){
+  const key = localStorage.getItem('hm_openai_key');
+  if(!key) throw new Error('Configure sua chave da OpenAI primeiro.');
+  const sys = `Você extrai dados de mensagens de grupos de WhatsApp de corretores de imóveis em Manaus/AM.
+Para CADA mensagem, devolva um objeto. REGRA DE OURO: NUNCA invente um dado que não está na mensagem — deixe vazio ("" ou 0).
+Campos: kind ("oferta" se o autor oferece imóvel; "procura" se busca para um cliente), finalidade (array com "aluguel"/"venda"/"temporada"),
+cat (um de: ${Object.keys(TIPOS_CAT).join(', ')}), tipo (um de: ${ALL_TIPOS.join(' | ')}),
+bairro (um de: ${BAIRROS.join(', ')} — ou "" se não citado), quartos, suites, garagem (inteiros), area (número, m²),
+mobilia ("sim"/"semi"/"nao"/""), telefone (string), valor (aluguel mensal, número), valor_venda (número), raw (a mensagem original).
+Responda APENAS JSON: {"itens":[...]}.`;
+  const body = {
+    model:'gpt-4o', temperature:0, response_format:{type:'json_object'},
+    messages:[{role:'system',content:sys},{role:'user',content:'Mensagens:\n'+linhas.map((l,i)=>`${i+1}. ${l}`).join('\n')}]
+  };
+  const r = await fetch('https://api.openai.com/v1/chat/completions',{
+    method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+key}, body:JSON.stringify(body)
+  });
+  if(!r.ok){ const e=await r.text(); throw new Error('OpenAI '+r.status+': '+e.slice(0,140)); }
+  const data = await r.json();
+  const parsed = JSON.parse(data.choices[0].message.content);
+  return (parsed.itens||[]).map(it=>({
+    kind: it.kind==='procura'?'procura':'oferta',
+    finalidade: Array.isArray(it.finalidade)?it.finalidade:[],
+    cat: it.cat||'', tipo: it.tipo||'', bairro: it.bairro||'',
+    quartos:+it.quartos||0, suites:+it.suites||0, garagem:+it.garagem||0, area:+it.area||0,
+    mobilia: it.mobilia||'', telefone: it.telefone||'',
+    valor:+it.valor||0, valor_venda:+it.valor_venda||0, raw: it.raw||'',
+  }));
+}
+
+// ═══════════════ ANÁLISE / PENDÊNCIAS ═══════════════
+function avaliar(it){
+  const pend=[];
+  if(!it.tipo) pend.push('tipo');
+  if(!it.bairro) pend.push('bairro');
+  if(!it.finalidade.length) pend.push('finalidade');
+  if(!it.valor && !it.valor_venda) pend.push('valor');
+  it.pendencias = pend;
+  it.confianca = Math.max(20, 100 - pend.length*20);
+  it.dropped = false;
+  it._id = uid();
+  return it;
+}
+
+function setEngine(e){
+  ENGINE = e;
+  document.querySelectorAll('#engine-seg button').forEach(b=>b.classList.toggle('on', b.dataset.engine===e));
+  document.getElementById('ia-config').style.display = e==='ia'?'block':'none';
+  if(e==='ia' && !localStorage.getItem('hm_openai_key')) document.getElementById('ia-config').open=true;
+}
+function saveKey(){
+  const k=document.getElementById('openai-key').value.trim();
+  if(!k) return toast('<i data-lucide="x-circle"></i> Cole a chave');
+  localStorage.setItem('hm_openai_key',k);
+  toast('<i data-lucide="check-circle"></i> Chave salva neste navegador');
+}
+
+async function analisar(){
+  const raw = document.getElementById('input').value.trim();
+  const linhas = raw.split('\n').map(l=>l.trim()).filter(l=>l.length>4);
+  if(!linhas.length) return toast('<i data-lucide="alert-triangle"></i> Cole ao menos uma mensagem');
+
+  const btn=document.getElementById('btn-analisar');
+  btn.disabled=true; btn.innerHTML='<i data-lucide="loader"></i> Analisando…'; renderIcons();
+  try{
+    let itens;
+    if(ENGINE==='ia') itens = await parseIA(linhas);
+    else itens = linhas.map(parseHeuristico);
+    ITENS = itens.map(avaliar);
+    render();
+    toast(`<i data-lucide="check-circle"></i> ${ITENS.length} item(ns) reconhecido(s)`);
+  }catch(e){
+    toast('<i data-lucide="x-circle"></i> '+e.message);
+  }finally{
+    btn.disabled=false; btn.innerHTML='<i data-lucide="sparkles"></i> Analisar'; renderIcons();
+  }
+}
+
+// ═══════════════ RENDER ═══════════════
+function tipoOptions(cat,sel){
+  const tipos = cat?TIPOS_CAT[cat]||[]:ALL_TIPOS;
+  return ['<option value="">—</option>'].concat(tipos.map(t=>`<option ${t===sel?'selected':''}>${t}</option>`)).join('');
+}
+function render(){
+  const card=document.getElementById('results-card'), empty=document.getElementById('empty'), box=document.getElementById('results');
+  if(!ITENS.length){ card.style.display='none'; empty.style.display='block'; box.innerHTML=''; return; }
+  card.style.display='block'; empty.style.display='none';
+
+  const ofertas=ITENS.filter(i=>!i.dropped&&i.kind==='oferta').length;
+  const procuras=ITENS.filter(i=>!i.dropped&&i.kind==='procura').length;
+  const pend=ITENS.filter(i=>!i.dropped&&i.pendencias.length).length;
+  document.getElementById('stats').innerHTML =
+    `<div><b>${ofertas}</b> ofertas</div><div><b>${procuras}</b> procuras</div><div><b class="pend">${pend}</b> com pendência</div>`;
+
+  box.innerHTML = ITENS.map((it,idx)=>{
+    const confCls = it.confianca>=80?'b-conf-hi':it.confianca>=50?'b-conf-mid':'b-conf-lo';
+    const pf = f => it.pendencias.includes(f)?'field-pend':'';
+    return `<div class="item ${it.dropped?'dropped':''}" data-i="${idx}">
+      <div class="item-head">
+        <span class="badge ${it.kind==='oferta'?'b-oferta':'b-procura'}">${it.kind}</span>
+        <span class="badge ${confCls}">${it.confianca}% confiança</span>
+        ${it.pendencias.length?`<span class="badge b-conf-mid"><i data-lucide="alert-triangle"></i> falta: ${it.pendencias.join(', ')}</span>`:''}
+        <div class="spacer"></div>
+        <button class="btn btn-sm btn-ghost" onclick="toggleDrop(${idx})">${it.dropped?'<i data-lucide="rotate-ccw"></i> Restaurar':'<i data-lucide="trash-2"></i> Descartar'}</button>
+      </div>
+      <div class="raw">${it.raw.replace(/</g,'&lt;')}</div>
+      <div class="grid">
+        <div><span class="lbl">Tipo de registro</span>
+          <select onchange="upd(${idx},'kind',this.value)">
+            <option value="oferta" ${it.kind==='oferta'?'selected':''}>Oferta (imóvel)</option>
+            <option value="procura" ${it.kind==='procura'?'selected':''}>Procura (cliente)</option>
+          </select></div>
+        <div class="${pf('finalidade')}"><span class="lbl">Finalidade</span>
+          <select onchange="updFin(${idx},this.value)">
+            <option value="" ${!it.finalidade.length?'selected':''}>—</option>
+            <option value="aluguel" ${it.finalidade.includes('aluguel')?'selected':''}>Aluguel</option>
+            <option value="venda" ${it.finalidade.includes('venda')?'selected':''}>Venda</option>
+            <option value="temporada" ${it.finalidade.includes('temporada')?'selected':''}>Temporada</option>
+          </select></div>
+        <div><span class="lbl">Categoria</span>
+          <select onchange="updCat(${idx},this.value)">
+            <option value="">—</option>
+            ${Object.keys(TIPOS_CAT).map(c=>`<option value="${c}" ${it.cat===c?'selected':''}>${CAT_LABEL[c]}</option>`).join('')}
+          </select></div>
+        <div class="${pf('tipo')}"><span class="lbl">Tipo</span>
+          <select onchange="upd(${idx},'tipo',this.value)">${tipoOptions(it.cat,it.tipo)}</select></div>
+        <div class="${pf('bairro')}"><span class="lbl">Bairro</span>
+          <select onchange="upd(${idx},'bairro',this.value)">
+            <option value="">—</option>
+            ${BAIRROS.map(b=>`<option ${it.bairro===b?'selected':''}>${b}</option>`).join('')}
+          </select></div>
+        <div class="${pf('valor')}"><span class="lbl">${it.kind==='procura'?'Valor máx. (R$)':'Valor (R$)'}</span>
+          <input type="number" value="${it.valor_venda||it.valor||''}" onchange="updValor(${idx},this.value)"></div>
+        <div><span class="lbl">Quartos</span><input type="number" value="${it.quartos||''}" onchange="upd(${idx},'quartos',+this.value)"></div>
+        <div><span class="lbl">Suítes</span><input type="number" value="${it.suites||''}" onchange="upd(${idx},'suites',+this.value)"></div>
+        <div><span class="lbl">Vagas</span><input type="number" value="${it.garagem||''}" onchange="upd(${idx},'garagem',+this.value)"></div>
+        <div><span class="lbl">Área (m²)</span><input type="number" value="${it.area||''}" onchange="upd(${idx},'area',+this.value)"></div>
+        <div><span class="lbl">Mobília</span>
+          <select onchange="upd(${idx},'mobilia',this.value)">
+            <option value="" ${!it.mobilia?'selected':''}>—</option>
+            <option value="sim" ${it.mobilia==='sim'?'selected':''}>Mobiliado</option>
+            <option value="semi" ${it.mobilia==='semi'?'selected':''}>Semimobiliado</option>
+            <option value="nao" ${it.mobilia==='nao'?'selected':''}>Sem mobília</option>
+          </select></div>
+        <div><span class="lbl">Telefone (corretor)</span><input value="${it.telefone||''}" onchange="upd(${idx},'telefone',this.value)"></div>
+      </div>
+    </div>`;
+  }).join('');
+  renderIcons();
+}
+
+function upd(i,k,v){ ITENS[i][k]=v; }
+function updFin(i,v){ ITENS[i].finalidade = v?[v]:[]; reaval(i); }
+function updCat(i,v){ ITENS[i].cat=v; if(v && !TIPOS_CAT[v].includes(ITENS[i].tipo)) ITENS[i].tipo=''; reaval(i); render(); }
+function updValor(i,v){ const n=+v||0; const it=ITENS[i];
+  if(it.kind==='procura'||it.finalidade.includes('venda')) it.valor_venda=n; else it.valor=n; reaval(i); }
+function reaval(i){ const d=ITENS[i].dropped, id=ITENS[i]._id; avaliar(ITENS[i]); ITENS[i].dropped=d; ITENS[i]._id=id; render(); }
+function toggleDrop(i){ ITENS[i].dropped=!ITENS[i].dropped; render(); }
+
+// ═══════════════ IMPORTAR ═══════════════
+function toImovel(it,usados){
+  const finalidade = it.finalidade.length?it.finalidade:(it.valor_venda?['venda']:['aluguel']);
+  const im = {
+    id:uid(), codigo:gerarCodigo(it.tipo,it.bairro,usados),
+    cat:it.cat||'condominio', tipo:it.tipo||'', bairro:it.bairro||'', finalidade,
+    cond:'', status:'disponivel', prop_id:'', updated:today(),
+    quartos:it.quartos, suites:it.suites, garagem:it.garagem, area:it.area,
+    mobilia:it.mobilia, mobilia_obs:'', fotos:[], administrado:false,
+    contrato_fim:null, contrato_inicio:null, dia_venc:null, indisp_obs:null,
+    obs:`[Importado do grupo via Extrator]${it.telefone?` Contato corretor: ${it.telefone}.`:''}\n"${it.raw}"`,
+    origem:'extrator',
+  };
+  if(finalidade.includes('aluguel')){ im.valor=it.valor||0; im.comissao_alug=6; }
+  if(finalidade.includes('venda')){ im.valor_venda=it.valor_venda||0; im.comissao_venda=6; im.aceita_fin=''; }
+  return im;
+}
+function toCliente(it){
+  const intent = it.finalidade.includes('venda')&&!it.finalidade.includes('aluguel')?'compra'
+               : it.finalidade.includes('aluguel')?'aluguel':'ambos';
+  return {
+    id:uid(),
+    nome: it.telefone?`Corretor ${it.telefone}`:'Procura (grupo)',
+    tel: it.telefone||'', alerta:'ativo', intent,
+    perfil_txt:`[Importado via Extrator] "${it.raw}"`,
+    perfil:{ cat:it.cat||'', tipo:it.tipo||'', bairro:it.bairro||'', mobilia:it.mobilia||'',
+             qmin:it.quartos||0, smin:it.suites||0, vmin:0, vmax:it.valor_venda||it.valor||0 },
+    created:new Date().toISOString(), historico:[], origem:'extrator',
+  };
+}
+function ativos(){ return ITENS.filter(i=>!i.dropped); }
+
+function importar(){
+  if(!_user){ openLogin(); return; }
+  const lista = ativos();
+  if(!lista.length) return toast('<i data-lucide="alert-triangle"></i> Nada para importar');
+
+  const imoveis = load('imb_imoveis'), clientes = load('imb_clientes');
+  const usados = new Set(imoveis.map(i=>i.codigo));
+  let nImo=0, nCli=0;
+  lista.forEach(it=>{
+    if(it.kind==='oferta'){ imoveis.push(toImovel(it,usados)); nImo++; }
+    else { clientes.push(toCliente(it)); nCli++; }
+  });
+  localStorage.setItem('imb_imoveis', JSON.stringify(imoveis));
+  localStorage.setItem('imb_clientes', JSON.stringify(clientes));
+  fbPush('imb_imoveis', imoveis);
+  fbPush('imb_clientes', clientes);
+  toast(`<i data-lucide="check-circle"></i> ${nImo} imóvel(is) e ${nCli} procura(s) importados!`);
+  ITENS=[]; document.getElementById('input').value=''; render();
+}
+
+function copiarJSON(){
+  navigator.clipboard.writeText(JSON.stringify(ativos(),null,2));
+  toast('<i data-lucide="copy"></i> JSON copiado');
+}
+function baixarJSON(){
+  const blob=new Blob([JSON.stringify(ativos(),null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download=`extrator-${today()}.json`; a.click();
+}
+
+// ═══════════════ UI ═══════════════
+function loadExemplo(){
+  document.getElementById('input').value =
+`Vendo ap 3 quartos sendo 1 suíte no Aleixo, 2 vagas, 92m², R$ 450 mil, aceita financiamento. Falar com 92 99155-2030
+Procuro casa pra alugar no Parque 10, cliente quer 3/4, até R$ 3.500/mês. Quem tem?
+Repasse cobertura mobiliada na Ponta Negra, 1,2 milhão, 3 suítes
+Alguém tem sala comercial no Centro pra locação? Meu cliente precisa urgente
+Sítio no Tarumã, 2000m², R$ 800.000, ótimo para lazer`;
+}
+function openLogin(){ document.getElementById('login-modal').classList.add('open'); renderIcons(); }
+function closeLogin(){ document.getElementById('login-modal').classList.remove('open'); }
+function toggleTheme(){
+  const h=document.documentElement, dark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',dark?'light':'dark');
+  document.getElementById('theme-btn').innerHTML = dark?'<i data-lucide="sun"></i>':'<i data-lucide="moon"></i>';
+  localStorage.setItem('imb_theme',dark?'light':'dark'); renderIcons();
+}
+function toast(html){
+  const t=document.getElementById('toast'); t.innerHTML=html; t.classList.add('show'); renderIcons();
+  clearTimeout(_toastT); _toastT=setTimeout(()=>t.classList.remove('show'),3200);
+}
+function renderIcons(){ if(window.lucide) lucide.createIcons(); }
+
+(function init(){
+  if(localStorage.getItem('imb_theme')==='light') document.documentElement.setAttribute('data-theme','light');
+  const k=localStorage.getItem('hm_openai_key'); if(k) document.getElementById('openai-key').value=k;
+  renderIcons();
+})();
+</script>
+</body>
+</html>
