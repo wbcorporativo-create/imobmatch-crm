@@ -1,0 +1,17 @@
+{
+  "name": "homematch-bot-leitor",
+  "version": "0.1.0",
+  "description": "Secretária Leitora — lê ofertas de imóveis dos grupos de WhatsApp e enche o banco do HomeMatch (apenas leitura, nunca envia mensagens).",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dry-run": "node test/feed.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "^6.7.9",
+    "firebase-admin": "^12.6.0",
+    "pino": "^9.5.0",
+    "qrcode-terminal": "^0.12.0"
+  }
+}

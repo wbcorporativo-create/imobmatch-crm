@@ -1,0 +1,11 @@
+# Segredos e estado — NUNCA versionar
+service-account.json
+.env
+auth/
+
+# Dependências
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
